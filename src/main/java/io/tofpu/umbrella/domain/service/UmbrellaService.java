@@ -61,7 +61,7 @@ public final class UmbrellaService {
         return getUmbrellaRegistry().isInUmbrella(key);
     }
 
-    public Umbrella findByIdentifier(final String identifier) {
-        return getUmbrellaRegistry().findByIdentifier(identifier);
+    public Umbrella findUmbrellaBy(final String identifier) {
+        return getUmbrellaRegistry().findUmbrellaBy(identifier);
     }
 }

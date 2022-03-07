@@ -24,7 +24,7 @@ public class UmbrellaAPI {
         UmbrellaAPI.umbrellaAPI = this;
 
         try {
-            DynamicClass.addParameters(plugin);
+            DynamicClass.addParameters(plugin, umbrellaService);
             DynamicClass.alternativeScan(getClass().getClassLoader(), "io.tofpu.umbrella");
         } catch (final IOException e) {
             throw new IllegalStateException(e);

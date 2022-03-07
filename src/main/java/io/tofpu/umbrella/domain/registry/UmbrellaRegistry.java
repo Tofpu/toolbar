@@ -31,7 +31,7 @@ public final class UmbrellaRegistry {
         return playerMap.containsKey(key);
     }
 
-    public Umbrella findByIdentifier(final String identifier) {
+    public Umbrella findUmbrellaBy(final String identifier) {
         return umbrellaMap.get(identifier);
     }
 

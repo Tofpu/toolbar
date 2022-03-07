@@ -9,7 +9,7 @@ import java.util.*;
 
 public class Umbrella {
     private final String identifier;
-    private final List<UmbrellaItem> umbrellaItems;
+    private final Map<String, UmbrellaItem> itemMap;
     private final UmbrellaRegistry registry;
 
     public Umbrella(final String identifier, final UmbrellaRegistry registry) {
@@ -20,8 +20,21 @@ public class Umbrella {
     public Umbrella(final String identifier, final Collection<UmbrellaItem> umbrellaItems, final UmbrellaRegistry registry) {
         // preventing class initialization outside the scoped project
         this.identifier = identifier;
-        this.umbrellaItems = new ArrayList<>(umbrellaItems);
+        this.itemMap = new HashMap<>();
+
+        for (final UmbrellaItem umbrellaItem : umbrellaItems) {
+            this.itemMap.put(umbrellaItem.getItemIdentifier(), umbrellaItem);
+        }
+
         this.registry = registry;
+    }
+
+    public void addItem(final UmbrellaItem umbrellaItem) {
+        this.itemMap.put(umbrellaItem.getItemIdentifier(), umbrellaItem);
+    }
+
+    public UmbrellaItem findItemBy(final String identifier) {
+        return itemMap.get(identifier);
     }
 
     public boolean activate(final Player target) {
@@ -52,7 +65,7 @@ public class Umbrella {
         final PlayerInventory inventory = target.getInventory();
         inventory.clear();
 
-        for (final UmbrellaItem umbrellaItem : umbrellaItems) {
+        for (final UmbrellaItem umbrellaItem : itemMap.values()) {
             inventory.addItem(umbrellaItem.getCopyOfItem());
         }
     }
@@ -76,7 +89,7 @@ public class Umbrella {
         return identifier;
     }
 
-    public List<UmbrellaItem> getCopyOfItems() {
-        return Collections.unmodifiableList(umbrellaItems);
+    public Map<String, UmbrellaItem> getCopyItemMap() {
+        return Collections.unmodifiableMap(this.itemMap);
     }
 }

@@ -13,7 +13,7 @@ public final class UmbrellaHandler {
     }
 
     public void activate(final String identifier, final Player target) throws UmbrellaNotFoundException {
-        final Umbrella umbrella = this.umbrellaRegistry.findByIdentifier(identifier);
+        final Umbrella umbrella = this.umbrellaRegistry.findUmbrellaBy(identifier);
 
         if (umbrella == null) {
             throw new UmbrellaNotFoundException(identifier);

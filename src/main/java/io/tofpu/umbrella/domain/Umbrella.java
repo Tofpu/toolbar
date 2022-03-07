@@ -12,12 +12,12 @@ public class Umbrella {
     private final Map<String, UmbrellaItem> itemMap;
     private final UmbrellaRegistry registry;
 
-    public Umbrella(final String identifier, final UmbrellaRegistry registry) {
+    public Umbrella(final UmbrellaRegistry registry, final String identifier) {
         // preventing class initialization outside the scoped project
-        this(identifier, new ArrayList<>(), registry);
+        this(registry, identifier, new ArrayList<>());
     }
 
-    public Umbrella(final String identifier, final Collection<UmbrellaItem> umbrellaItems, final UmbrellaRegistry registry) {
+    public Umbrella(final UmbrellaRegistry registry, final String identifier, final Collection<UmbrellaItem> umbrellaItems) {
         // preventing class initialization outside the scoped project
         this.identifier = identifier;
         this.itemMap = new HashMap<>();
@@ -29,8 +29,10 @@ public class Umbrella {
         this.registry = registry;
     }
 
-    public void addItem(final UmbrellaItem umbrellaItem) {
-        this.itemMap.put(umbrellaItem.getItemIdentifier(), umbrellaItem);
+    public void addItem(final UmbrellaItem ...umbrellaItems) {
+        for (final UmbrellaItem umbrellaItem : umbrellaItems) {
+            this.itemMap.put(umbrellaItem.getItemIdentifier(), umbrellaItem);
+        }
     }
 
     public UmbrellaItem findItemBy(final String identifier) {
@@ -44,7 +46,6 @@ public class Umbrella {
         registry.register(target.getUniqueId(), this);
 
         applyItems(target);
-        // send message here
 
         return true;
     }
@@ -56,7 +57,6 @@ public class Umbrella {
         registry.invalidate(target.getUniqueId());
 
         clearItems(target);
-        // send message here
 
         return true;
     }

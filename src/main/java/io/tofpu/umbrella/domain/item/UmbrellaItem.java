@@ -34,6 +34,10 @@ public class UmbrellaItem {
     }
 
     public void trigger(final PlayerInteractEvent event) {
-        itemAction.trigger(event);
+        // if the item action is null, don't do anything
+        if (itemAction == null) {
+            return;
+        }
+        itemAction.trigger(owner, event);
     }
 }

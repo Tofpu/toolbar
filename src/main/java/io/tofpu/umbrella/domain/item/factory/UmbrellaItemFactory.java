@@ -7,9 +7,7 @@ import io.tofpu.umbrella.domain.item.action.AbstractItemAction;
 import org.bukkit.inventory.ItemStack;
 
 public final class UmbrellaItemFactory {
-    public static final UmbrellaItemFactory INSTANCE = new UmbrellaItemFactory();
-
-    public static UmbrellaItem create(final Umbrella owner, final String itemIdentifier
+    public UmbrellaItem create(final Umbrella owner, final String itemIdentifier
             , final ItemStack item, final AbstractItemAction itemAction) {
         final NBTItem nbtItem = new NBTItem(item, true);
 

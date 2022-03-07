@@ -14,11 +14,11 @@ public final class UmbrellaFactory {
     }
 
     public Umbrella create(final String identifier) {
-        return new Umbrella(identifier, umbrellaRegistry);
+        return new Umbrella(umbrellaRegistry, identifier);
     }
 
     public Umbrella create(final String identifier,
             final Collection<UmbrellaItem> umbrellaItems) {
-        return new Umbrella(identifier, umbrellaItems, umbrellaRegistry);
+        return new Umbrella(umbrellaRegistry, identifier, umbrellaItems);
     }
 }

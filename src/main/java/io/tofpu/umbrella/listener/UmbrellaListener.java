@@ -27,38 +27,54 @@ public final class UmbrellaListener implements Listener {
 
     @EventHandler
     private void onPlayerInteract(final PlayerInteractEvent event) {
-        // TODO: DO A VERSION CHECK
-        if (event.getHand() != EquipmentSlot.HAND) {
+        if (UmbrellaAPI.getInstance()
+                .isInModernVersion() && event.getHand() != EquipmentSlot.HAND) {
             return;
         }
 
-        final ItemStack itemStack = event.getItem();
+        final UmbrellaItem umbrellaItem = getUmbrellaItem(event.getItem());
+        // if the umbrella item were found, pass over the event
+        if (umbrellaItem != null) {
+            umbrellaItem.trigger(event);
+        }
+    }
+
+    private UmbrellaItem getUmbrellaItem(final ItemStack itemStack) {
         if (itemStack == null) {
-            return;
+            return null;
         }
 
         final NBTItem nbtItem = new NBTItem(itemStack);
-        final String umbrellaIdentifier = nbtItem.getString("umbrella_identifier");
         final String itemIdentifier = nbtItem.getString("item_identifier");
-        if (umbrellaIdentifier == null || itemIdentifier == null) {
-            return;
+        if (itemIdentifier == null) {
+            return null;
         }
 
-        final Umbrella umbrella = umbrellaService.findUmbrellaBy(umbrellaIdentifier);
+        final Umbrella umbrella = getUmbrella(nbtItem, itemStack);
         if (umbrella == null) {
-            return;
+            return null;
         }
 
-        final UmbrellaItem umbrellaItem = umbrella.findItemBy(umbrellaIdentifier);
-        if (umbrellaItem == null) {
-            return;
+        return umbrella.findItemBy(itemIdentifier);
+    }
+
+    private Umbrella getUmbrella(final NBTItem nbtItem, final ItemStack itemStack) {
+        if (itemStack == null) {
+            return null;
         }
 
-        umbrellaItem.trigger(event);
+        final String umbrellaIdentifier = nbtItem.getString("umbrella_identifier");
+        if (umbrellaIdentifier == null) {
+            return null;
+        }
+
+        return umbrellaService.getUmbrellaRegistry().findUmbrellaBy(umbrellaIdentifier);
     }
 
     @EventHandler(priority = EventPriority.LOWEST)
     private void onPlayerQuit(final PlayerQuitEvent event) {
-        UmbrellaAPI.getInstance().getUmbrellaService().inactivate(event.getPlayer());
+        UmbrellaAPI.getInstance()
+                .getUmbrellaService()
+                .getUmbrellaHandler().inactivate(event.getPlayer());
     }
 }

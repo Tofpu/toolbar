@@ -35,15 +35,16 @@ public final class UmbrellaListener implements Listener {
         final ItemStack droppedItem = event.getItemDrop()
                 .getItemStack();
         final Player player = event.getPlayer();
-        if (!umbrellaService.getUmbrellaRegistry()
-                .isInUmbrella(player.getUniqueId())) {
-            invalidItemDetected(player, droppedItem);
-            return;
-        }
 
         final UmbrellaItem umbrellaItem = getUmbrellaItem(droppedItem);
         // if the umbrella item not were found, return
         if (umbrellaItem == null) {
+            return;
+        }
+
+        if (!umbrellaService.getUmbrellaRegistry()
+                .isInUmbrella(player.getUniqueId())) {
+            invalidItemDetected(player, droppedItem);
             return;
         }
 

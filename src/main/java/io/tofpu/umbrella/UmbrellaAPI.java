@@ -1,15 +1,23 @@
 package io.tofpu.umbrella;
 
-import io.tofpu.dynamicclass.DynamicClass;
+import io.tofpu.umbrella.domain.Umbrella;
+import io.tofpu.umbrella.domain.item.UmbrellaItem;
+import io.tofpu.umbrella.domain.item.action.AbstractItemAction;
 import io.tofpu.umbrella.domain.service.UmbrellaService;
+import io.tofpu.umbrella.listener.UmbrellaListener;
+import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
+import org.bukkit.Material;
+import org.bukkit.entity.Player;
+import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;
-
-import java.io.IOException;
 
 public class UmbrellaAPI {
     private static UmbrellaAPI umbrellaAPI;
     private final UmbrellaService umbrellaService;
     private final JavaPlugin plugin;
+    private final boolean modernVersion;
 
     public static UmbrellaAPI getInstance() {
         return UmbrellaAPI.umbrellaAPI;
@@ -18,22 +26,32 @@ public class UmbrellaAPI {
     public UmbrellaAPI(final JavaPlugin plugin) {
         this.umbrellaService = new UmbrellaService();
         this.plugin = plugin;
+
+        final String[] versionArgs = plugin.getServer()
+                .getBukkitVersion()
+                .split("-")[0].split("\\.");
+
+        final String formattedVersion = versionArgs[0] + "." + versionArgs[1];
+
+        final double version = Double.parseDouble(formattedVersion);
+        this.modernVersion = version >= 1.9;
     }
 
     public void enable() {
         UmbrellaAPI.umbrellaAPI = this;
 
-        try {
-            DynamicClass.addParameters(plugin, umbrellaService);
-            DynamicClass.alternativeScan(getClass().getClassLoader(), "io.tofpu.umbrella");
-        } catch (final IOException e) {
-            throw new IllegalStateException(e);
+        new UmbrellaListener(plugin, umbrellaService);
+
         }
     }
 
     public void disable() {
         // nothing to disable
         UmbrellaAPI.umbrellaAPI = null;
+    }
+
+    public boolean isInModernVersion() {
+        return modernVersion;
     }
 
     public UmbrellaService getUmbrellaService() {

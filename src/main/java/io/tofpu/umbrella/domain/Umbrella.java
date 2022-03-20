@@ -14,7 +14,7 @@ public class Umbrella {
 
     public Umbrella(final UmbrellaRegistry registry, final String identifier) {
         // preventing class initialization outside the scoped project
-        this(registry, identifier, new ArrayList<>());
+        this(registry, identifier, new LinkedList<>());
     }
 
     public Umbrella(final UmbrellaRegistry registry, final String identifier, final Collection<UmbrellaItem> umbrellaItems) {
@@ -66,7 +66,12 @@ public class Umbrella {
         inventory.clear();
 
         for (final UmbrellaItem umbrellaItem : itemMap.values()) {
-            inventory.addItem(umbrellaItem.getCopyOfItem());
+            if (umbrellaItem.getInventoryIndex() == -1) {
+                inventory.addItem(umbrellaItem.getCopyOfItem());
+                continue;
+            }
+
+            inventory.setItem(umbrellaItem.getInventoryIndex(), umbrellaItem.getCopyOfItem());
         }
     }
 

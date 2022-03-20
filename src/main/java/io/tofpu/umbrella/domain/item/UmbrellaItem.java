@@ -35,15 +35,19 @@ public class UmbrellaItem {
         return new ItemStack(item);
     }
 
+    public int getInventoryIndex() {
+        return this.index;
+    }
+
+    public AbstractItemAction getItemAction() {
+        return itemAction;
+    }
+
     public void trigger(final PlayerInteractEvent event) {
         // if the item action is null, don't do anything
         if (itemAction == null) {
             return;
         }
         itemAction.trigger(owner, event);
-    }
-
-    public int getInventoryIndex() {
-        return this.index;
     }
 }

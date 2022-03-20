@@ -1,16 +1,7 @@
 package io.tofpu.umbrella;
 
-import io.tofpu.umbrella.domain.Umbrella;
-import io.tofpu.umbrella.domain.item.UmbrellaItem;
-import io.tofpu.umbrella.domain.item.action.AbstractItemAction;
 import io.tofpu.umbrella.domain.service.UmbrellaService;
 import io.tofpu.umbrella.listener.UmbrellaListener;
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
-import org.bukkit.Material;
-import org.bukkit.entity.Player;
-import org.bukkit.event.player.PlayerInteractEvent;
-import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class UmbrellaAPI {
@@ -41,8 +32,6 @@ public class UmbrellaAPI {
         UmbrellaAPI.umbrellaAPI = this;
 
         new UmbrellaListener(plugin, umbrellaService);
-
-        }
     }
 
     public void disable() {

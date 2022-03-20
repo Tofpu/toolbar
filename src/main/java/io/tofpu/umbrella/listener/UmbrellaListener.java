@@ -58,9 +58,6 @@ public final class UmbrellaListener implements Listener {
                 .remove(itemStack);
 
         wipeInvalidItems(target.getPlayer());
-        target.sendMessage(
-                ChatColor.DARK_RED + "ERROR!" + ChatColor.RED + "Every " + "invalid " +
-                "item " + "in your inventory has been wiped.");
     }
 
     private void wipeInvalidItems(final Player target) {

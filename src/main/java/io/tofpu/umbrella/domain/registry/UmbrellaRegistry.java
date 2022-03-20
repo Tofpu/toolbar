@@ -2,6 +2,7 @@ package io.tofpu.umbrella.domain.registry;
 
 import io.tofpu.umbrella.domain.Umbrella;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
@@ -37,5 +38,13 @@ public final class UmbrellaRegistry {
 
     public Umbrella findPlayerUmbrella(final UUID key) {
         return playerMap.get(key);
+    }
+
+    public Map<UUID, Umbrella> getActivatedPlayers() {
+        return Collections.unmodifiableMap(this.playerMap);
+    }
+
+    public void clearPlayerMap() {
+        this.playerMap.clear();
     }
 }

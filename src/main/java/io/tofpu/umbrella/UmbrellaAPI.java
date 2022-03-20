@@ -37,6 +37,10 @@ public class UmbrellaAPI {
     public void disable() {
         // nothing to disable
         UmbrellaAPI.umbrellaAPI = null;
+
+        getUmbrellaService()
+                .getUmbrellaHandler()
+                .inactivateAll();
     }
 
     public boolean isInModernVersion() {

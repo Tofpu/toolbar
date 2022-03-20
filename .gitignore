@@ -113,6 +113,3 @@ buildNumber.properties
 run/
 *.xml
 *.xml
-.idea/workspace.xml
-.idea/misc.xml
-umbrella.iml

@@ -9,13 +9,15 @@ public class UmbrellaItem {
     private final Umbrella owner;
     private final String itemIdentifier;
     private final ItemStack item;
+    private final int index;
 
     private final AbstractItemAction itemAction;
 
-    public UmbrellaItem(final Umbrella owner, final String itemIdentifier, final ItemStack item, final AbstractItemAction itemAction) {
+    public UmbrellaItem(final Umbrella owner, final String itemIdentifier, final ItemStack item, final int index, final AbstractItemAction itemAction) {
         this.owner = owner;
         this.itemIdentifier = itemIdentifier;
         this.item = item;
+        this.index = index;
         this.itemAction = itemAction;
 
         getOwner().addItem(this);
@@ -39,5 +41,9 @@ public class UmbrellaItem {
             return;
         }
         itemAction.trigger(owner, event);
+    }
+
+    public int getInventoryIndex() {
+        return this.index;
     }
 }

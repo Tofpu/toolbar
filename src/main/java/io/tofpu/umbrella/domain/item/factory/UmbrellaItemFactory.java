@@ -9,6 +9,12 @@ import org.bukkit.inventory.ItemStack;
 public final class UmbrellaItemFactory {
     public UmbrellaItem create(final Umbrella owner, final String itemIdentifier
             , final ItemStack item, final AbstractItemAction itemAction) {
+        return create(owner, itemIdentifier, item, -1, itemAction);
+    }
+
+    public UmbrellaItem create(final Umbrella owner, final String itemIdentifier
+            , final ItemStack item, final int index,
+            final AbstractItemAction itemAction) {
         final NBTItem nbtItem = new NBTItem(item, true);
 
         // adding the "umbrella_identifier" nbt tag to the item
@@ -17,6 +23,6 @@ public final class UmbrellaItemFactory {
         // adding the "item_identifier" nbt tag to the item
         nbtItem.setString("item_identifier", itemIdentifier);
 
-        return new UmbrellaItem(owner, itemIdentifier, item, itemAction);
+        return new UmbrellaItem(owner, itemIdentifier, item, index, itemAction);
     }
 }

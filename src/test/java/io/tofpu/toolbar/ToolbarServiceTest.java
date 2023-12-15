@@ -3,16 +3,13 @@ package io.tofpu.toolbar;
 import io.tofpu.toolbar.bootstrap.EssentialTestBootstrap;
 import io.tofpu.toolbar.toolbar.Toolbar;
 import io.tofpu.toolbar.toolbar.ToolbarService;
-import io.tofpu.toolbar.toolbar.item.Tool;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 import org.junit.jupiter.api.Test;
 
-import java.util.Collections;
 import java.util.Map;
 
-import static io.tofpu.toolbar.helper.ObjectCreationHelper.tool;
-import static io.tofpu.toolbar.helper.ObjectCreationHelper.tools;
+import static io.tofpu.toolbar.helper.ObjectCreationHelper.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
@@ -31,8 +28,9 @@ public class ToolbarServiceTest extends EssentialTestBootstrap {
     void register_regular_toolbar_with_a_tool_containing_unspecified_index_test() {
         int itemAmount = 1;
 
-        Tool tool = new Tool("tool", new ItemStack(Material.DIAMOND, itemAmount));
-        Toolbar toolbar = new Toolbar("bar", Collections.singletonList(tool));
+        Toolbar toolbar = new Toolbar("bar", singleTool(
+                tool("tool", new ItemStack(Material.DIAMOND, itemAmount))
+        ));
         toolbarService.register(toolbar);
 
         toolbar = toolbarService.findToolbarBy("bar");
@@ -53,8 +51,9 @@ public class ToolbarServiceTest extends EssentialTestBootstrap {
         int itemIndex = 5;
         int itemAmount = 1;
 
-        Tool tool = new Tool("tool", new ItemStack(Material.DIAMOND, itemAmount), itemIndex);
-        Toolbar toolbar = new Toolbar("bar", Collections.singletonList(tool));
+        Toolbar toolbar = new Toolbar("bar", singleTool(
+                tool("tool", new ItemStack(Material.DIAMOND, itemAmount), itemIndex)
+        ));
         toolbarService.register(toolbar);
 
         toolbar = toolbarService.findToolbarBy("bar");

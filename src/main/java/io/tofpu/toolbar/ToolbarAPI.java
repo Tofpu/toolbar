@@ -37,8 +37,8 @@ public class ToolbarAPI {
         // nothing to disable
         ToolbarAPI.toolbarAPI = null;
 
-        getUmbrellaService()
-                .getUmbrellaHandler()
+        getToolbarService()
+                .getToolbarHandler()
                 .inactivateAll();
     }
 
@@ -46,7 +46,7 @@ public class ToolbarAPI {
         return modernVersion;
     }
 
-    public ToolbarService getUmbrellaService() {
+    public ToolbarService getToolbarService() {
         return toolbarService;
     }
 }

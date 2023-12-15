@@ -1,23 +1,21 @@
 package io.tofpu.toolbar.domain;
 
-import io.tofpu.toolbar.domain.Toolbar;
-
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
 public final class ToolbarRegistry {
-    private final Map<String, Toolbar> umbrellaMap;
+    private final Map<String, Toolbar> toolbarMap;
     private final Map<UUID, Toolbar> playerMap;
 
     public ToolbarRegistry() {
-        this.umbrellaMap = new HashMap<>();
+        this.toolbarMap = new HashMap<>();
         this.playerMap = new HashMap<>();
     }
 
     public void register(final Toolbar toolbar) {
-        this.umbrellaMap.put(toolbar.getIdentifier(), toolbar);
+        this.toolbarMap.put(toolbar.getIdentifier(), toolbar);
     }
 
     public void register(final UUID playerUid, final Toolbar toolbar) {
@@ -28,15 +26,15 @@ public final class ToolbarRegistry {
         this.playerMap.remove(playerUid);
     }
 
-    public boolean isInUmbrella(final UUID key) {
+    public boolean hasEquippedToolbar(final UUID key) {
         return playerMap.containsKey(key);
     }
 
-    public Toolbar findUmbrellaBy(final String identifier) {
-        return umbrellaMap.get(identifier);
+    public Toolbar findToolbarBy(final String identifier) {
+        return toolbarMap.get(identifier);
     }
 
-    public Toolbar findPlayerUmbrella(final UUID key) {
+    public Toolbar findPlayerToolbar(final UUID key) {
         return playerMap.get(key);
     }
 

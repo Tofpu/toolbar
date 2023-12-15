@@ -17,11 +17,11 @@ public final class ToolFactory {
                        final AbstractToolAction itemAction) {
         final NBTItem nbtItem = new NBTItem(item, true);
 
-        // adding the "umbrella_identifier" nbt tag to the item
-        nbtItem.setString("umbrella_identifier", owner.getIdentifier());
+        // adding the toolbar nbt tag to the item
+        nbtItem.setString("toolbar_identifier", owner.getIdentifier());
 
-        // adding the "item_identifier" nbt tag to the item
-        nbtItem.setString("item_identifier", itemIdentifier);
+        // adding the tool nbt tag to the item
+        nbtItem.setString("tool_identifier", itemIdentifier);
 
         return new Tool(owner, itemIdentifier, item, index, itemAction);
     }

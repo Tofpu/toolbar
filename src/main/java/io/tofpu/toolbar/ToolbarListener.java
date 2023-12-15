@@ -1,7 +1,6 @@
 package io.tofpu.toolbar;
 
 import de.tr7zw.changeme.nbtapi.NBTItem;
-import io.tofpu.toolbar.ToolbarAPI;
 import io.tofpu.toolbar.domain.Toolbar;
 import io.tofpu.toolbar.domain.item.Tool;
 import io.tofpu.toolbar.domain.ToolbarService;
@@ -42,8 +41,8 @@ class ToolbarListener implements Listener {
             return;
         }
 
-        if (!toolbarService.getUmbrellaRegistry()
-                .isInUmbrella(player.getUniqueId())) {
+        if (!toolbarService.getToolbarRegistry()
+                .hasEquippedToolbar(player.getUniqueId())) {
             invalidItemDetected(player, droppedItem);
             return;
         }
@@ -111,8 +110,8 @@ class ToolbarListener implements Listener {
         }
 
         final Player player = event.getPlayer();
-        if (!toolbarService.getUmbrellaRegistry()
-                .isInUmbrella(player.getUniqueId())) {
+        if (!toolbarService.getToolbarRegistry()
+                .hasEquippedToolbar(player.getUniqueId())) {
             invalidItemDetected(player, clickedItem);
             return;
         }
@@ -150,13 +149,13 @@ class ToolbarListener implements Listener {
             return null;
         }
 
-        return toolbarService.getUmbrellaRegistry().findUmbrellaBy(umbrellaIdentifier);
+        return toolbarService.getToolbarRegistry().findToolbarBy(umbrellaIdentifier);
     }
 
     @EventHandler(priority = EventPriority.LOWEST)
     private void onPlayerQuit(final PlayerQuitEvent event) {
         ToolbarAPI.getInstance()
-                .getUmbrellaService()
-                .getUmbrellaHandler().inactivate(event.getPlayer());
+                .getToolbarService()
+                .getToolbarHandler().inactivate(event.getPlayer());
     }
 }

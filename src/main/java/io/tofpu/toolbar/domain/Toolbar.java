@@ -86,7 +86,7 @@ public class Toolbar {
     }
 
     public boolean isActivated(final UUID playerUid) {
-        return registry.isInUmbrella(playerUid);
+        return registry.hasEquippedToolbar(playerUid);
     }
 
     public String getIdentifier() {

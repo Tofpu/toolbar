@@ -15,7 +15,7 @@ public final class ToolbarHandler {
     }
 
     public void activate(final String identifier, final Player target) throws ToolbarNotFoundException {
-        final Toolbar toolbar = this.toolbarRegistry.findUmbrellaBy(identifier);
+        final Toolbar toolbar = this.toolbarRegistry.findToolbarBy(identifier);
 
         if (toolbar == null) {
             throw new ToolbarNotFoundException(identifier);
@@ -25,7 +25,7 @@ public final class ToolbarHandler {
     }
 
     public void inactivate(final Player target) {
-        final Toolbar toolbar = this.toolbarRegistry.findPlayerUmbrella(target.getUniqueId());
+        final Toolbar toolbar = this.toolbarRegistry.findPlayerToolbar(target.getUniqueId());
 
         // nothing to inactivate
         if (toolbar == null) {

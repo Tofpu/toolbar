@@ -15,19 +15,19 @@ public final class ToolbarService {
         this.toolFactory = new ToolFactory();
     }
 
-    public ToolFactory getUmbrellaItemFactory() {
+    public ToolFactory getToolFactory() {
         return toolFactory;
     }
 
-    public ToolbarFactory getUmbrellaFactory() {
+    public ToolbarFactory getToolbarFactory() {
         return toolbarFactory;
     }
 
-    public ToolbarRegistry getUmbrellaRegistry() {
+    public ToolbarRegistry getToolbarRegistry() {
         return toolbarRegistry;
     }
 
-    public ToolbarHandler getUmbrellaHandler() {
+    public ToolbarHandler getToolbarHandler() {
         return toolbarHandler;
     }
 }

@@ -1,10 +1,10 @@
-package io.tofpu.umbrella.listener;
+package io.tofpu.toolbar;
 
 import de.tr7zw.changeme.nbtapi.NBTItem;
-import io.tofpu.umbrella.UmbrellaAPI;
-import io.tofpu.umbrella.domain.Umbrella;
-import io.tofpu.umbrella.domain.item.UmbrellaItem;
-import io.tofpu.umbrella.domain.service.UmbrellaService;
+import io.tofpu.toolbar.ToolbarAPI;
+import io.tofpu.toolbar.domain.Toolbar;
+import io.tofpu.toolbar.domain.item.Tool;
+import io.tofpu.toolbar.domain.ToolbarService;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -21,11 +21,11 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.plugin.Plugin;
 
-public final class UmbrellaListener implements Listener {
-    private final UmbrellaService umbrellaService;
+class ToolbarListener implements Listener {
+    private final ToolbarService toolbarService;
 
-    public UmbrellaListener(final Plugin plugin, final UmbrellaService umbrellaService) {
-        this.umbrellaService = umbrellaService;
+    public ToolbarListener(final Plugin plugin, final ToolbarService toolbarService) {
+        this.toolbarService = toolbarService;
         Bukkit.getPluginManager()
                 .registerEvents(this, plugin);
     }
@@ -36,13 +36,13 @@ public final class UmbrellaListener implements Listener {
                 .getItemStack();
         final Player player = event.getPlayer();
 
-        final UmbrellaItem umbrellaItem = getUmbrellaItem(droppedItem);
+        final Tool tool = getUmbrellaItem(droppedItem);
         // if the umbrella item not were found, return
-        if (umbrellaItem == null) {
+        if (tool == null) {
             return;
         }
 
-        if (!umbrellaService.getUmbrellaRegistry()
+        if (!toolbarService.getUmbrellaRegistry()
                 .isInUmbrella(player.getUniqueId())) {
             invalidItemDetected(player, droppedItem);
             return;
@@ -92,36 +92,36 @@ public final class UmbrellaListener implements Listener {
             return false;
         }
 
-        final UmbrellaItem item = getUmbrellaItem(target);
+        final Tool item = getUmbrellaItem(target);
         return item != null;
     }
 
     @EventHandler
     private void onPlayerInteract(final PlayerInteractEvent event) {
-        if (UmbrellaAPI.getInstance()
+        if (ToolbarAPI.getInstance()
                     .isInModernVersion() && event.getHand() != EquipmentSlot.HAND) {
             return;
         }
 
         final ItemStack clickedItem = event.getItem();
-        final UmbrellaItem umbrellaItem = getUmbrellaItem(clickedItem);
+        final Tool tool = getUmbrellaItem(clickedItem);
         // if the umbrella item not were found, return
-        if (umbrellaItem == null) {
+        if (tool == null) {
             return;
         }
 
         final Player player = event.getPlayer();
-        if (!umbrellaService.getUmbrellaRegistry()
+        if (!toolbarService.getUmbrellaRegistry()
                 .isInUmbrella(player.getUniqueId())) {
             invalidItemDetected(player, clickedItem);
             return;
         }
         event.setCancelled(true);
 
-        umbrellaItem.trigger(event);
+        tool.trigger(event);
     }
 
-    private UmbrellaItem getUmbrellaItem(final ItemStack itemStack) {
+    private Tool getUmbrellaItem(final ItemStack itemStack) {
         if (itemStack == null) {
             return null;
         }
@@ -132,15 +132,15 @@ public final class UmbrellaListener implements Listener {
             return null;
         }
 
-        final Umbrella umbrella = getUmbrella(nbtItem, itemStack);
-        if (umbrella == null) {
+        final Toolbar toolbar = getUmbrella(nbtItem, itemStack);
+        if (toolbar == null) {
             return null;
         }
 
-        return umbrella.findItemBy(itemIdentifier);
+        return toolbar.findItemBy(itemIdentifier);
     }
 
-    private Umbrella getUmbrella(final NBTItem nbtItem, final ItemStack itemStack) {
+    private Toolbar getUmbrella(final NBTItem nbtItem, final ItemStack itemStack) {
         if (itemStack == null) {
             return null;
         }
@@ -150,12 +150,12 @@ public final class UmbrellaListener implements Listener {
             return null;
         }
 
-        return umbrellaService.getUmbrellaRegistry().findUmbrellaBy(umbrellaIdentifier);
+        return toolbarService.getUmbrellaRegistry().findUmbrellaBy(umbrellaIdentifier);
     }
 
     @EventHandler(priority = EventPriority.LOWEST)
     private void onPlayerQuit(final PlayerQuitEvent event) {
-        UmbrellaAPI.getInstance()
+        ToolbarAPI.getInstance()
                 .getUmbrellaService()
                 .getUmbrellaHandler().inactivate(event.getPlayer());
     }

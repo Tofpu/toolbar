@@ -1,19 +1,18 @@
-package io.tofpu.umbrella.domain.item;
+package io.tofpu.toolbar.domain.item;
 
-import io.tofpu.umbrella.domain.Umbrella;
-import io.tofpu.umbrella.domain.item.action.AbstractItemAction;
+import io.tofpu.toolbar.domain.Toolbar;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 
-public class UmbrellaItem {
-    private final Umbrella owner;
+public class Tool {
+    private final Toolbar owner;
     private final String itemIdentifier;
     private final ItemStack item;
     private final int index;
 
-    private final AbstractItemAction itemAction;
+    private final AbstractToolAction itemAction;
 
-    public UmbrellaItem(final Umbrella owner, final String itemIdentifier, final ItemStack item, final int index, final AbstractItemAction itemAction) {
+    public Tool(final Toolbar owner, final String itemIdentifier, final ItemStack item, final int index, final AbstractToolAction itemAction) {
         this.owner = owner;
         this.itemIdentifier = itemIdentifier;
         this.item = item;
@@ -27,7 +26,7 @@ public class UmbrellaItem {
         return itemIdentifier;
     }
 
-    public Umbrella getOwner() {
+    public Toolbar getOwner() {
         return owner;
     }
 
@@ -39,7 +38,7 @@ public class UmbrellaItem {
         return this.index;
     }
 
-    public AbstractItemAction getItemAction() {
+    public AbstractToolAction getItemAction() {
         return itemAction;
     }
 

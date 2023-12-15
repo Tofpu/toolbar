@@ -1,41 +1,40 @@
-package io.tofpu.umbrella.domain;
+package io.tofpu.toolbar.domain;
 
-import io.tofpu.umbrella.domain.item.UmbrellaItem;
-import io.tofpu.umbrella.domain.registry.UmbrellaRegistry;
+import io.tofpu.toolbar.domain.item.Tool;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.PlayerInventory;
 
 import java.util.*;
 
-public class Umbrella {
+public class Toolbar {
     private final String identifier;
-    private final Map<String, UmbrellaItem> itemMap;
-    private final UmbrellaRegistry registry;
+    private final Map<String, Tool> itemMap;
+    private final ToolbarRegistry registry;
 
-    public Umbrella(final UmbrellaRegistry registry, final String identifier) {
+    public Toolbar(final ToolbarRegistry registry, final String identifier) {
         // preventing class initialization outside the scoped project
         this(registry, identifier, new LinkedList<>());
     }
 
-    public Umbrella(final UmbrellaRegistry registry, final String identifier, final Collection<UmbrellaItem> umbrellaItems) {
+    public Toolbar(final ToolbarRegistry registry, final String identifier, final Collection<Tool> tools) {
         // preventing class initialization outside the scoped project
         this.identifier = identifier;
         this.itemMap = new HashMap<>();
 
-        for (final UmbrellaItem umbrellaItem : umbrellaItems) {
-            this.itemMap.put(umbrellaItem.getItemIdentifier(), umbrellaItem);
+        for (final Tool tool : tools) {
+            this.itemMap.put(tool.getItemIdentifier(), tool);
         }
 
         this.registry = registry;
     }
 
-    public void addItem(final UmbrellaItem ...umbrellaItems) {
-        for (final UmbrellaItem umbrellaItem : umbrellaItems) {
-            this.itemMap.put(umbrellaItem.getItemIdentifier(), umbrellaItem);
+    public void addItem(final Tool... tools) {
+        for (final Tool tool : tools) {
+            this.itemMap.put(tool.getItemIdentifier(), tool);
         }
     }
 
-    public UmbrellaItem findItemBy(final String identifier) {
+    public Tool findItemBy(final String identifier) {
         return itemMap.get(identifier);
     }
 
@@ -65,13 +64,13 @@ public class Umbrella {
         final PlayerInventory inventory = target.getInventory();
         inventory.clear();
 
-        for (final UmbrellaItem umbrellaItem : itemMap.values()) {
-            if (umbrellaItem.getInventoryIndex() == -1) {
-                inventory.addItem(umbrellaItem.getCopyOfItem());
+        for (final Tool tool : itemMap.values()) {
+            if (tool.getInventoryIndex() == -1) {
+                inventory.addItem(tool.getCopyOfItem());
                 continue;
             }
 
-            inventory.setItem(umbrellaItem.getInventoryIndex(), umbrellaItem.getCopyOfItem());
+            inventory.setItem(tool.getInventoryIndex(), tool.getCopyOfItem());
         }
     }
 
@@ -94,7 +93,7 @@ public class Umbrella {
         return identifier;
     }
 
-    public Map<String, UmbrellaItem> getCopyItemMap() {
+    public Map<String, Tool> getCopyItemMap() {
         return Collections.unmodifiableMap(this.itemMap);
     }
 }

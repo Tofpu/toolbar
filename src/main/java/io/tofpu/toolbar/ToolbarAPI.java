@@ -1,21 +1,20 @@
-package io.tofpu.umbrella;
+package io.tofpu.toolbar;
 
-import io.tofpu.umbrella.domain.service.UmbrellaService;
-import io.tofpu.umbrella.listener.UmbrellaListener;
+import io.tofpu.toolbar.domain.ToolbarService;
 import org.bukkit.plugin.java.JavaPlugin;
 
-public class UmbrellaAPI {
-    private static UmbrellaAPI umbrellaAPI;
-    private final UmbrellaService umbrellaService;
+public class ToolbarAPI {
+    private static ToolbarAPI toolbarAPI;
+    private final ToolbarService toolbarService;
     private final JavaPlugin plugin;
     private final boolean modernVersion;
 
-    public static UmbrellaAPI getInstance() {
-        return UmbrellaAPI.umbrellaAPI;
+    public static ToolbarAPI getInstance() {
+        return ToolbarAPI.toolbarAPI;
     }
 
-    public UmbrellaAPI(final JavaPlugin plugin) {
-        this.umbrellaService = new UmbrellaService();
+    public ToolbarAPI(final JavaPlugin plugin) {
+        this.toolbarService = new ToolbarService();
         this.plugin = plugin;
 
         final String[] versionArgs = plugin.getServer()
@@ -29,14 +28,14 @@ public class UmbrellaAPI {
     }
 
     public void enable() {
-        UmbrellaAPI.umbrellaAPI = this;
+        ToolbarAPI.toolbarAPI = this;
 
-        new UmbrellaListener(plugin, umbrellaService);
+        new ToolbarListener(plugin, toolbarService);
     }
 
     public void disable() {
         // nothing to disable
-        UmbrellaAPI.umbrellaAPI = null;
+        ToolbarAPI.toolbarAPI = null;
 
         getUmbrellaService()
                 .getUmbrellaHandler()
@@ -47,7 +46,7 @@ public class UmbrellaAPI {
         return modernVersion;
     }
 
-    public UmbrellaService getUmbrellaService() {
-        return umbrellaService;
+    public ToolbarService getUmbrellaService() {
+        return toolbarService;
     }
 }

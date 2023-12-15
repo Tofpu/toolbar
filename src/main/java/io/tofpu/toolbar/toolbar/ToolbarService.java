@@ -1,17 +1,15 @@
-package io.tofpu.toolbar.domain;
+package io.tofpu.toolbar.toolbar;
 
-import io.tofpu.toolbar.domain.item.ToolFactory;
+import io.tofpu.toolbar.toolbar.item.ToolFactory;
 
 public final class ToolbarService {
     private final ToolbarRegistry toolbarRegistry;
-    private final ToolbarHandler toolbarHandler;
     private final ToolbarFactory toolbarFactory;
     private final ToolFactory toolFactory;
 
     public ToolbarService() {
         this.toolbarRegistry = new ToolbarRegistry();
-        this.toolbarHandler = new ToolbarHandler(toolbarRegistry);
-        this.toolbarFactory = new ToolbarFactory(toolbarRegistry);
+        this.toolbarFactory = new ToolbarFactory();
         this.toolFactory = new ToolFactory();
     }
 
@@ -25,9 +23,5 @@ public final class ToolbarService {
 
     public ToolbarRegistry getToolbarRegistry() {
         return toolbarRegistry;
-    }
-
-    public ToolbarHandler getToolbarHandler() {
-        return toolbarHandler;
     }
 }

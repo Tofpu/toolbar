@@ -1,11 +1,14 @@
 package io.tofpu.toolbar;
 
-import io.tofpu.toolbar.domain.ToolbarService;
+import io.tofpu.toolbar.player.PlayerEquipService;
+import io.tofpu.toolbar.toolbar.ToolbarService;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class ToolbarAPI {
     private static ToolbarAPI toolbarAPI;
+
     private final ToolbarService toolbarService;
+    private final PlayerEquipService playerEquipService;
     private final JavaPlugin plugin;
     private final boolean modernVersion;
 
@@ -15,6 +18,7 @@ public class ToolbarAPI {
 
     public ToolbarAPI(final JavaPlugin plugin) {
         this.toolbarService = new ToolbarService();
+        this.playerEquipService = new PlayerEquipService(toolbarService.getToolbarRegistry());
         this.plugin = plugin;
 
         final String[] versionArgs = plugin.getServer()
@@ -30,20 +34,21 @@ public class ToolbarAPI {
     public void enable() {
         ToolbarAPI.toolbarAPI = this;
 
-        new ToolbarListener(plugin, toolbarService);
+        new ToolbarAPIListener(plugin, this);
     }
 
     public void disable() {
         // nothing to disable
+        playerEquipService.unequipAll();
         ToolbarAPI.toolbarAPI = null;
-
-        getToolbarService()
-                .getToolbarHandler()
-                .inactivateAll();
     }
 
     public boolean isInModernVersion() {
         return modernVersion;
+    }
+
+    public PlayerEquipService getPlayerEquipService() {
+        return playerEquipService;
     }
 
     public ToolbarService getToolbarService() {

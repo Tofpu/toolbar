@@ -1,6 +1,6 @@
-package io.tofpu.toolbar.domain.item;
+package io.tofpu.toolbar.toolbar.item;
 
-import io.tofpu.toolbar.domain.Toolbar;
+import io.tofpu.toolbar.toolbar.Toolbar;
 import org.bukkit.event.player.PlayerInteractEvent;
 
 public abstract class AbstractToolAction {

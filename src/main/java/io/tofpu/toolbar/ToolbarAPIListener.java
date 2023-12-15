@@ -1,9 +1,8 @@
 package io.tofpu.toolbar;
 
 import de.tr7zw.changeme.nbtapi.NBTItem;
-import io.tofpu.toolbar.domain.Toolbar;
-import io.tofpu.toolbar.domain.item.Tool;
-import io.tofpu.toolbar.domain.ToolbarService;
+import io.tofpu.toolbar.toolbar.Toolbar;
+import io.tofpu.toolbar.toolbar.item.Tool;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -20,11 +19,11 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.plugin.Plugin;
 
-class ToolbarListener implements Listener {
-    private final ToolbarService toolbarService;
+class ToolbarAPIListener implements Listener {
+    private final ToolbarAPI api;
 
-    public ToolbarListener(final Plugin plugin, final ToolbarService toolbarService) {
-        this.toolbarService = toolbarService;
+    public ToolbarAPIListener(final Plugin plugin, ToolbarAPI api) {
+        this.api = api;
         Bukkit.getPluginManager()
                 .registerEvents(this, plugin);
     }
@@ -35,14 +34,14 @@ class ToolbarListener implements Listener {
                 .getItemStack();
         final Player player = event.getPlayer();
 
-        final Tool tool = getUmbrellaItem(droppedItem);
+        final Tool tool = getTool(droppedItem);
         // if the umbrella item not were found, return
         if (tool == null) {
             return;
         }
 
-        if (!toolbarService.getToolbarRegistry()
-                .hasEquippedToolbar(player.getUniqueId())) {
+        if (!api.getPlayerEquipService()
+                .isEquippingToolbar(player.getUniqueId())) {
             invalidItemDetected(player, droppedItem);
             return;
         }
@@ -91,7 +90,7 @@ class ToolbarListener implements Listener {
             return false;
         }
 
-        final Tool item = getUmbrellaItem(target);
+        final Tool item = getTool(target);
         return item != null;
     }
 
@@ -103,15 +102,14 @@ class ToolbarListener implements Listener {
         }
 
         final ItemStack clickedItem = event.getItem();
-        final Tool tool = getUmbrellaItem(clickedItem);
+        final Tool tool = getTool(clickedItem);
         // if the umbrella item not were found, return
         if (tool == null) {
             return;
         }
 
         final Player player = event.getPlayer();
-        if (!toolbarService.getToolbarRegistry()
-                .hasEquippedToolbar(player.getUniqueId())) {
+        if (!api.getPlayerEquipService().isEquippingToolbar(player.getUniqueId())) {
             invalidItemDetected(player, clickedItem);
             return;
         }
@@ -120,7 +118,7 @@ class ToolbarListener implements Listener {
         tool.trigger(event);
     }
 
-    private Tool getUmbrellaItem(final ItemStack itemStack) {
+    private Tool getTool(final ItemStack itemStack) {
         if (itemStack == null) {
             return null;
         }
@@ -131,7 +129,7 @@ class ToolbarListener implements Listener {
             return null;
         }
 
-        final Toolbar toolbar = getUmbrella(nbtItem, itemStack);
+        final Toolbar toolbar = getToolbar(nbtItem, itemStack);
         if (toolbar == null) {
             return null;
         }
@@ -139,7 +137,7 @@ class ToolbarListener implements Listener {
         return toolbar.findItemBy(itemIdentifier);
     }
 
-    private Toolbar getUmbrella(final NBTItem nbtItem, final ItemStack itemStack) {
+    private Toolbar getToolbar(final NBTItem nbtItem, final ItemStack itemStack) {
         if (itemStack == null) {
             return null;
         }
@@ -149,13 +147,12 @@ class ToolbarListener implements Listener {
             return null;
         }
 
-        return toolbarService.getToolbarRegistry().findToolbarBy(umbrellaIdentifier);
+        return api.getToolbarService().getToolbarRegistry().findToolbarBy(umbrellaIdentifier);
     }
 
     @EventHandler(priority = EventPriority.LOWEST)
     private void onPlayerQuit(final PlayerQuitEvent event) {
         ToolbarAPI.getInstance()
-                .getToolbarService()
-                .getToolbarHandler().inactivate(event.getPlayer());
+                .getPlayerEquipService().unequip(event.getPlayer());
     }
 }

@@ -1,9 +1,7 @@
-package io.tofpu.toolbar.domain.item;
+package io.tofpu.toolbar.toolbar.item;
 
 import de.tr7zw.changeme.nbtapi.NBTItem;
-import io.tofpu.toolbar.domain.Toolbar;
-import io.tofpu.toolbar.domain.item.Tool;
-import io.tofpu.toolbar.domain.item.AbstractToolAction;
+import io.tofpu.toolbar.toolbar.Toolbar;
 import org.bukkit.inventory.ItemStack;
 
 public final class ToolFactory {

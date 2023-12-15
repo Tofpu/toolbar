@@ -1,26 +1,18 @@
 package io.tofpu.toolbar.toolbar.item;
 
-import de.tr7zw.changeme.nbtapi.NBTItem;
-import io.tofpu.toolbar.toolbar.Toolbar;
 import org.bukkit.inventory.ItemStack;
 
 public final class ToolFactory {
-    public Tool create(final Toolbar owner, final String itemIdentifier
+    private ToolFactory() {}
+
+    public static Tool create(final String itemIdentifier
             , final ItemStack item, final AbstractToolAction itemAction) {
-        return create(owner, itemIdentifier, item, -1, itemAction);
+        return create(itemIdentifier, item, -1, itemAction);
     }
 
-    public Tool create(final Toolbar owner, final String itemIdentifier
+    public static Tool create(final String itemIdentifier
             , final ItemStack item, final int index,
                        final AbstractToolAction itemAction) {
-        final NBTItem nbtItem = new NBTItem(item, true);
-
-        // adding the toolbar nbt tag to the item
-        nbtItem.setString("toolbar_identifier", owner.getIdentifier());
-
-        // adding the tool nbt tag to the item
-        nbtItem.setString("tool_identifier", itemIdentifier);
-
-        return new Tool(owner, itemIdentifier, item, index, itemAction);
+        return new Tool(itemIdentifier, item, index, itemAction);
     }
 }

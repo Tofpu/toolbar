@@ -1,5 +1,6 @@
 package io.tofpu.toolbar.toolbar;
 
+import io.tofpu.toolbar.ToolNBTUtil;
 import io.tofpu.toolbar.toolbar.item.Tool;
 import org.bukkit.inventory.ItemStack;
 
@@ -11,12 +12,10 @@ public class Toolbar {
     private final Map<String, Tool> itemMap;
 
     public Toolbar(final String identifier) {
-        // preventing class initialization outside the scoped project
         this(identifier, new LinkedList<>());
     }
 
     public Toolbar(final String identifier, final Collection<Tool> tools) {
-        // preventing class initialization outside the scoped project
         this.identifier = identifier;
         this.itemMap = new HashMap<>();
 
@@ -27,16 +26,18 @@ public class Toolbar {
 
     public void addItem(final Tool... tools) {
         for (final Tool tool : tools) {
+            ToolNBTUtil.tag(this, tool);
             this.itemMap.put(tool.getItemIdentifier(), tool);
         }
     }
 
     public Tool findItemBy(final String identifier) {
+        if (identifier == null) return null;
         return itemMap.get(identifier);
     }
 
     public Map<Integer, ItemStack> getItemStacks() {
-        return this.itemMap.values().stream().collect(Collectors.toMap(Tool::getInventoryIndex, Tool::getCopyOfItem));
+        return this.itemMap.values().stream().collect(Collectors.toMap(Tool::getInventoryIndex, Tool::getItem));
     }
 
     public String getIdentifier() {

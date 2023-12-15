@@ -5,48 +5,44 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 
 public class Tool {
-    private final Toolbar owner;
     private final String itemIdentifier;
     private final ItemStack item;
     private final int index;
 
-    private final AbstractToolAction itemAction;
+    private final AbstractToolAction action;
 
-    public Tool(final Toolbar owner, final String itemIdentifier, final ItemStack item, final int index, final AbstractToolAction itemAction) {
-        this.owner = owner;
-        this.itemIdentifier = itemIdentifier;
+    public Tool(final String id, final ItemStack item, final int index, final AbstractToolAction action) {
+        this.itemIdentifier = id;
         this.item = item;
         this.index = index;
-        this.itemAction = itemAction;
+        this.action = action;
+    }
 
-        getOwner().addItem(this);
+    public Tool(final String id, final ItemStack item, final AbstractToolAction action) {
+        this(id, item, -1, action);
     }
 
     public String getItemIdentifier() {
         return itemIdentifier;
     }
 
-    public Toolbar getOwner() {
-        return owner;
-    }
-
-    public ItemStack getCopyOfItem() {
-        return new ItemStack(item);
+    public ItemStack getItem() {
+        return item;
     }
 
     public int getInventoryIndex() {
         return this.index;
     }
 
-    public AbstractToolAction getItemAction() {
-        return itemAction;
+    public AbstractToolAction getAction() {
+        return action;
     }
 
-    public void trigger(final PlayerInteractEvent event) {
+    public void trigger(final Toolbar toolbar, final PlayerInteractEvent event) {
         // if the item action is null, don't do anything
-        if (itemAction == null) {
+        if (action == null) {
             return;
         }
-        itemAction.trigger(owner, event);
+        action.trigger(toolbar, event);
     }
 }

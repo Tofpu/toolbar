@@ -15,6 +15,7 @@ public final class ToolbarRegistry {
     }
 
     public Toolbar findToolbarBy(final String identifier) {
+        if (identifier == null) return null;
         return toolbarMap.get(identifier);
     }
 }

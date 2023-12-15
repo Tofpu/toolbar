@@ -1,6 +1,5 @@
 package io.tofpu.toolbar;
 
-import de.tr7zw.changeme.nbtapi.NBTItem;
 import io.tofpu.toolbar.toolbar.Toolbar;
 import io.tofpu.toolbar.toolbar.item.Tool;
 import org.bukkit.Bukkit;
@@ -34,15 +33,13 @@ class ToolbarAPIListener implements Listener {
                 .getItemStack();
         final Player player = event.getPlayer();
 
-        final Tool tool = getTool(droppedItem);
-        // if the umbrella item not were found, return
-        if (tool == null) {
+        if (ToolNBTUtil.isNotTool(droppedItem)) {
             return;
         }
 
         if (!api.getPlayerEquipService()
                 .isEquippingToolbar(player.getUniqueId())) {
-            invalidItemDetected(player, droppedItem);
+            removeAllTrace(player, droppedItem);
             return;
         }
 
@@ -50,18 +47,18 @@ class ToolbarAPIListener implements Listener {
         player.sendMessage(ChatColor.RED + "You're not allowed to drop this " + "item!");
     }
 
-    private void invalidItemDetected(final Player target, final ItemStack itemStack) {
+    private void removeAllTrace(final Player target, final ItemStack itemStack) {
         itemStack.setType(Material.AIR);
         target.getInventory()
                 .remove(itemStack);
 
-        wipeInvalidItems(target.getPlayer());
+        removeAllItems(target.getPlayer());
     }
 
-    private void wipeInvalidItems(final Player target) {
+    private void removeAllItems(final Player target) {
         final PlayerInventory inventory = target.getInventory();
         for (final ItemStack item : inventory) {
-            if (!isInvalidItem(item)) {
+            if (ToolNBTUtil.isNotTool(item)) {
                 continue;
             }
             inventory.remove(item);
@@ -69,7 +66,7 @@ class ToolbarAPIListener implements Listener {
 
         final Inventory enderChest = target.getEnderChest();
         for (final ItemStack item : enderChest) {
-            if (!isInvalidItem(item)) {
+            if (ToolNBTUtil.isNotTool(item)) {
                 continue;
             }
             enderChest.remove(item);
@@ -78,20 +75,11 @@ class ToolbarAPIListener implements Listener {
         final Inventory topInventory = target.getOpenInventory()
                 .getTopInventory();
         for (final ItemStack item : topInventory) {
-            if (!isInvalidItem(item)) {
+            if (ToolNBTUtil.isNotTool(item)) {
                 continue;
             }
             topInventory.remove(item);
         }
-    }
-
-    private boolean isInvalidItem(final ItemStack target) {
-        if (target == null || target.getType() == Material.AIR) {
-            return false;
-        }
-
-        final Tool item = getTool(target);
-        return item != null;
     }
 
     @EventHandler
@@ -102,52 +90,20 @@ class ToolbarAPIListener implements Listener {
         }
 
         final ItemStack clickedItem = event.getItem();
-        final Tool tool = getTool(clickedItem);
-        // if the umbrella item not were found, return
-        if (tool == null) {
-            return;
-        }
+
+        final Toolbar toolbar = api.getToolbarService().findToolbarBy(ToolNBTUtil.getToolbarIdBy(clickedItem));
+        if (toolbar == null) return;
+
+        final Tool tool = toolbar.findItemBy(ToolNBTUtil.getToolbarIdBy(clickedItem));
+        if (tool == null) return;
 
         final Player player = event.getPlayer();
         if (!api.getPlayerEquipService().isEquippingToolbar(player.getUniqueId())) {
-            invalidItemDetected(player, clickedItem);
+            removeAllTrace(player, clickedItem);
             return;
         }
         event.setCancelled(true);
-
-        tool.trigger(event);
-    }
-
-    private Tool getTool(final ItemStack itemStack) {
-        if (itemStack == null) {
-            return null;
-        }
-
-        final NBTItem nbtItem = new NBTItem(itemStack);
-        final String itemIdentifier = nbtItem.getString("item_identifier");
-        if (itemIdentifier == null) {
-            return null;
-        }
-
-        final Toolbar toolbar = getToolbar(nbtItem, itemStack);
-        if (toolbar == null) {
-            return null;
-        }
-
-        return toolbar.findItemBy(itemIdentifier);
-    }
-
-    private Toolbar getToolbar(final NBTItem nbtItem, final ItemStack itemStack) {
-        if (itemStack == null) {
-            return null;
-        }
-
-        final String umbrellaIdentifier = nbtItem.getString("umbrella_identifier");
-        if (umbrellaIdentifier == null) {
-            return null;
-        }
-
-        return api.getToolbarService().getToolbarRegistry().findToolbarBy(umbrellaIdentifier);
+        tool.trigger(toolbar, event);
     }
 
     @EventHandler(priority = EventPriority.LOWEST)

@@ -1,0 +1,32 @@
+package io.tofpu.toolbar.helper;
+
+import io.tofpu.toolbar.toolbar.item.Tool;
+import org.bukkit.Material;
+import org.bukkit.inventory.ItemStack;
+
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.LinkedList;
+import java.util.stream.Collectors;
+
+public class ObjectCreationHelper {
+    public static Tool tool(String id, ItemStack itemStack, int itemIndex) {
+        return new Tool(id, itemStack, itemIndex);
+    }
+
+    public static Tool tool(String id, ItemStack itemStack) {
+        return tool(id, itemStack, -1);
+    }
+
+    public static Tool tool(String id, Material material) {
+        return tool(id, item(material), -1);
+    }
+
+    public static Collection<Tool> tools(Tool... tools) {
+        return Arrays.stream(tools).collect(Collectors.toCollection(LinkedList::new));
+    }
+
+    public static ItemStack item(Material material) {
+        return new ItemStack(material);
+    }
+}

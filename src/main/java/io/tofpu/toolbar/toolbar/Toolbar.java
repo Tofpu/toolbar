@@ -5,7 +5,6 @@ import io.tofpu.toolbar.toolbar.item.Tool;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 public class Toolbar {
     private final String identifier;
@@ -37,7 +36,16 @@ public class Toolbar {
     }
 
     public Map<Integer, ItemStack> getItemStacks() {
-        return this.itemMap.values().stream().collect(Collectors.toMap(Tool::getInventoryIndex, Tool::getItem));
+        Map<Integer, ItemStack> itemStackMap = new HashMap<>();
+        for (Map.Entry<String, Tool> entry : this.itemMap.entrySet()) {
+            Tool tool = entry.getValue();
+            int inventoryIndex = tool.getInventoryIndex();
+            if (inventoryIndex < 0) {
+                inventoryIndex = itemStackMap.size();
+            }
+            itemStackMap.put(inventoryIndex, tool.getItem());
+        }
+        return itemStackMap;
     }
 
     public String getIdentifier() {

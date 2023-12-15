@@ -6,6 +6,7 @@ import io.tofpu.toolbar.toolbar.Toolbar;
 import io.tofpu.toolbar.toolbar.ToolbarService;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.Map;
@@ -15,7 +16,14 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 public class ToolbarServiceTest extends FullTestBoostrap {
-    private final ToolbarService toolbarService = new ToolbarService();
+    private ToolbarService toolbarService;
+
+    @Override
+    @BeforeEach
+    public void setUp() {
+        super.setUp();
+        toolbarService = api.getToolbarService();
+    }
 
     @Test
     void register_toolbar_directly_with_no_items_test() {

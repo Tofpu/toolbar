@@ -6,7 +6,7 @@
 
     <groupId>io.tofpu</groupId>
     <artifactId>umbrella</artifactId>
-    <version>1.0.3</version>
+    <version>1.1.0-dev</version>
     <packaging>jar</packaging>
 
     <name>Umbrella</name>
@@ -42,12 +42,12 @@
                             <relocations>
                                 <relocation>
                                     <pattern>io.tofpu.dynamicclass</pattern>
-                                    <shadedPattern>io.tofpu.umbrella.lib
+                                    <shadedPattern>io.tofpu.toolbar.lib
                                         .dynamicclass</shadedPattern>
                                 </relocation>
                                 <relocation>
                                     <pattern>de.tr7zw.changeme.nbtapi</pattern>
-                                    <shadedPattern>io.tofpu.umbrella.lib
+                                    <shadedPattern>io.tofpu.toolbar.lib
                                         .nbtapi</shadedPattern>
                                 </relocation>
                             </relocations>

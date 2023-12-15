@@ -1,6 +1,7 @@
 package io.tofpu.toolbar.helper;
 
 import io.tofpu.toolbar.toolbar.item.Tool;
+import io.tofpu.toolbar.toolbar.item.ToolAction;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 
@@ -15,8 +16,16 @@ public class ObjectCreationHelper {
         return new Tool(id, itemStack, itemIndex);
     }
 
+    public static Tool tool(String id, ItemStack itemStack, int itemIndex, ToolAction action) {
+        return new Tool(id, itemStack, itemIndex, action);
+    }
+
     public static Tool tool(String id, ItemStack itemStack) {
         return tool(id, itemStack, -1);
+    }
+
+    public static Tool tool(String id, Material material, ToolAction action) {
+        return tool(id, item(material), -1, action);
     }
 
     public static Tool tool(String id, Material material) {

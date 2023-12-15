@@ -94,7 +94,7 @@ class ToolbarAPIListener implements Listener {
         final Toolbar toolbar = api.getToolbarService().findToolbarBy(ToolNBTUtil.getToolbarIdBy(clickedItem));
         if (toolbar == null) return;
 
-        final Tool tool = toolbar.findItemBy(ToolNBTUtil.getToolbarIdBy(clickedItem));
+        final Tool tool = toolbar.findItemBy(ToolNBTUtil.getToolIdBy(clickedItem));
         if (tool == null) return;
 
         final Player player = event.getPlayer();

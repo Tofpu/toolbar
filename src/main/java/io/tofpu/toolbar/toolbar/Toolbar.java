@@ -18,9 +18,7 @@ public class Toolbar {
         this.identifier = identifier;
         this.itemMap = new LinkedHashMap<>();
 
-        for (final Tool tool : tools) {
-            this.itemMap.put(tool.getItemIdentifier(), tool);
-        }
+        addItem(tools.toArray(new Tool[]{}));
     }
 
     public void addItem(final Tool... tools) {

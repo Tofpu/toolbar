@@ -1,6 +1,7 @@
 package io.tofpu.toolbar;
 
-import io.tofpu.toolbar.bootstrap.EssentialTestBootstrap;
+import io.tofpu.toolbar.bootstrap.FullTestBoostrap;
+import io.tofpu.toolbar.nbt.ItemNBTHandler;
 import io.tofpu.toolbar.toolbar.Toolbar;
 import io.tofpu.toolbar.toolbar.ToolbarService;
 import org.bukkit.Material;
@@ -13,7 +14,7 @@ import static io.tofpu.toolbar.helper.ObjectCreationHelper.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
-public class ToolbarServiceTest extends EssentialTestBootstrap {
+public class ToolbarServiceTest extends FullTestBoostrap {
     private final ToolbarService toolbarService = new ToolbarService();
 
     @Test
@@ -85,5 +86,31 @@ public class ToolbarServiceTest extends EssentialTestBootstrap {
 
         assertEquals(Material.DIAMOND, itemStacks.get(0).getType());
         assertEquals(Material.GOLD_ORE, itemStacks.get(1).getType());
+    }
+
+    @Test
+    void item_nbt_after_added_in_construction() {
+        Toolbar toolbar = new Toolbar("bar", singleTool(tool("first_tool", Material.DIAMOND)));
+        toolbarService.register(toolbar);
+
+        toolbar.getCopyItemMap().values().forEach(tool -> {
+            ItemNBTHandler nbtHandler = api.handleItemNBT(tool.getItem());
+            assertEquals(toolbar.getIdentifier(), nbtHandler.getString(ToolNBTUtil.TOOLBAR_NBT_KEY));
+            assertEquals(tool.getItemIdentifier(), nbtHandler.getString(ToolNBTUtil.TOOL_NBT_KEY));
+        });
+    }
+
+    @Test
+    void item_nbt_after_added_after_construction() {
+        Toolbar toolbar = new Toolbar("bar", tools());
+        toolbarService.register(toolbar);
+
+        toolbar.addItem(tool("first_tool", Material.DIAMOND));
+
+        toolbar.getCopyItemMap().values().forEach(tool -> {
+            ItemNBTHandler nbtHandler = api.handleItemNBT(tool.getItem());
+            assertEquals(toolbar.getIdentifier(), nbtHandler.getString(ToolNBTUtil.TOOLBAR_NBT_KEY));
+            assertEquals(tool.getItemIdentifier(), nbtHandler.getString(ToolNBTUtil.TOOL_NBT_KEY));
+        });
     }
 }

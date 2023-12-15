@@ -3,7 +3,7 @@ package io.tofpu.toolbar.toolbar;
 import java.util.HashMap;
 import java.util.Map;
 
-public final class ToolbarRegistry {
+final class ToolbarRegistry {
     private final Map<String, Toolbar> toolbarMap;
 
     public ToolbarRegistry() {

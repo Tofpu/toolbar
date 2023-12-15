@@ -14,8 +14,4 @@ public final class ToolbarService {
     public Toolbar findToolbarBy(final String identifier) {
         return toolbarRegistry.findToolbarBy(identifier);
     }
-
-    public ToolbarRegistry getToolbarRegistry() {
-        return toolbarRegistry;
-    }
 }

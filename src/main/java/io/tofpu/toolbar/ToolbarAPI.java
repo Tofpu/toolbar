@@ -18,7 +18,7 @@ public class ToolbarAPI {
 
     public ToolbarAPI(final JavaPlugin plugin) {
         this.toolbarService = new ToolbarService();
-        this.playerEquipService = new PlayerEquipService(toolbarService.getToolbarRegistry());
+        this.playerEquipService = new PlayerEquipService();
         this.plugin = plugin;
 
         final String[] versionArgs = plugin.getServer()

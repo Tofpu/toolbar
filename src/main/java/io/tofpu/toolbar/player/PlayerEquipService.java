@@ -1,7 +1,6 @@
 package io.tofpu.toolbar.player;
 
 import io.tofpu.toolbar.toolbar.Toolbar;
-import io.tofpu.toolbar.toolbar.ToolbarRegistry;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.PlayerInventory;
@@ -9,21 +8,14 @@ import org.bukkit.inventory.PlayerInventory;
 import java.util.*;
 
 public final class PlayerEquipService {
-    private final ToolbarRegistry toolbarRegistry;
     private final Map<UUID, Toolbar> playerMap;
 
-    public PlayerEquipService(ToolbarRegistry toolbarRegistry) {
-        this(toolbarRegistry, new HashMap<>());
+    public PlayerEquipService() {
+        this(new HashMap<>());
     }
 
-    public PlayerEquipService(ToolbarRegistry toolbarRegistry, Map<UUID, Toolbar> playerMap) {
-        this.toolbarRegistry = toolbarRegistry;
+    public PlayerEquipService(Map<UUID, Toolbar> playerMap) {
         this.playerMap = new HashMap<>(playerMap);
-    }
-
-    public boolean equip(Player player, String toolbarId) {
-        Toolbar toolbar = toolbarRegistry.findToolbarBy(toolbarId);
-        return equip(player, toolbar);
     }
 
     public boolean equip(Player player, Toolbar toolbar) {

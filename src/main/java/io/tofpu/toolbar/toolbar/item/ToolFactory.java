@@ -6,13 +6,13 @@ public final class ToolFactory {
     private ToolFactory() {}
 
     public static Tool create(final String itemIdentifier
-            , final ItemStack item, final AbstractToolAction itemAction) {
+            , final ItemStack item, final ToolAction itemAction) {
         return create(itemIdentifier, item, -1, itemAction);
     }
 
     public static Tool create(final String itemIdentifier
             , final ItemStack item, final int index,
-                       final AbstractToolAction itemAction) {
+                       final ToolAction itemAction) {
         return new Tool(itemIdentifier, item, index, itemAction);
     }
 }

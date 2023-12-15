@@ -9,16 +9,16 @@ public class Tool {
     private final ItemStack item;
     private final int index;
 
-    private final AbstractToolAction action;
+    private final ToolAction action;
 
-    public Tool(final String id, final ItemStack item, final int index, final AbstractToolAction action) {
+    public Tool(final String id, final ItemStack item, final int index, final ToolAction action) {
         this.itemIdentifier = id;
         this.item = item;
         this.index = index;
         this.action = action;
     }
 
-    public Tool(final String id, final ItemStack item, final AbstractToolAction action) {
+    public Tool(final String id, final ItemStack item, final ToolAction action) {
         this(id, item, -1, action);
     }
 
@@ -34,7 +34,7 @@ public class Tool {
         return this.index;
     }
 
-    public AbstractToolAction getAction() {
+    public ToolAction getAction() {
         return action;
     }
 

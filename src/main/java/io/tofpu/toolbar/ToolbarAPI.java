@@ -1,18 +1,29 @@
 package io.tofpu.toolbar;
 
+import io.tofpu.toolbar.nbt.BukkitNBTHandler;
+import io.tofpu.toolbar.nbt.ItemNBTHandler;
 import io.tofpu.toolbar.player.PlayerEquipService;
 import io.tofpu.toolbar.toolbar.ToolbarService;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;
+
+import java.util.function.Function;
 
 public class ToolbarAPI {
     private static ToolbarAPI toolbarAPI;
 
+    private final Function<ItemStack, ItemNBTHandler> itemNBTHandlerFunction;
     private final ToolbarService toolbarService;
     private final PlayerEquipService playerEquipService;
     private final JavaPlugin plugin;
     private final boolean modernVersion;
 
     public ToolbarAPI(final JavaPlugin plugin) {
+        this(plugin, BukkitNBTHandler::new);
+    }
+
+    public ToolbarAPI(final JavaPlugin plugin, final Function<ItemStack, ItemNBTHandler> itemNBTHandlerFunction) {
+        this.itemNBTHandlerFunction = itemNBTHandlerFunction;
         this.toolbarService = new ToolbarService();
         this.playerEquipService = new PlayerEquipService();
         this.plugin = plugin;
@@ -45,6 +56,10 @@ public class ToolbarAPI {
 
     public boolean isInModernVersion() {
         return modernVersion;
+    }
+
+    public ItemNBTHandler handleItemNBT(ItemStack itemStack) {
+        return itemNBTHandlerFunction.apply(itemStack);
     }
 
     public PlayerEquipService getPlayerEquipService() {

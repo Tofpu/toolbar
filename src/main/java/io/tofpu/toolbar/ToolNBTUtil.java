@@ -1,6 +1,7 @@
 package io.tofpu.toolbar;
 
 import de.tr7zw.changeme.nbtapi.NBTItem;
+import io.tofpu.toolbar.nbt.ItemNBTHandler;
 import io.tofpu.toolbar.toolbar.Toolbar;
 import io.tofpu.toolbar.toolbar.item.Tool;
 import org.bukkit.Material;
@@ -11,27 +12,31 @@ public class ToolNBTUtil {
     public static final String TOOL_NBT_KEY = "tool_identifier";
 
     public static void tag(Toolbar owner, Tool tool) {
-        final NBTItem nbtItem = new NBTItem(tool.getItem(), true);
+        final ItemNBTHandler itemNBTHandler = itemNBTHandler(tool.getItem());
 
         // adding the toolbar nbt tag to the item
-        nbtItem.setString(TOOLBAR_NBT_KEY, owner.getIdentifier());
+        itemNBTHandler.setString(TOOLBAR_NBT_KEY, owner.getIdentifier());
 
         // adding the tool nbt tag to the item
-        nbtItem.setString(TOOL_NBT_KEY, tool.getItemIdentifier());
+        itemNBTHandler.setString(TOOL_NBT_KEY, tool.getItemIdentifier());
     }
 
     public static String getToolIdBy(final ItemStack itemStack) {
         if (itemStack == null) {
             return null;
         }
-        return new NBTItem(itemStack).getString(TOOL_NBT_KEY);
+        return itemNBTHandler(itemStack).getString(TOOL_NBT_KEY);
     }
 
     public static String getToolbarIdBy(final ItemStack itemStack) {
         if (itemStack == null) {
             return null;
         }
-        return new NBTItem(itemStack).getString(TOOLBAR_NBT_KEY);
+        return itemNBTHandler(itemStack).getString(TOOLBAR_NBT_KEY);
+    }
+
+    private static ItemNBTHandler itemNBTHandler(ItemStack itemStack) {
+        return ToolbarAPI.getInstance().handleItemNBT(itemStack);
     }
 
     public static boolean isTool(final ItemStack itemStack) {

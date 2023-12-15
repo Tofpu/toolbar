@@ -7,14 +7,15 @@ import java.util.Collection;
 
 public final class ToolbarFactory {
 
-    private ToolbarFactory() {}
+    private ToolbarFactory() {
+    }
 
     public static Toolbar create(final String identifier) {
         return create(identifier, new ArrayList<>());
     }
 
     public static Toolbar create(final String identifier,
-                          final Collection<Tool> tools) {
+                                 final Collection<Tool> tools) {
         return new Toolbar(identifier, tools);
     }
 }

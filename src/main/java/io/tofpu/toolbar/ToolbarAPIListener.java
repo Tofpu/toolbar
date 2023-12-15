@@ -85,7 +85,7 @@ class ToolbarAPIListener implements Listener {
     @EventHandler
     private void onPlayerInteract(final PlayerInteractEvent event) {
         if (ToolbarAPI.getInstance()
-                    .isInModernVersion() && event.getHand() != EquipmentSlot.HAND) {
+                .isInModernVersion() && event.getHand() != EquipmentSlot.HAND) {
             return;
         }
 

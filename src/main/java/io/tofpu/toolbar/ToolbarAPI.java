@@ -12,10 +12,6 @@ public class ToolbarAPI {
     private final JavaPlugin plugin;
     private final boolean modernVersion;
 
-    public static ToolbarAPI getInstance() {
-        return ToolbarAPI.toolbarAPI;
-    }
-
     public ToolbarAPI(final JavaPlugin plugin) {
         this.toolbarService = new ToolbarService();
         this.playerEquipService = new PlayerEquipService();
@@ -29,6 +25,10 @@ public class ToolbarAPI {
 
         final double version = Double.parseDouble(formattedVersion);
         this.modernVersion = version >= 1.9;
+    }
+
+    public static ToolbarAPI getInstance() {
+        return ToolbarAPI.toolbarAPI;
     }
 
     public void enable() {

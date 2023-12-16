@@ -49,4 +49,27 @@ public class ToolbarServiceTest extends FullTestBoostrap {
         assertEquals(Material.DIAMOND, toolbar.getItemAt(ItemSlot.atIndex(0)).getType());
         assertEquals(Material.GOLD_ORE, toolbar.getItemAt(ItemSlot.atIndex(1)).getType());
     }
+
+    @Test
+    void register_custom_objects() {
+        toolbarService.register(new GunsBar("guns_bar"));
+        Toolbar toolbar = toolbarService.findToolbarBy("guns_bar");
+        assertNotNull(toolbar);
+
+        toolbar.addItem(new GunsBar.GunTool("AR"));
+        Tool tool = toolbar.findItemBy("AR");
+        assertNotNull(tool);
+    }
+}
+
+    class GunsBar extends Toolbar {
+        public GunsBar(String id) {
+            super(id);
+        }
+
+        static class GunTool extends Tool {
+            public GunTool(String id) {
+                super(id, new ItemStack(Material.STICK), ItemSlot.atIndex(0), (toolbar, event) -> event.getPlayer().sendMessage("You clicked a gun! Nice!"));
+            }
+    }
 }

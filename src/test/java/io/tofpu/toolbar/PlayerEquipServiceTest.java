@@ -3,9 +3,11 @@ package io.tofpu.toolbar;
 import be.seeseemelk.mockbukkit.entity.PlayerMock;
 import io.tofpu.toolbar.bootstrap.FullTestBoostrap;
 import io.tofpu.toolbar.player.PlayerEquipService;
-import io.tofpu.toolbar.toolbar.GenericToolbar;
+import io.tofpu.toolbar.toolbar.SimpleToolbar;
 import io.tofpu.toolbar.toolbar.ToolbarService;
 import io.tofpu.toolbar.toolbar.tool.Tool;
+import io.tofpu.toolbar.toolbar.tool.action.ToolAction;
+import io.tofpu.toolbar.toolbar.tool.action.ToolActionUtil;
 import org.bukkit.Material;
 import org.bukkit.block.BlockFace;
 import org.bukkit.event.block.Action;
@@ -13,7 +15,8 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import static io.tofpu.toolbar.helper.ObjectCreationHelper.*;
+import static io.tofpu.toolbar.helper.ObjectCreationHelper.singleTool;
+import static io.tofpu.toolbar.helper.ObjectCreationHelper.tool;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class PlayerEquipServiceTest extends FullTestBoostrap {
@@ -32,8 +35,7 @@ public class PlayerEquipServiceTest extends FullTestBoostrap {
     void equip_test() {
         PlayerMock player = server.addPlayer();
 
-        Tool tool = tool("one", Material.DIAMOND_SWORD);
-        GenericToolbar toolbar = new GenericToolbar("bar", singleTool(
+        SimpleToolbar toolbar = new SimpleToolbar("bar", singleTool(
                 tool("one", Material.DIAMOND_SWORD)
         ));
         toolbarService.register(toolbar);
@@ -46,8 +48,8 @@ public class PlayerEquipServiceTest extends FullTestBoostrap {
     void equip_and_interact_simulation_test() {
         PlayerMock player = server.addPlayer();
 
-        Tool tool = tool("one", Material.DIAMOND_SWORD, (toolbar, event) -> event.getPlayer().sendMessage("hi"));
-        GenericToolbar toolbar = new GenericToolbar("bar", singleTool(tool));
+        Tool tool = tool("one", Material.DIAMOND_SWORD, ToolActionUtil.listenFor(PlayerInteractEvent.class, (owner, event) -> event.getPlayer().sendMessage("hi")));
+        SimpleToolbar toolbar = new SimpleToolbar("bar", singleTool(tool));
         toolbarService.register(toolbar);
 
         assertTrue(playerEquipService.equip(player, toolbar));

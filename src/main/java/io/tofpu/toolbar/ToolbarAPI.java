@@ -4,6 +4,7 @@ import io.tofpu.toolbar.nbt.BukkitNBTHandler;
 import io.tofpu.toolbar.nbt.ItemNBTHandler;
 import io.tofpu.toolbar.player.PlayerEquipService;
 import io.tofpu.toolbar.toolbar.ToolbarService;
+import org.bukkit.event.Event;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -52,6 +53,10 @@ public class ToolbarAPI {
         // nothing to disable
         playerEquipService.unequipAll();
         ToolbarAPI.toolbarAPI = null;
+    }
+
+    public <T extends Event> void notListeningWarn(Class<T> clazz) {
+        plugin.getLogger().warning(String.format("Be warned that any tools listening to %s-based event won't be triggered by default.", clazz.getSimpleName()));
     }
 
     public boolean isInModernVersion() {

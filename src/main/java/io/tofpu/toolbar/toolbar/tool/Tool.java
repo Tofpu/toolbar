@@ -2,7 +2,8 @@ package io.tofpu.toolbar.toolbar.tool;
 
 import io.tofpu.toolbar.toolbar.ItemSlot;
 import io.tofpu.toolbar.toolbar.GenericToolbar;
-import org.bukkit.event.player.PlayerInteractEvent;
+import io.tofpu.toolbar.toolbar.tool.action.ToolAction;
+import org.bukkit.event.Event;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.StringJoiner;
@@ -12,16 +13,16 @@ public class Tool {
     private final ItemStack item;
     private final ItemSlot slot;
 
-    private final ToolAction action;
+    private final ToolAction<? extends Event> action;
 
-    public Tool(final String id, final ItemStack item, final ItemSlot slot, final ToolAction action) {
+    public Tool(final String id, final ItemStack item, final ItemSlot slot, final ToolAction<? extends Event> action) {
         this.itemIdentifier = id;
         this.item = item;
         this.slot = slot;
         this.action = action;
     }
 
-    public Tool(final String id, final ItemStack item, final ToolAction action) {
+    public Tool(final String id, final ItemStack item, final ToolAction<?> action) {
         this(id, item, ItemSlot.undefined(), action);
     }
 
@@ -45,16 +46,19 @@ public class Tool {
         return this.slot;
     }
 
-    public ToolAction getAction() {
+    public ToolAction<?> getAction() {
         return action;
     }
 
-    public void trigger(final GenericToolbar toolbar, final PlayerInteractEvent event) {
+    public void trigger(final GenericToolbar<?> owner, final Event event) {
         // if the item action is null, don't do anything
         if (action == null) {
             return;
         }
-        action.trigger(toolbar, event);
+
+        if (action.isCompatible(event)) {
+            action.call(owner, event);
+        }
     }
 
     @Override

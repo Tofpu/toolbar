@@ -8,7 +8,7 @@ import java.util.*;
 
 public class Toolbar {
     private final String identifier;
-    private final Map<String, Tool> itemMap;
+    private final Map<String, Tool> toolMap;
 
     public Toolbar(final String identifier) {
         this(identifier, new LinkedList<>());
@@ -16,7 +16,7 @@ public class Toolbar {
 
     public Toolbar(final String identifier, final Collection<Tool> tools) {
         this.identifier = identifier;
-        this.itemMap = new LinkedHashMap<>();
+        this.toolMap = new LinkedHashMap<>();
 
         addItem(tools.toArray(new Tool[]{}));
     }
@@ -24,18 +24,18 @@ public class Toolbar {
     public void addItem(final Tool... tools) {
         for (final Tool tool : tools) {
             ToolNBTUtil.tag(this, tool);
-            this.itemMap.put(tool.getItemIdentifier(), tool);
+            this.toolMap.put(tool.getItemIdentifier(), tool);
         }
     }
 
     public Tool findItemBy(final String identifier) {
         if (identifier == null) return null;
-        return itemMap.get(identifier);
+        return toolMap.get(identifier);
     }
 
     public Map<Integer, ItemStack> getItemStacks() {
         Map<Integer, ItemStack> itemStackMap = new HashMap<>();
-        for (Map.Entry<String, Tool> entry : this.itemMap.entrySet()) {
+        for (Map.Entry<String, Tool> entry : this.toolMap.entrySet()) {
             Tool tool = entry.getValue();
             int inventoryIndex = tool.getInventoryIndex();
             if (inventoryIndex < 0) {
@@ -50,7 +50,7 @@ public class Toolbar {
         return identifier;
     }
 
-    public Map<String, Tool> getCopyItemMap() {
-        return Collections.unmodifiableMap(this.itemMap);
+    public Collection<Tool> getTools() {
+        return Collections.unmodifiableCollection(this.toolMap.values());
     }
 }

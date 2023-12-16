@@ -101,7 +101,7 @@ public class ToolbarServiceTest extends FullTestBoostrap {
         Toolbar toolbar = new Toolbar("bar", singleTool(tool("first_tool", Material.DIAMOND)));
         toolbarService.register(toolbar);
 
-        toolbar.getCopyItemMap().values().forEach(tool -> {
+        toolbar.getTools().forEach(tool -> {
             ItemNBTHandler nbtHandler = api.handleItemNBT(tool.getItem());
             assertEquals(toolbar.getIdentifier(), nbtHandler.getString(ToolNBTUtil.TOOLBAR_NBT_KEY));
             assertEquals(tool.getItemIdentifier(), nbtHandler.getString(ToolNBTUtil.TOOL_NBT_KEY));
@@ -115,7 +115,7 @@ public class ToolbarServiceTest extends FullTestBoostrap {
 
         toolbar.addItem(tool("first_tool", Material.DIAMOND));
 
-        toolbar.getCopyItemMap().values().forEach(tool -> {
+        toolbar.getTools().forEach(tool -> {
             ItemNBTHandler nbtHandler = api.handleItemNBT(tool.getItem());
             assertEquals(toolbar.getIdentifier(), nbtHandler.getString(ToolNBTUtil.TOOLBAR_NBT_KEY));
             assertEquals(tool.getItemIdentifier(), nbtHandler.getString(ToolNBTUtil.TOOL_NBT_KEY));

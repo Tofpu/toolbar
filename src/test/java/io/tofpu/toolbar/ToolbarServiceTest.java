@@ -97,7 +97,7 @@ public class ToolbarServiceTest extends FullTestBoostrap {
     }
 
     @Test
-    void item_nbt_after_added_in_construction() {
+    void item_nbt_after_added_in_constructor() {
         Toolbar toolbar = new Toolbar("bar", singleTool(tool("first_tool", Material.DIAMOND)));
         toolbarService.register(toolbar);
 

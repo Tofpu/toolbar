@@ -1,6 +1,6 @@
 package io.tofpu.toolbar.helper;
 
-import io.tofpu.toolbar.toolbar.tool.ItemSlot;
+import io.tofpu.toolbar.toolbar.ItemSlot;
 import io.tofpu.toolbar.toolbar.tool.Tool;
 import io.tofpu.toolbar.toolbar.tool.ToolAction;
 import org.bukkit.Material;

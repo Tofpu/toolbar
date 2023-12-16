@@ -3,12 +3,11 @@ package io.tofpu.toolbar;
 import io.tofpu.toolbar.bootstrap.FullTestBoostrap;
 import io.tofpu.toolbar.nbt.ItemNBTHandler;
 import io.tofpu.toolbar.toolbar.Toolbar;
-import io.tofpu.toolbar.toolbar.tool.ItemSlot;
+import io.tofpu.toolbar.toolbar.ItemSlot;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 import org.junit.jupiter.api.Test;
 
-import java.util.List;
 import java.util.Map;
 
 import static io.tofpu.toolbar.helper.ObjectCreationHelper.*;

@@ -1,4 +1,4 @@
-package io.tofpu.toolbar.toolbar.tool;
+package io.tofpu.toolbar.toolbar;
 
 import java.util.StringJoiner;
 

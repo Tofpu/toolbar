@@ -1,5 +1,6 @@
 package io.tofpu.toolbar.toolbar.tool;
 
+import io.tofpu.toolbar.toolbar.ItemSlot;
 import io.tofpu.toolbar.toolbar.Toolbar;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;

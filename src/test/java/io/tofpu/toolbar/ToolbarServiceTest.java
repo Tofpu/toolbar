@@ -3,8 +3,10 @@ package io.tofpu.toolbar;
 import io.tofpu.toolbar.bootstrap.FullTestBoostrap;
 import io.tofpu.toolbar.toolbar.Toolbar;
 import io.tofpu.toolbar.toolbar.ToolbarService;
-import io.tofpu.toolbar.toolbar.tool.ItemSlot;
+import io.tofpu.toolbar.toolbar.ItemSlot;
+import io.tofpu.toolbar.toolbar.tool.Tool;
 import org.bukkit.Material;
+import org.bukkit.inventory.ItemStack;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

@@ -1,5 +1,6 @@
 package io.tofpu.toolbar.toolbar.tool;
 
+import io.tofpu.toolbar.toolbar.ItemSlot;
 import org.bukkit.inventory.ItemStack;
 
 public final class ToolFactory {

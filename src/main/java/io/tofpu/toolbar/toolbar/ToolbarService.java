@@ -7,11 +7,11 @@ public final class ToolbarService {
         this.toolbarRegistry = new ToolbarRegistry();
     }
 
-    public void register(final Toolbar toolbar) {
+    public void register(final GenericToolbar<?> toolbar) {
         toolbarRegistry.register(toolbar);
     }
 
-    public Toolbar findToolbarBy(final String identifier) {
-        return toolbarRegistry.findToolbarBy(identifier);
+    public <T extends GenericToolbar<?>> T findToolbarBy(final String identifier) {
+        return (T) toolbarRegistry.findToolbarBy(identifier);
     }
 }

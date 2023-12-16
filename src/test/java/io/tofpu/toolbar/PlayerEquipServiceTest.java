@@ -3,7 +3,7 @@ package io.tofpu.toolbar;
 import be.seeseemelk.mockbukkit.entity.PlayerMock;
 import io.tofpu.toolbar.bootstrap.FullTestBoostrap;
 import io.tofpu.toolbar.player.PlayerEquipService;
-import io.tofpu.toolbar.toolbar.Toolbar;
+import io.tofpu.toolbar.toolbar.GenericToolbar;
 import io.tofpu.toolbar.toolbar.ToolbarService;
 import io.tofpu.toolbar.toolbar.tool.Tool;
 import org.bukkit.Material;
@@ -33,7 +33,7 @@ public class PlayerEquipServiceTest extends FullTestBoostrap {
         PlayerMock player = server.addPlayer();
 
         Tool tool = tool("one", Material.DIAMOND_SWORD);
-        Toolbar toolbar = new Toolbar("bar", singleTool(
+        GenericToolbar toolbar = new GenericToolbar("bar", singleTool(
                 tool("one", Material.DIAMOND_SWORD)
         ));
         toolbarService.register(toolbar);
@@ -47,7 +47,7 @@ public class PlayerEquipServiceTest extends FullTestBoostrap {
         PlayerMock player = server.addPlayer();
 
         Tool tool = tool("one", Material.DIAMOND_SWORD, (toolbar, event) -> event.getPlayer().sendMessage("hi"));
-        Toolbar toolbar = new Toolbar("bar", singleTool(tool));
+        GenericToolbar toolbar = new GenericToolbar("bar", singleTool(tool));
         toolbarService.register(toolbar);
 
         assertTrue(playerEquipService.equip(player, toolbar));

@@ -1,6 +1,6 @@
 package io.tofpu.toolbar.toolbar.tool;
 
-import io.tofpu.toolbar.toolbar.Toolbar;
+import io.tofpu.toolbar.toolbar.GenericToolbar;
 import org.bukkit.event.player.PlayerInteractEvent;
 
 @FunctionalInterface
@@ -9,5 +9,5 @@ public interface ToolAction {
         return (toolbar, event) -> {};
     }
 
-    void trigger(final Toolbar toolbar, final PlayerInteractEvent event);
+    void trigger(final GenericToolbar toolbar, final PlayerInteractEvent event);
 }

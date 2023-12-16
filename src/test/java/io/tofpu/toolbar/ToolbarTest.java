@@ -2,8 +2,9 @@ package io.tofpu.toolbar;
 
 import io.tofpu.toolbar.bootstrap.FullTestBoostrap;
 import io.tofpu.toolbar.nbt.ItemNBTHandler;
-import io.tofpu.toolbar.toolbar.Toolbar;
+import io.tofpu.toolbar.toolbar.GenericToolbar;
 import io.tofpu.toolbar.toolbar.ItemSlot;
+import io.tofpu.toolbar.toolbar.SimpleToolbar;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 import org.junit.jupiter.api.Test;
@@ -20,13 +21,13 @@ public class ToolbarTest extends FullTestBoostrap {
     void register_regular_toolbar_with_a_tool_containing_unspecified_index_test() {
         int itemAmount = 1;
 
-        Toolbar toolbar = new Toolbar("bar", singleTool(
+        SimpleToolbar toolbar = new SimpleToolbar("bar", singleTool(
                 tool("tool", new ItemStack(Material.DIAMOND, itemAmount))
         ));
 
         assertEquals(1, toolbar.size());
 
-        ItemStack itemStack = toolbar.getItemAt(ItemSlot.atIndex(1));
+        ItemStack itemStack = toolbar.getItemAt(ItemSlot.atIndex(0));
         assertNotNull(itemStack);
 
         assertEquals(Material.DIAMOND, itemStack.getType());
@@ -38,7 +39,7 @@ public class ToolbarTest extends FullTestBoostrap {
         int itemIndex = 5;
         int itemAmount = 1;
 
-        Toolbar toolbar = new Toolbar("bar", singleTool(
+        SimpleToolbar toolbar = new SimpleToolbar("bar", singleTool(
                 tool("tool", new ItemStack(Material.DIAMOND, itemAmount), ItemSlot.atIndex(itemIndex))
         ));
 
@@ -54,7 +55,7 @@ public class ToolbarTest extends FullTestBoostrap {
 
     @Test
     void item_nbt_after_added_in_constructor() {
-        Toolbar toolbar = new Toolbar("bar", singleTool(tool("first_tool", Material.DIAMOND)));
+        SimpleToolbar toolbar = new SimpleToolbar("bar", singleTool(tool("first_tool", Material.DIAMOND)));
         toolbar.getTools().forEach(tool -> {
             ItemNBTHandler nbtHandler = api.handleItemNBT(tool.getItem());
             assertEquals(toolbar.getIdentifier(), nbtHandler.getString(ToolNBTUtil.TOOLBAR_NBT_KEY));
@@ -64,7 +65,7 @@ public class ToolbarTest extends FullTestBoostrap {
 
     @Test
     void item_nbt_after_added_after_construction() {
-        Toolbar toolbar = new Toolbar("bar", tools());
+        SimpleToolbar toolbar = new SimpleToolbar("bar", tools());
         toolbar.addItem(tool("first_tool", Material.DIAMOND));
 
         toolbar.getTools().forEach(tool -> {

@@ -1,7 +1,8 @@
 package io.tofpu.toolbar;
 
 import io.tofpu.toolbar.bootstrap.FullTestBoostrap;
-import io.tofpu.toolbar.toolbar.Toolbar;
+import io.tofpu.toolbar.toolbar.GenericToolbar;
+import io.tofpu.toolbar.toolbar.SimpleToolbar;
 import io.tofpu.toolbar.toolbar.ToolbarService;
 import io.tofpu.toolbar.toolbar.ItemSlot;
 import io.tofpu.toolbar.toolbar.tool.Tool;
@@ -27,15 +28,15 @@ public class ToolbarServiceTest extends FullTestBoostrap {
 
     @Test
     void register_toolbar_directly_with_no_items_test() {
-        toolbarService.register(new Toolbar("bar"));
-        Toolbar toolbar = toolbarService.findToolbarBy("bar");
+        toolbarService.register(new GenericToolbar("bar"));
+        GenericToolbar toolbar = toolbarService.findToolbarBy("bar");
         assertNotNull(toolbar);
         assertEquals("bar", toolbar.getIdentifier());
     }
 
     @Test
     void register_regular_toolbar_with_multiple_tools() {
-        Toolbar toolbar = new Toolbar("bar", tools(
+        SimpleToolbar toolbar = new SimpleToolbar("bar", tools(
                 tool("first_tool", Material.DIAMOND),
                 tool("second_tool", Material.GOLD_ORE)
         ));
@@ -53,7 +54,7 @@ public class ToolbarServiceTest extends FullTestBoostrap {
     @Test
     void register_custom_objects() {
         toolbarService.register(new GunsBar("guns_bar"));
-        Toolbar toolbar = toolbarService.findToolbarBy("guns_bar");
+        GenericToolbar toolbar = toolbarService.findToolbarBy("guns_bar");
         assertNotNull(toolbar);
 
         toolbar.addItem(new GunsBar.GunTool("AR"));
@@ -62,7 +63,7 @@ public class ToolbarServiceTest extends FullTestBoostrap {
     }
 }
 
-    class GunsBar extends Toolbar {
+    class GunsBar extends GenericToolbar {
         public GunsBar(String id) {
             super(id);
         }

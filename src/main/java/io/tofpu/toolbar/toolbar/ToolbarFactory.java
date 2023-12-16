@@ -10,12 +10,12 @@ public final class ToolbarFactory {
     private ToolbarFactory() {
     }
 
-    public static Toolbar create(final String identifier) {
+    public static GenericToolbar create(final String identifier) {
         return create(identifier, new ArrayList<>());
     }
 
-    public static Toolbar create(final String identifier,
-                                 final Collection<Tool> tools) {
-        return new Toolbar(identifier, tools);
+    public static GenericToolbar create(final String identifier,
+                                        final Collection<Tool> tools) {
+        return new GenericToolbar(identifier, tools);
     }
 }

@@ -1,7 +1,7 @@
 package io.tofpu.toolbar.toolbar.tool;
 
 import io.tofpu.toolbar.toolbar.ItemSlot;
-import io.tofpu.toolbar.toolbar.Toolbar;
+import io.tofpu.toolbar.toolbar.GenericToolbar;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 
@@ -49,7 +49,7 @@ public class Tool {
         return action;
     }
 
-    public void trigger(final Toolbar toolbar, final PlayerInteractEvent event) {
+    public void trigger(final GenericToolbar toolbar, final PlayerInteractEvent event) {
         // if the item action is null, don't do anything
         if (action == null) {
             return;

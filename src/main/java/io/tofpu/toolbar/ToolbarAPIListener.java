@@ -1,6 +1,6 @@
 package io.tofpu.toolbar;
 
-import io.tofpu.toolbar.toolbar.Toolbar;
+import io.tofpu.toolbar.toolbar.GenericToolbar;
 import io.tofpu.toolbar.toolbar.tool.Tool;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -91,7 +91,7 @@ class ToolbarAPIListener implements Listener {
 
         final ItemStack clickedItem = event.getItem();
 
-        final Toolbar toolbar = api.getToolbarService().findToolbarBy(ToolNBTUtil.getToolbarIdBy(clickedItem));
+        final GenericToolbar toolbar = api.getToolbarService().findToolbarBy(ToolNBTUtil.getToolbarIdBy(clickedItem));
         if (toolbar == null) return;
 
         final Tool tool = toolbar.findItemBy(ToolNBTUtil.getToolIdBy(clickedItem));

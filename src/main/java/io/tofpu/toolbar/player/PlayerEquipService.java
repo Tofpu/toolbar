@@ -1,6 +1,6 @@
 package io.tofpu.toolbar.player;
 
-import io.tofpu.toolbar.toolbar.Toolbar;
+import io.tofpu.toolbar.toolbar.GenericToolbar;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.PlayerInventory;
@@ -8,17 +8,17 @@ import org.bukkit.inventory.PlayerInventory;
 import java.util.*;
 
 public final class PlayerEquipService {
-    private final Map<UUID, Toolbar> playerMap;
+    private final Map<UUID, GenericToolbar<?>> playerMap;
 
     public PlayerEquipService() {
         this(new HashMap<>());
     }
 
-    public PlayerEquipService(Map<UUID, Toolbar> playerMap) {
+    public PlayerEquipService(Map<UUID, GenericToolbar<?>> playerMap) {
         this.playerMap = new HashMap<>(playerMap);
     }
 
-    public boolean equip(Player player, Toolbar toolbar) {
+    public boolean equip(Player player, GenericToolbar<?> toolbar) {
         Objects.requireNonNull(player, "Player must be provided.");
         Objects.requireNonNull(toolbar, "Toolbar must be provided.");
 
@@ -49,9 +49,9 @@ public final class PlayerEquipService {
     }
 
     public void unequipAll() {
-        Iterator<Map.Entry<UUID, Toolbar>> iterator = this.playerMap.entrySet().iterator();
+        Iterator<Map.Entry<UUID, GenericToolbar<?>>> iterator = this.playerMap.entrySet().iterator();
         while (iterator.hasNext()) {
-            Map.Entry<UUID, Toolbar> next = iterator.next();
+            Map.Entry<UUID, GenericToolbar<?>> next = iterator.next();
 
             UUID playerId = next.getKey();
             Player player = Bukkit.getPlayer(playerId);
@@ -62,7 +62,7 @@ public final class PlayerEquipService {
         }
     }
 
-    private void equipToolbar(Player player, Toolbar toolbar) {
+    private void equipToolbar(Player player, GenericToolbar<?> toolbar) {
         PlayerInventory inventory = player.getInventory();
         toolbar.getItemsWithSlots().forEach((slot, itemStack) -> {
             if (slot.isUndefined()) {

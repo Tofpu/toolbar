@@ -1,7 +1,7 @@
 package io.tofpu.toolbar;
 
 import io.tofpu.toolbar.nbt.ItemNBTHandler;
-import io.tofpu.toolbar.toolbar.Toolbar;
+import io.tofpu.toolbar.toolbar.GenericToolbar;
 import io.tofpu.toolbar.toolbar.tool.Tool;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
@@ -10,7 +10,7 @@ public class ToolNBTUtil {
     public static final String TOOLBAR_NBT_KEY = "toolbar_identifier";
     public static final String TOOL_NBT_KEY = "tool_identifier";
 
-    public static void tag(Toolbar owner, Tool tool) {
+    public static void tag(GenericToolbar owner, Tool tool) {
         final ItemNBTHandler itemNBTHandler = itemNBTHandler(tool.getItem());
 
         // adding the toolbar nbt tag to the item

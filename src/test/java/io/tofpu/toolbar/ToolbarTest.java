@@ -3,10 +3,12 @@ package io.tofpu.toolbar;
 import io.tofpu.toolbar.bootstrap.FullTestBoostrap;
 import io.tofpu.toolbar.nbt.ItemNBTHandler;
 import io.tofpu.toolbar.toolbar.Toolbar;
+import io.tofpu.toolbar.toolbar.tool.ItemSlot;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 import org.junit.jupiter.api.Test;
 
+import java.util.List;
 import java.util.Map;
 
 import static io.tofpu.toolbar.helper.ObjectCreationHelper.*;
@@ -23,10 +25,9 @@ public class ToolbarTest extends FullTestBoostrap {
                 tool("tool", new ItemStack(Material.DIAMOND, itemAmount))
         ));
 
-        Map<Integer, ItemStack> itemStacks = toolbar.getItemStacks();
-        assertEquals(1, itemStacks.size());
+        assertEquals(1, toolbar.size());
 
-        ItemStack itemStack = itemStacks.get(0);
+        ItemStack itemStack = toolbar.getItemAt(ItemSlot.atIndex(1));
         assertNotNull(itemStack);
 
         assertEquals(Material.DIAMOND, itemStack.getType());
@@ -39,13 +40,13 @@ public class ToolbarTest extends FullTestBoostrap {
         int itemAmount = 1;
 
         Toolbar toolbar = new Toolbar("bar", singleTool(
-                tool("tool", new ItemStack(Material.DIAMOND, itemAmount), itemIndex)
+                tool("tool", new ItemStack(Material.DIAMOND, itemAmount), ItemSlot.atIndex(itemIndex))
         ));
 
-        Map<Integer, ItemStack> itemStacks = toolbar.getItemStacks();
+        Map<ItemSlot, ItemStack> itemStacks = toolbar.getItemsWithSlots();
         assertEquals(1, itemStacks.size());
 
-        ItemStack itemStack = itemStacks.get(itemIndex);
+        ItemStack itemStack = itemStacks.get(ItemSlot.atIndex(itemIndex));
         assertNotNull(itemStack);
 
         assertEquals(Material.DIAMOND, itemStack.getType());

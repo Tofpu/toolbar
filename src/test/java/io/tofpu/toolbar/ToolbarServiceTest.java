@@ -3,14 +3,13 @@ package io.tofpu.toolbar;
 import io.tofpu.toolbar.bootstrap.FullTestBoostrap;
 import io.tofpu.toolbar.toolbar.Toolbar;
 import io.tofpu.toolbar.toolbar.ToolbarService;
+import io.tofpu.toolbar.toolbar.tool.ItemSlot;
 import org.bukkit.Material;
-import org.bukkit.inventory.ItemStack;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.util.Map;
-
-import static io.tofpu.toolbar.helper.ObjectCreationHelper.*;
+import static io.tofpu.toolbar.helper.ObjectCreationHelper.tool;
+import static io.tofpu.toolbar.helper.ObjectCreationHelper.tools;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
@@ -43,10 +42,9 @@ public class ToolbarServiceTest extends FullTestBoostrap {
         toolbar = toolbarService.findToolbarBy("bar");
         assertNotNull(toolbar);
 
-        Map<Integer, ItemStack> itemStacks = toolbar.getItemStacks();
-        assertEquals(2, itemStacks.size());
+        assertEquals(2, toolbar.size());
 
-        assertEquals(Material.DIAMOND, itemStacks.get(0).getType());
-        assertEquals(Material.GOLD_ORE, itemStacks.get(1).getType());
+        assertEquals(Material.DIAMOND, toolbar.getItemAt(ItemSlot.atIndex(0)).getType());
+        assertEquals(Material.GOLD_ORE, toolbar.getItemAt(ItemSlot.atIndex(1)).getType());
     }
 }

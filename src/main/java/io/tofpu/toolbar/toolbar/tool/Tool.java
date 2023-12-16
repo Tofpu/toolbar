@@ -9,27 +9,27 @@ import java.util.StringJoiner;
 public class Tool {
     private final String itemIdentifier;
     private final ItemStack item;
-    private final int index;
+    private final ItemSlot slot;
 
     private final ToolAction action;
 
-    public Tool(final String id, final ItemStack item, final int index, final ToolAction action) {
+    public Tool(final String id, final ItemStack item, final ItemSlot slot, final ToolAction action) {
         this.itemIdentifier = id;
         this.item = item;
-        this.index = index;
+        this.slot = slot;
         this.action = action;
     }
 
     public Tool(final String id, final ItemStack item, final ToolAction action) {
-        this(id, item, -1, action);
+        this(id, item, ItemSlot.undefined(), action);
     }
 
-    public Tool(final String id, final ItemStack item, final int index) {
-        this(id, item, index, ToolAction.empty());
+    public Tool(final String id, final ItemStack item, final ItemSlot slot) {
+        this(id, item, slot, ToolAction.empty());
     }
 
     public Tool(final String id, final ItemStack item) {
-        this(id, item, -1);
+        this(id, item, ItemSlot.undefined());
     }
 
     public String getItemIdentifier() {
@@ -40,8 +40,8 @@ public class Tool {
         return item;
     }
 
-    public int getInventoryIndex() {
-        return this.index;
+    public ItemSlot getSlot() {
+        return this.slot;
     }
 
     public ToolAction getAction() {
@@ -61,7 +61,7 @@ public class Tool {
         return new StringJoiner(", ", Tool.class.getSimpleName() + "[", "]")
                 .add("itemIdentifier='" + itemIdentifier + "'")
                 .add("item=" + item)
-                .add("index=" + index)
+                .add("index=" + slot)
                 .add("action=" + action)
                 .toString();
     }

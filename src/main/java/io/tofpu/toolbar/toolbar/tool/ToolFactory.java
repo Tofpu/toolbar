@@ -9,12 +9,12 @@ public final class ToolFactory {
     public static Tool create(final String itemIdentifier,
                               final ItemStack item,
                               final ToolAction itemAction) {
-        return create(itemIdentifier, item, -1, itemAction);
+        return create(itemIdentifier, item, ItemSlot.undefined(), itemAction);
     }
 
     public static Tool create(final String itemIdentifier,
                               final ItemStack item,
-                              final int index, final
+                              final ItemSlot index, final
                               ToolAction itemAction) {
         return new Tool(itemIdentifier, item, index, itemAction);
     }

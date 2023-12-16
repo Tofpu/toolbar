@@ -1,10 +1,12 @@
 package io.tofpu.toolbar.toolbar;
 
 import io.tofpu.toolbar.ToolNBTUtil;
+import io.tofpu.toolbar.toolbar.tool.ItemSlot;
 import io.tofpu.toolbar.toolbar.tool.Tool;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class Toolbar {
     private final String identifier;
@@ -33,24 +35,43 @@ public class Toolbar {
         return toolMap.get(identifier);
     }
 
-    public Map<Integer, ItemStack> getItemStacks() {
-        Map<Integer, ItemStack> itemStackMap = new HashMap<>();
+    public Tool getToolAt(ItemSlot slot) {
+        Objects.requireNonNull(slot, "ItemSlot must be provided.");
+        return this.toolMap.values().stream().filter(tool -> tool.getSlot().equals(slot)).findFirst().orElse(null);
+    }
+
+    public ItemStack getItemAt(ItemSlot slot) {
+        Objects.requireNonNull(slot, "ItemSlot must be provided.");
+        Tool tool = getToolAt(slot);
+        if (tool != null) {
+            return tool.getItem();
+        }
+        return null;
+    }
+
+    public Map<ItemSlot, ItemStack> getItemsWithSlots() {
+        Map<ItemSlot, ItemStack> itemStackMap = new HashMap<>();
         for (Map.Entry<String, Tool> entry : this.toolMap.entrySet()) {
             Tool tool = entry.getValue();
-            int inventoryIndex = tool.getInventoryIndex();
-            if (inventoryIndex < 0) {
-                inventoryIndex = itemStackMap.size();
-            }
-            itemStackMap.put(inventoryIndex, tool.getItem());
+            ItemSlot itemSlot = tool.getSlot();
+            itemStackMap.put(itemSlot, tool.getItem());
         }
         return itemStackMap;
     }
 
-    public String getIdentifier() {
-        return identifier;
+    public Collection<ItemStack> getItems() {
+        return this.toolMap.values().stream().map(Tool::getItem).collect(Collectors.toList());
     }
 
     public Collection<Tool> getTools() {
         return Collections.unmodifiableCollection(this.toolMap.values());
+    }
+
+    public int size() {
+        return this.toolMap.size();
+    }
+
+    public String getIdentifier() {
+        return identifier;
     }
 }

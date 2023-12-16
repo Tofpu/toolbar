@@ -64,12 +64,12 @@ public final class PlayerEquipService {
 
     private void equipToolbar(Player player, Toolbar toolbar) {
         PlayerInventory inventory = player.getInventory();
-        toolbar.getItemStacks().forEach((integer, itemStack) -> {
-            if (integer == -1) {
+        toolbar.getItemsWithSlots().forEach((slot, itemStack) -> {
+            if (slot.isUndefined()) {
                 inventory.addItem(itemStack);
                 return;
             }
-            inventory.setItem(integer, itemStack);
+            inventory.setItem(slot.asIndex(), itemStack);
         });
     }
 

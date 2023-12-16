@@ -1,4 +1,4 @@
-package io.tofpu.toolbar.toolbar.item;
+package io.tofpu.toolbar.toolbar.tool;
 
 import io.tofpu.toolbar.toolbar.Toolbar;
 import org.bukkit.event.player.PlayerInteractEvent;

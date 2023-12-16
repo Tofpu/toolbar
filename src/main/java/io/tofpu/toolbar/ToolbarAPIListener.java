@@ -1,7 +1,7 @@
 package io.tofpu.toolbar;
 
 import io.tofpu.toolbar.toolbar.Toolbar;
-import io.tofpu.toolbar.toolbar.item.Tool;
+import io.tofpu.toolbar.toolbar.tool.Tool;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;

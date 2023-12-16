@@ -5,7 +5,7 @@ import io.tofpu.toolbar.bootstrap.FullTestBoostrap;
 import io.tofpu.toolbar.player.PlayerEquipService;
 import io.tofpu.toolbar.toolbar.Toolbar;
 import io.tofpu.toolbar.toolbar.ToolbarService;
-import io.tofpu.toolbar.toolbar.item.Tool;
+import io.tofpu.toolbar.toolbar.tool.Tool;
 import org.bukkit.Material;
 import org.bukkit.block.BlockFace;
 import org.bukkit.event.block.Action;

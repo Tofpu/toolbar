@@ -1,7 +1,7 @@
 package io.tofpu.toolbar.toolbar;
 
 import io.tofpu.toolbar.ToolNBTUtil;
-import io.tofpu.toolbar.toolbar.item.Tool;
+import io.tofpu.toolbar.toolbar.tool.Tool;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.*;

@@ -1,7 +1,7 @@
 package io.tofpu.toolbar.helper;
 
-import io.tofpu.toolbar.toolbar.item.Tool;
-import io.tofpu.toolbar.toolbar.item.ToolAction;
+import io.tofpu.toolbar.toolbar.tool.Tool;
+import io.tofpu.toolbar.toolbar.tool.ToolAction;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 

@@ -1,7 +1,5 @@
 package io.tofpu.toolbar;
 
-import io.tofpu.toolbar.toolbar.GenericToolbar;
-import io.tofpu.toolbar.toolbar.tool.Tool;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -10,9 +8,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerDropItemEvent;
-import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
-import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
@@ -52,7 +48,7 @@ class ToolbarAPIListener implements Listener {
         target.getInventory()
                 .remove(itemStack);
 
-        removeAllItems(target.getPlayer());
+        removeAllItems(target);
     }
 
     private void removeAllItems(final Player target) {
@@ -80,30 +76,6 @@ class ToolbarAPIListener implements Listener {
             }
             topInventory.remove(item);
         }
-    }
-
-    @EventHandler
-    private void onPlayerInteract(final PlayerInteractEvent event) {
-        if (ToolbarAPI.getInstance()
-                .isInModernVersion() && event.getHand() != EquipmentSlot.HAND) {
-            return;
-        }
-
-        final ItemStack clickedItem = event.getItem();
-
-        final GenericToolbar<?> toolbar = api.getToolbarService().findToolbarBy(ToolNBTUtil.getToolbarIdBy(clickedItem));
-        if (toolbar == null) return;
-
-        final Tool tool = toolbar.findItemBy(ToolNBTUtil.getToolIdBy(clickedItem));
-        if (tool == null) return;
-
-        final Player player = event.getPlayer();
-        if (!api.getPlayerEquipService().isEquippingToolbar(player.getUniqueId())) {
-            removeAllTrace(player, clickedItem);
-            return;
-        }
-        event.setCancelled(true);
-        tool.trigger(toolbar, event);
     }
 
     @EventHandler(priority = EventPriority.LOWEST)

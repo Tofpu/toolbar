@@ -1,5 +1,6 @@
 package io.tofpu.toolbar;
 
+import io.github.tofpu.GeneratedListener;
 import io.tofpu.toolbar.listener.ListenerRegistry;
 import io.tofpu.toolbar.listener.ListenerService;
 import io.tofpu.toolbar.nbt.BukkitNBTHandler;
@@ -7,9 +8,12 @@ import io.tofpu.toolbar.nbt.ItemNBTHandler;
 import io.tofpu.toolbar.player.PlayerEquipService;
 import io.tofpu.toolbar.toolbar.ToolbarService;
 import org.bukkit.event.Event;
+import org.bukkit.event.Listener;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import java.lang.reflect.InvocationTargetException;
+import java.util.Set;
 import java.util.function.Function;
 
 public class ToolbarAPI {
@@ -20,6 +24,8 @@ public class ToolbarAPI {
     private final PlayerEquipService playerEquipService;
     private final JavaPlugin plugin;
     private final boolean modernVersion;
+
+    private final ListenerService listenerService;
 
     public ToolbarAPI(final JavaPlugin plugin) {
         this(plugin, BukkitNBTHandler::new);
@@ -39,6 +45,7 @@ public class ToolbarAPI {
 
         final double version = Double.parseDouble(formattedVersion);
         this.modernVersion = version >= 1.9;
+        this.listenerService = new ListenerService();
     }
 
     public static ToolbarAPI getInstance() {
@@ -49,6 +56,9 @@ public class ToolbarAPI {
         ToolbarAPI.toolbarAPI = this;
 
         new ToolbarAPIListener(plugin, this);
+        ListenerRegistry.loadAndCopy().forEach(listenerService::registerListener);
+
+        registerDynamicListener();
     }
 
     public void disable() {
@@ -75,5 +85,9 @@ public class ToolbarAPI {
 
     public ToolbarService getToolbarService() {
         return toolbarService;
+    }
+
+    public ListenerService listenerService() {
+        return listenerService;
     }
 }

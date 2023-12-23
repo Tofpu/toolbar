@@ -10,6 +10,7 @@
     <packaging>pom</packaging>
 
     <modules>
+        <module>annotation-processing</module>
         <module>api</module>
     </modules>
 </project>

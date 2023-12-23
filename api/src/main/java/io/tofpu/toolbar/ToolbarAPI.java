@@ -11,6 +11,7 @@ import org.bukkit.event.Event;
 import org.bukkit.event.Listener;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.reflections.Reflections;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.Set;
@@ -59,6 +60,21 @@ public class ToolbarAPI {
         ListenerRegistry.loadAndCopy().forEach(listenerService::registerListener);
 
         registerDynamicListener();
+    }
+
+    private void registerDynamicListener() {
+        String packageName = this.getClass().getPackage().getName();
+        Set<Class<?>> typesAnnotatedWith = new Reflections(packageName).
+                getTypesAnnotatedWith(GeneratedListener.class);
+
+        typesAnnotatedWith.forEach(clazz -> {
+            try {
+                plugin.getServer().getPluginManager().registerEvents((Listener) clazz.getDeclaredConstructor().newInstance(), plugin);
+            } catch (InstantiationException | IllegalAccessException | InvocationTargetException |
+                     NoSuchMethodException e) {
+                throw new RuntimeException("Failed to register this dynamically generated listener", e);
+            }
+        });
     }
 
     public void disable() {

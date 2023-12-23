@@ -6,8 +6,12 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
-import org.bukkit.event.*;
-import org.bukkit.event.player.*;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
+import org.bukkit.event.Listener;
+import org.bukkit.event.player.PlayerDropItemEvent;
+import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
@@ -48,7 +52,7 @@ class ToolbarAPIListener implements Listener {
         target.getInventory()
                 .remove(itemStack);
 
-        removeAllItems(target);
+        removeAllItems(target.getPlayer());
     }
 
     private void removeAllItems(final Player target) {
@@ -79,24 +83,13 @@ class ToolbarAPIListener implements Listener {
     }
 
     @EventHandler
-    private void on(final PlayerInteractEvent event) {
-        if (isNotMainHand(event)) return;
-        handle(event, event.getPlayer(), event.getItem());
-    }
+    private void onPlayerInteract(final PlayerInteractEvent event) {
+        if (ToolbarAPI.getInstance()
+                .isInModernVersion() && event.getHand() != EquipmentSlot.HAND) {
+            return;
+        }
 
-    @EventHandler
-    private void on(final PlayerInteractEntityEvent event) {
-        Player player = event.getPlayer();
-        handle(event, player, player.getActiveItem());
-    }
-
-    private static boolean isNotMainHand(PlayerInteractEvent event) {
-        return ToolbarAPI.getInstance()
-                .isInModernVersion() && event.getHand() != EquipmentSlot.HAND;
-    }
-
-    private void handle(Event event, Player clicker, ItemStack clickedItem) {
-        if (clickedItem == null) return;
+        final ItemStack clickedItem = event.getItem();
 
         final GenericToolbar<?> toolbar = api.getToolbarService().findToolbarBy(ToolNBTUtil.getToolbarIdBy(clickedItem));
         if (toolbar == null) return;
@@ -104,14 +97,12 @@ class ToolbarAPIListener implements Listener {
         final Tool tool = toolbar.findItemBy(ToolNBTUtil.getToolIdBy(clickedItem));
         if (tool == null) return;
 
-        if (!api.getPlayerEquipService().isEquippingToolbar(clicker.getUniqueId())) {
-            removeAllTrace(clicker, clickedItem);
+        final Player player = event.getPlayer();
+        if (!api.getPlayerEquipService().isEquippingToolbar(player.getUniqueId())) {
+            removeAllTrace(player, clickedItem);
             return;
         }
-
-        if (event instanceof Cancellable) {
-            ((Cancellable) event).setCancelled(true);
-        }
+        event.setCancelled(true);
         tool.trigger(toolbar, event);
     }
 

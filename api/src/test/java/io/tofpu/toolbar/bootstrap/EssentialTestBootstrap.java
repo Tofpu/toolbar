@@ -10,10 +10,22 @@ public class EssentialTestBootstrap {
     protected ServerMock server;
     protected JavaPlugin plugin;
 
+    public EssentialTestBootstrap(ServerMock server, JavaPlugin plugin) {
+        this.server = server;
+        this.plugin = plugin;
+    }
+
+    public EssentialTestBootstrap() {
+    }
+
     @BeforeEach
     public void setUp() {
-        server = MockBukkit.mock();
-        plugin = MockBukkit.createMockPlugin();
+        if (server == null) {
+            MockBukkit.mock();
+        }
+        if (plugin == null) {
+            plugin = MockBukkit.createMockPlugin();
+        }
     }
 
     @AfterEach

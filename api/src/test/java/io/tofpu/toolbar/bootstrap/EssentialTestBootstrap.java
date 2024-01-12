@@ -21,7 +21,7 @@ public class EssentialTestBootstrap {
     @BeforeEach
     public void setUp() {
         if (server == null) {
-            MockBukkit.mock();
+            server = MockBukkit.mock();
         }
         if (plugin == null) {
             plugin = MockBukkit.createMockPlugin();

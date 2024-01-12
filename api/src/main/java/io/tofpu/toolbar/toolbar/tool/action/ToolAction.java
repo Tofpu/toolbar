@@ -5,7 +5,7 @@ import org.bukkit.event.Event;
 
 @FunctionalInterface
 public interface ToolAction<E extends Event> extends ToolActionHandle<E> {
-    static ToolAction<?> empty() {
+    static ToolAction<?> nothing() {
         return (toolbar, event) -> {};
     }
 

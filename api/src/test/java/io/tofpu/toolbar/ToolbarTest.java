@@ -50,8 +50,9 @@ public class ToolbarTest extends FullTestBoostrap {
         int itemIndex = 5;
         int itemAmount = 1;
 
-        SimpleToolbar toolbar = new SimpleToolbar("bar", singleTool(
-                tool("tool", new ItemStack(Material.DIAMOND, itemAmount), ItemSlot.atIndex(itemIndex))
+        SimpleToolbar toolbar = new SimpleToolbar("bar", withToolSlot(
+                ItemSlot.atIndex(itemIndex),
+                tool("tool", new ItemStack(Material.DIAMOND, itemAmount))
         ));
 
         Map<ItemSlot, ItemStack> itemStacks = toolbar.getItemsWithSlots();

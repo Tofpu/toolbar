@@ -1,44 +1,45 @@
 package io.tofpu.toolbar.helper;
 
 import io.tofpu.toolbar.toolbar.ItemSlot;
+import io.tofpu.toolbar.toolbar.ToolWithSlot;
 import io.tofpu.toolbar.toolbar.tool.Tool;
 import io.tofpu.toolbar.toolbar.tool.action.ToolAction;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.Arrays;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.LinkedList;
-import java.util.stream.Collectors;
 
 public class ObjectCreationHelper {
-    public static Tool tool(String id, ItemStack itemStack, ItemSlot slot) {
-        return new Tool(id, itemStack, slot);
+    public static ToolWithSlot<Tool> withToolSlot(ItemSlot slot, Tool tool) {
+        return new ToolWithSlot<>(tool, slot);
     }
 
-    public static Tool tool(String id, ItemStack itemStack, ItemSlot itemSlot, ToolAction action) {
-        return new Tool(id, itemStack, itemSlot, action);
+    public static ToolWithSlot<Tool> withUndefinedSlot(Tool tool) {
+        return withToolSlot(ItemSlot.undefined(), tool);
     }
 
     public static Tool tool(String id, ItemStack itemStack) {
-        return tool(id, itemStack, ItemSlot.undefined());
+        return new Tool(id, itemStack);
+    }
+
+    public static Tool tool(String id, ItemStack itemStack, ToolAction action) {
+        return new Tool(id, itemStack, action);
     }
 
     public static Tool tool(String id, Material material, ToolAction action) {
-        return tool(id, item(material), ItemSlot.undefined(), action);
+        return new Tool(id, item(material), action);
     }
 
     public static Tool tool(String id, Material material) {
-        return tool(id, item(material), ItemSlot.undefined());
+        return tool(id, item(material));
     }
 
-    public static Collection<Tool> tools(Tool... tools) {
-        return Arrays.stream(tools).collect(Collectors.toCollection(LinkedList::new));
+    public static Tool[] tools(Tool... tools) {
+        return Arrays.stream(tools).toArray(Tool[]::new);
     }
 
-    public static Collection<Tool> singleTool(Tool tool) {
-        return Collections.singletonList(tool);
+    public static Tool[] singleTool(Tool tool) {
+        return new Tool[]{tool};
     }
 
     public static ItemStack item(Material material) {

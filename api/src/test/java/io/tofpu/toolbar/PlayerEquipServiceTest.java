@@ -15,8 +15,8 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import static io.tofpu.toolbar.helper.ObjectCreationHelper.singleTool;
-import static io.tofpu.toolbar.helper.ObjectCreationHelper.tool;
+
+import static io.tofpu.toolbar.helper.ObjectCreationHelper.*;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class PlayerEquipServiceTest extends FullTestBoostrap {
@@ -35,9 +35,8 @@ public class PlayerEquipServiceTest extends FullTestBoostrap {
     void equip_test() {
         PlayerMock player = server.addPlayer();
 
-        SimpleToolbar toolbar = new SimpleToolbar("bar", singleTool(
-                tool("one", Material.DIAMOND_SWORD)
-        ));
+        Tool one = tool("one", Material.DIAMOND_SWORD);
+        SimpleToolbar toolbar = new SimpleToolbar("bar", withUndefinedSlot(one));
         toolbarService.register(toolbar);
 
         assertTrue(playerEquipService.equip(player, toolbar));
@@ -49,7 +48,7 @@ public class PlayerEquipServiceTest extends FullTestBoostrap {
         PlayerMock player = server.addPlayer();
 
         Tool tool = tool("one", Material.DIAMOND_SWORD, ToolActionUtil.listenFor(PlayerInteractEvent.class, (owner, event) -> event.getPlayer().sendMessage("hi")));
-        SimpleToolbar toolbar = new SimpleToolbar("bar", singleTool(tool));
+        SimpleToolbar toolbar = new SimpleToolbar("bar", withUndefinedSlot(tool));
         toolbarService.register(toolbar);
 
         assertTrue(playerEquipService.equip(player, toolbar));

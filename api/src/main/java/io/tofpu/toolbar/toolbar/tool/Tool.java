@@ -11,27 +11,17 @@ import java.util.StringJoiner;
 public class Tool {
     private final String itemIdentifier;
     private final ItemStack item;
-    private final ItemSlot slot;
 
     private final ToolAction<? extends Event> action;
 
-    public Tool(final String id, final ItemStack item, final ItemSlot slot, final ToolAction<? extends Event> action) {
+    public Tool(final String id, final ItemStack item, final ToolAction<? extends Event> action) {
         this.itemIdentifier = id;
         this.item = item;
-        this.slot = slot;
         this.action = action;
     }
 
-    public Tool(final String id, final ItemStack item, final ToolAction<?> action) {
-        this(id, item, ItemSlot.undefined(), action);
-    }
-
-    public Tool(final String id, final ItemStack item, final ItemSlot slot) {
-        this(id, item, slot, ToolAction.empty());
-    }
-
     public Tool(final String id, final ItemStack item) {
-        this(id, item, ItemSlot.undefined());
+        this(id, item, ToolAction.nothing());
     }
 
     public String getItemIdentifier() {
@@ -40,10 +30,6 @@ public class Tool {
 
     public ItemStack getItem() {
         return item;
-    }
-
-    public ItemSlot getSlot() {
-        return this.slot;
     }
 
     public ToolAction<?> getAction() {
@@ -66,7 +52,6 @@ public class Tool {
         return new StringJoiner(", ", Tool.class.getSimpleName() + "[", "]")
                 .add("itemIdentifier='" + itemIdentifier + "'")
                 .add("item=" + item)
-                .add("index=" + slot)
                 .add("action=" + action)
                 .toString();
     }

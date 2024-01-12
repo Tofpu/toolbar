@@ -5,7 +5,6 @@ import io.tofpu.toolbar.toolbar.ItemSlot;
 import io.tofpu.toolbar.toolbar.SimpleToolbar;
 import io.tofpu.toolbar.toolbar.ToolbarService;
 import io.tofpu.toolbar.toolbar.tool.Tool;
-import io.tofpu.toolbar.toolbar.tool.action.ToolAction;
 import io.tofpu.toolbar.toolbar.tool.action.ToolActionUtil;
 import org.bukkit.Material;
 import org.bukkit.event.player.PlayerInteractEvent;
@@ -73,7 +72,7 @@ public class ToolbarServiceTest extends FullTestBoostrap {
 
     class GunTool extends Tool {
         public GunTool(String id) {
-            super(id, new ItemStack(Material.STICK), ItemSlot.atIndex(0), ToolActionUtil.listenFor(PlayerInteractEvent.class, (owner, event) -> event.getPlayer().sendMessage("You clicked a gun! Nice!")));
+            super(id, new ItemStack(Material.STICK), ToolActionUtil.listenFor(PlayerInteractEvent.class, (owner, event) -> event.getPlayer().sendMessage("You clicked a gun! Nice!")));
         }
     }
 }

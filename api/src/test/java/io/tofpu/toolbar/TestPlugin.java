@@ -8,27 +8,36 @@ import io.tofpu.toolbar.toolbar.tool.Tool;
 import io.tofpu.toolbar.toolbar.tool.action.ToolAction;
 import io.tofpu.toolbar.toolbar.tool.action.ToolActionTypes;
 import io.tofpu.toolbar.toolbar.tool.action.ToolActionUtil;
-import net.kyori.adventure.text.Component;
+import org.apache.commons.lang.time.DateUtils;
+import org.bukkit.BanList;
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.plugin.java.JavaPluginLoader;
+import org.jetbrains.annotations.NotNull;
 
+import java.io.File;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Date;
 import java.util.List;
 import java.util.function.Function;
 
 public class TestPlugin extends JavaPlugin {
     private final ToolbarAPI toolbarAPI;
 
-    public TestPlugin() {
+    public TestPlugin(@NotNull JavaPluginLoader loader, @NotNull PluginDescriptionFile description, @NotNull File dataFolder, @NotNull File file) {
+        super(loader, description, dataFolder, file);
         toolbarAPI = new ToolbarAPI(this);
     }
 
-    public TestPlugin(Function<ItemStack, ItemNBTHandler> itemNBTHandlerFunction) {
+    public TestPlugin(@NotNull JavaPluginLoader loader, @NotNull PluginDescriptionFile description, @NotNull File dataFolder, @NotNull File file, Function<ItemStack, ItemNBTHandler> itemNBTHandlerFunction) {
+        super(loader, description, dataFolder, file);
         this.toolbarAPI = new ToolbarAPI(this, itemNBTHandlerFunction);
     }
 
@@ -93,7 +102,7 @@ public class TestPlugin extends JavaPlugin {
             super("kick", new ItemStack(Material.STICK), slot, ToolActionUtil.listenFor(PlayerInteractEntityEvent.class, (owner, event) -> {
                 Entity rightClicked = event.getRightClicked();
                 if (rightClicked instanceof Player) {
-                    ((Player) rightClicked).kick(Component.text("Kicked by staff!"));
+                    ((Player) rightClicked).kickPlayer("Kicked by staff");
                 }
             }));
         }
@@ -107,7 +116,10 @@ public class TestPlugin extends JavaPlugin {
             super("ban", new ItemStack(Material.TORCH), slot, (ToolActionTypes.PlayerEntityInteract) (owner, event) -> {
                 Entity rightClicked = event.getRightClicked();
                 if (rightClicked instanceof Player) {
-                    ((Player) rightClicked).banPlayer("Banned by staff!");
+                    // this is obviously not ideal as we weren't using their id but this is just an illustration
+                    Bukkit.getBanList(BanList.Type.NAME).addBan(rightClicked.getName(), "Banned by staff", DateUtils.addDays(new Date(), 31), "plugin");
+                    // we kick the player manually as the #addBan doesn't do it for us
+                    ((Player) rightClicked).kickPlayer("Banned by staff!");
                 }
             });
         }

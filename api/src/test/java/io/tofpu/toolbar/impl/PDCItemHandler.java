@@ -3,6 +3,7 @@ package io.tofpu.toolbar.impl;
 import io.tofpu.toolbar.nbt.ItemNBTHandler;
 import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
 import org.jetbrains.annotations.NotNull;
@@ -16,10 +17,10 @@ public class PDCItemHandler implements ItemNBTHandler {
 
     @Override
     public void setString(String key, String value) {
-        itemStack.editMeta(itemMeta -> {
-            NamespacedKey namespacedKey = namespacedKey(key);
-            itemMeta.getPersistentDataContainer().set(namespacedKey, PersistentDataType.STRING, value);
-        });
+        ItemMeta itemMeta = itemStack.getItemMeta();
+        NamespacedKey namespacedKey = namespacedKey(key);
+        itemMeta.getPersistentDataContainer().set(namespacedKey, PersistentDataType.STRING, value);
+        itemStack.setItemMeta(itemMeta);
     }
 
     @NotNull

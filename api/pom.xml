@@ -34,14 +34,8 @@
                             <goal>shade</goal>
                         </goals>
                         <configuration>
-                            <createDependencyReducedPom>false</createDependencyReducedPom>
+                            <createDependencyReducedPom>true</createDependencyReducedPom>
                             <relocations>
-                                <relocation>
-                                    <pattern>io.tofpu.dynamicclass</pattern>
-                                    <shadedPattern>io.tofpu.toolbar.lib
-                                        .dynamicclass
-                                    </shadedPattern>
-                                </relocation>
                                 <relocation>
                                     <pattern>de.tr7zw.changeme.nbtapi</pattern>
                                     <shadedPattern>io.tofpu.toolbar.lib
@@ -61,11 +55,6 @@
             <groupId>de.tr7zw</groupId>
             <artifactId>item-nbt-api</artifactId>
             <version>2.11.3</version>
-        </dependency>
-        <dependency>
-            <groupId>org.javassist</groupId>
-            <artifactId>javassist</artifactId>
-            <version>3.21.0-GA</version>
         </dependency>
         <dependency>
             <groupId>io.github.tofpu</groupId>

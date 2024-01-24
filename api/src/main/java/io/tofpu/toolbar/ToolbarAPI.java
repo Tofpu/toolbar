@@ -5,6 +5,7 @@ import io.tofpu.toolbar.nbt.ItemNBTHandler;
 import io.tofpu.toolbar.player.PlayerEquipService;
 import io.tofpu.toolbar.toolbar.GenericToolbar;
 import io.tofpu.toolbar.toolbar.ToolbarRegistrationService;
+import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -38,6 +39,22 @@ public class ToolbarAPI {
         // nothing to disable
         handler.disable();
         ToolbarAPI.toolbarAPI = null;
+    }
+
+    public void registerToolbar(GenericToolbar<?> toolbar) {
+        toolbarRegistrationService().register(toolbar);
+    }
+
+    public <T extends GenericToolbar<?>> T findToolbarBy(final String identifier) {
+        return toolbarRegistrationService().findToolbarBy(identifier);
+    }
+
+    public boolean equip(final String toolbarIdentifier, final Player player) {
+        return getPlayerEquipService().equip(player, findToolbarBy(toolbarIdentifier));
+    }
+
+    public boolean unequip(Player player) {
+        return getPlayerEquipService().unequip(player);
     }
 
     public <T extends Event> void notListeningWarn(Class<T> clazz) {

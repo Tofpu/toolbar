@@ -14,7 +14,6 @@ A Minecraft library that facilitates the creation of bundled items for player's 
     }
 
     private void registerToolbars() {
-        ToolbarService toolbarService = toolbarAPI.getToolbarService();
         // a list of staff tools, consisting of a kick and ban based tools
         List<StaffTool> staffTools = Arrays.asList(
             new StaffKickTool(),
@@ -23,16 +22,14 @@ A Minecraft library that facilitates the creation of bundled items for player's 
         // constructs a staff-based toolbar consisting of the staff tools above
         StaffToolbar staffToolbar = new StaffToolbar("moderator-staff-bar", staffTools.toArray(new StaffTool[0]));
         // registers the staff-based toolbar to the registry for later use
-        toolbarService.register(staffToolbar);
+        toolbarAPI.registerToolbar(staffToolbar);
         System.out.println("registerToolbars() called");
     }
 
     public void equipModTools(Player player) {
-        ToolbarService toolbarService = toolbarAPI.getToolbarService();
-        // retrieves the moderator staff toolbar we registered earlier
-        StaffToolbar toolbar = toolbarService.findToolbarBy("moderator-staff-bar");
-        // equips the toolbar's items to the player
-        toolbarAPI.getPlayerEquipService().equip(player, toolbar);
+        // equips a toolbar that goes with the 
+        // identifier "moderator-staff-bar" to the given player
+        toolbarAPI.equip("moderator-staff-bar", player);
     }
 
     @Override

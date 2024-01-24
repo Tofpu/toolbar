@@ -4,6 +4,7 @@ import io.tofpu.toolbar.toolbar.GenericToolbar;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.PlayerInventory;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
 
@@ -36,15 +37,20 @@ public final class PlayerEquipService {
         return true;
     }
 
-    public boolean unequip(Player player) {
-        Objects.requireNonNull(player, "Player must be provided.");
+    public boolean unequip(@NotNull Player player) {
+        return unequip(player.getUniqueId());
+    }
 
-        UUID playerId = player.getUniqueId();
+    public boolean unequip(@NotNull UUID playerId) {
         if (!isEquippingToolbar(playerId)) {
             return false;
         }
+
         this.playerMap.remove(playerId);
-        player.getInventory().clear();
+        Player player = Bukkit.getPlayer(playerId);
+        if (player != null) {
+            player.getInventory().clear();
+        }
         return true;
     }
 

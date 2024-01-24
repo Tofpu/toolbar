@@ -10,6 +10,7 @@ import org.bukkit.event.Event;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import java.util.UUID;
 import java.util.function.Function;
 
 public class ToolbarAPI {
@@ -53,8 +54,12 @@ public class ToolbarAPI {
         return getPlayerEquipService().equip(player, findToolbarBy(toolbarIdentifier));
     }
 
-    public boolean unequip(Player player) {
+    public boolean unequip(final Player player) {
         return getPlayerEquipService().unequip(player);
+    }
+
+    public boolean unequip(final UUID playerId) {
+        return getPlayerEquipService().unequip(playerId);
     }
 
     public <T extends Event> void notListeningWarn(Class<T> clazz) {

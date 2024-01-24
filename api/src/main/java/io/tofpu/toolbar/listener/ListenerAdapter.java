@@ -26,7 +26,7 @@ public abstract class ListenerAdapter<E extends Event> {
     protected void trigger(Event event, ItemStack clickedItem) {
         if (clickedItem == null) return;
 
-        final GenericToolbar<?> toolbar = api.getToolbarService().findToolbarBy(ToolNBTUtil.getToolbarIdBy(clickedItem));
+        final GenericToolbar<?> toolbar = api.toolbarRegistrationService().findToolbarBy(ToolNBTUtil.getToolbarIdBy(clickedItem));
         if (toolbar == null) return;
 
         final Tool tool = toolbar.findItemBy(ToolNBTUtil.getToolIdBy(clickedItem));

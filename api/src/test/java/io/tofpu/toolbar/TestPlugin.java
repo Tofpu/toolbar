@@ -2,7 +2,7 @@ package io.tofpu.toolbar;
 
 import io.tofpu.toolbar.nbt.ItemNBTHandler;
 import io.tofpu.toolbar.toolbar.GenericToolbar;
-import io.tofpu.toolbar.toolbar.ToolbarService;
+import io.tofpu.toolbar.toolbar.ToolbarRegistrationService;
 import io.tofpu.toolbar.toolbar.tool.Tool;
 import io.tofpu.toolbar.toolbar.tool.action.ToolAction;
 import io.tofpu.toolbar.toolbar.tool.action.ToolActionTypes;
@@ -46,7 +46,7 @@ public class TestPlugin extends JavaPlugin {
     }
 
     private void registerToolbars() {
-        ToolbarService toolbarService = toolbarAPI.getToolbarService();
+        ToolbarRegistrationService toolbarRegistrationService = toolbarAPI.toolbarRegistrationService();
         // a list of staff tools, consisting of a kick and ban based tools
         List<StaffTool> staffTools = Arrays.asList(
                 new StaffKickTool(),
@@ -55,14 +55,14 @@ public class TestPlugin extends JavaPlugin {
         // constructs a staff-based toolbar consisting of the staff tools above
         StaffToolbar staffToolbar = new StaffToolbar("moderator-staff-bar", staffTools.toArray(new StaffTool[0]));
         // registers the staff-based toolbar to the registry for later use
-        toolbarService.register(staffToolbar);
+        toolbarRegistrationService.register(staffToolbar);
         System.out.println("registerToolbars() called");
     }
 
     public void equipModTools(Player player) {
-        ToolbarService toolbarService = toolbarAPI.getToolbarService();
+        ToolbarRegistrationService toolbarRegistrationService = toolbarAPI.toolbarRegistrationService();
         // retrieves the moderator staff toolbar we registered earlier
-        StaffToolbar toolbar = toolbarService.findToolbarBy("moderator-staff-bar");
+        StaffToolbar toolbar = toolbarRegistrationService.findToolbarBy("moderator-staff-bar");
         // equips the toolbar's items to the player
         toolbarAPI.getPlayerEquipService().equip(player, toolbar);
     }

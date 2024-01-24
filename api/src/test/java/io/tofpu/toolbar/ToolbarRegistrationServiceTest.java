@@ -3,7 +3,7 @@ package io.tofpu.toolbar;
 import io.tofpu.toolbar.bootstrap.FullTestBoostrap;
 import io.tofpu.toolbar.toolbar.ItemSlot;
 import io.tofpu.toolbar.toolbar.SimpleToolbar;
-import io.tofpu.toolbar.toolbar.ToolbarService;
+import io.tofpu.toolbar.toolbar.ToolbarRegistrationService;
 import io.tofpu.toolbar.toolbar.tool.Tool;
 import io.tofpu.toolbar.toolbar.tool.action.ToolActionUtil;
 import org.bukkit.Material;
@@ -17,20 +17,20 @@ import static io.tofpu.toolbar.helper.ObjectCreationHelper.tools;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
-public class ToolbarServiceTest extends FullTestBoostrap {
-    private ToolbarService toolbarService;
+public class ToolbarRegistrationServiceTest extends FullTestBoostrap {
+    private ToolbarRegistrationService toolbarRegistrationService;
 
     @Override
     @BeforeEach
     public void setUp() {
         super.setUp();
-        toolbarService = api.getToolbarService();
+        toolbarRegistrationService = api.toolbarRegistrationService();
     }
 
     @Test
     void register_toolbar_directly_with_no_items_test() {
-        toolbarService.register(new SimpleToolbar("bar"));
-        SimpleToolbar toolbar = toolbarService.findToolbarBy("bar");
+        toolbarRegistrationService.register(new SimpleToolbar("bar"));
+        SimpleToolbar toolbar = toolbarRegistrationService.findToolbarBy("bar");
         assertNotNull(toolbar);
         assertEquals("bar", toolbar.getIdentifier());
     }
@@ -41,9 +41,9 @@ public class ToolbarServiceTest extends FullTestBoostrap {
                 tool("first_tool", Material.DIAMOND),
                 tool("second_tool", Material.GOLD_ORE)
         ));
-        toolbarService.register(toolbar);
+        toolbarRegistrationService.register(toolbar);
 
-        toolbar = toolbarService.findToolbarBy("bar");
+        toolbar = toolbarRegistrationService.findToolbarBy("bar");
         assertNotNull(toolbar);
 
         assertEquals(2, toolbar.size());
@@ -54,8 +54,8 @@ public class ToolbarServiceTest extends FullTestBoostrap {
 
     @Test
     void register_custom_objects() {
-        toolbarService.register(new GunsBar("guns_bar"));
-        SimpleToolbar toolbar = toolbarService.findToolbarBy("guns_bar");
+        toolbarRegistrationService.register(new GunsBar("guns_bar"));
+        SimpleToolbar toolbar = toolbarRegistrationService.findToolbarBy("guns_bar");
         assertNotNull(toolbar);
 
         toolbar.addItem(new GunTool("AR"));

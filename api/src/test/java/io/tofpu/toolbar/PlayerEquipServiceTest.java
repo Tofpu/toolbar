@@ -4,9 +4,8 @@ import be.seeseemelk.mockbukkit.entity.PlayerMock;
 import io.tofpu.toolbar.bootstrap.FullTestBoostrap;
 import io.tofpu.toolbar.player.PlayerEquipService;
 import io.tofpu.toolbar.toolbar.SimpleToolbar;
-import io.tofpu.toolbar.toolbar.ToolbarService;
+import io.tofpu.toolbar.toolbar.ToolbarRegistrationService;
 import io.tofpu.toolbar.toolbar.tool.Tool;
-import io.tofpu.toolbar.toolbar.tool.action.ToolAction;
 import io.tofpu.toolbar.toolbar.tool.action.ToolActionUtil;
 import org.bukkit.Material;
 import org.bukkit.block.BlockFace;
@@ -20,14 +19,14 @@ import static io.tofpu.toolbar.helper.ObjectCreationHelper.*;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class PlayerEquipServiceTest extends FullTestBoostrap {
-    private ToolbarService toolbarService;
+    private ToolbarRegistrationService toolbarRegistrationService;
     private PlayerEquipService playerEquipService;
 
     @Override
     @BeforeEach
     public void setUp() {
         super.setUp();
-        toolbarService = api.getToolbarService();
+        toolbarRegistrationService = api.toolbarRegistrationService();
         playerEquipService = api.getPlayerEquipService();
     }
 
@@ -37,7 +36,7 @@ public class PlayerEquipServiceTest extends FullTestBoostrap {
 
         Tool one = tool("one", Material.DIAMOND_SWORD);
         SimpleToolbar toolbar = new SimpleToolbar("bar", withUndefinedSlot(one));
-        toolbarService.register(toolbar);
+        toolbarRegistrationService.register(toolbar);
 
         assertTrue(playerEquipService.equip(player, toolbar));
         assertTrue(playerEquipService.isEquippingToolbar(player.getUniqueId()));
@@ -49,7 +48,7 @@ public class PlayerEquipServiceTest extends FullTestBoostrap {
 
         Tool tool = tool("one", Material.DIAMOND_SWORD, ToolActionUtil.listenFor(PlayerInteractEvent.class, (owner, event) -> event.getPlayer().sendMessage("hi")));
         SimpleToolbar toolbar = new SimpleToolbar("bar", withUndefinedSlot(tool));
-        toolbarService.register(toolbar);
+        toolbarRegistrationService.register(toolbar);
 
         assertTrue(playerEquipService.equip(player, toolbar));
         assertTrue(playerEquipService.isEquippingToolbar(player.getUniqueId()));

@@ -6,7 +6,7 @@ import io.tofpu.toolbar.bootstrap.FullTestBoostrap;
 import io.tofpu.toolbar.impl.PDCItemHandler;
 import io.tofpu.toolbar.nbt.ItemNBTHandler;
 import io.tofpu.toolbar.toolbar.GenericToolbar;
-import io.tofpu.toolbar.toolbar.ToolbarService;
+import io.tofpu.toolbar.toolbar.ToolbarRegistrationService;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.inventory.ItemStack;
 import org.junit.jupiter.api.Test;
@@ -30,8 +30,8 @@ public class TestPluginTest extends FullTestBoostrap {
         PlayerMock staffMember = server.addPlayer("staff-member");
         PlayerMock regularPlayer = server.addPlayer("regular-player");
 
-        ToolbarService toolbarService = api.getToolbarService();
-        GenericToolbar<?> toolbarBy = toolbarService.findToolbarBy("moderator-staff-bar");
+        ToolbarRegistrationService toolbarRegistrationService = api.toolbarRegistrationService();
+        GenericToolbar<?> toolbarBy = toolbarRegistrationService.findToolbarBy("moderator-staff-bar");
         staffMember.setItemInHand(toolbarBy.findItemBy("ban").getItem());
 
         PlayerInteractEntityEvent playerInteractEntityEvent = new PlayerInteractEntityEvent(staffMember, regularPlayer);
@@ -45,8 +45,8 @@ public class TestPluginTest extends FullTestBoostrap {
         PlayerMock staffMember = server.addPlayer("staff-member");
         PlayerMock regularPlayer = server.addPlayer("regular-player");
 
-        ToolbarService toolbarService = api.getToolbarService();
-        GenericToolbar<?> toolbarBy = toolbarService.findToolbarBy("moderator-staff-bar");
+        ToolbarRegistrationService toolbarRegistrationService = api.toolbarRegistrationService();
+        GenericToolbar<?> toolbarBy = toolbarRegistrationService.findToolbarBy("moderator-staff-bar");
         staffMember.setItemInHand(toolbarBy.findItemBy("ban").getItem());
 
         PlayerInteractEntityEvent playerInteractEntityEvent = new PlayerInteractEntityEvent(staffMember, regularPlayer);

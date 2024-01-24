@@ -1,9 +1,9 @@
 package io.tofpu.toolbar.toolbar;
 
-public final class ToolbarService {
+public final class ToolbarRegistrationService {
     private final ToolbarRegistry toolbarRegistry;
 
-    public ToolbarService() {
+    public ToolbarRegistrationService() {
         this.toolbarRegistry = new ToolbarRegistry();
     }
 

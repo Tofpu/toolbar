@@ -13,7 +13,8 @@ public class PlayerInteractEntityEventAdapter extends ListenerAdapter<PlayerInte
 
     @Override
     protected void handle(PlayerInteractEntityEvent event) {
-        if (isNotMainHand(event.getHand())) {
+        if (ToolbarAPI.getInstance()
+                .isInModernVersion() && isNotMainHand(event.getHand())) {
             return;
         }
         //noinspection deprecation

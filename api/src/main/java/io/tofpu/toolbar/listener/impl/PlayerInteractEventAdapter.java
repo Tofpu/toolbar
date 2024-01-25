@@ -13,7 +13,8 @@ public class PlayerInteractEventAdapter extends ListenerAdapter<PlayerInteractEv
 
     @Override
     protected void handle(PlayerInteractEvent event) {
-        if (isNotMainHand(event.getHand())) {
+        if (ToolbarAPI.getInstance()
+                .isInModernVersion() && isNotMainHand(event.getHand())) {
             return;
         }
         trigger(event, event.getItem());

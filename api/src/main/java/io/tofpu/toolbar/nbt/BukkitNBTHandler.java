@@ -7,7 +7,7 @@ public class BukkitNBTHandler implements ItemNBTHandler {
     private final NBTItem nbtItem;
 
     public BukkitNBTHandler(ItemStack itemStack) {
-        this.nbtItem = new NBTItem(itemStack);
+        this.nbtItem = new NBTItem(itemStack, true);
     }
 
     @Override

@@ -9,7 +9,7 @@
         <version>2.0-dev</version>
     </parent>
 
-    <groupId>io.github.tofpu</groupId>
+    <groupId>io.tofpu.toolbar</groupId>
     <artifactId>toolbar-api</artifactId>
 
     <build>

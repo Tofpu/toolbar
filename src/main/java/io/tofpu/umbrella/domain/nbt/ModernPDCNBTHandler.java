@@ -1,6 +1,5 @@
 package io.tofpu.umbrella.domain.nbt;
 
-import com.sun.istack.internal.NotNull;
 import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -20,7 +19,6 @@ public class ModernPDCNBTHandler implements ItemNBTHandler {
         itemStack.setItemMeta(itemMeta);
     }
 
-    @NotNull
     private NamespacedKey namespacedKey(String key) {
         return new NamespacedKey("toolbar", key);
     }
@@ -30,7 +28,6 @@ public class ModernPDCNBTHandler implements ItemNBTHandler {
         return getItemMeta().getPersistentDataContainer().get(namespacedKey(key), PersistentDataType.STRING);
     }
 
-    @NotNull
     private ItemMeta getItemMeta() {
         ItemMeta itemMeta = itemStack.getItemMeta();
         if (itemMeta == null) {

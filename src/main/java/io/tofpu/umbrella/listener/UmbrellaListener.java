@@ -1,9 +1,9 @@
 package io.tofpu.umbrella.listener;
 
-import de.tr7zw.changeme.nbtapi.NBTItem;
 import io.tofpu.umbrella.UmbrellaAPI;
 import io.tofpu.umbrella.domain.Umbrella;
 import io.tofpu.umbrella.domain.item.UmbrellaItem;
+import io.tofpu.umbrella.domain.nbt.ItemNBTHandler;
 import io.tofpu.umbrella.domain.service.UmbrellaService;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -126,13 +126,13 @@ public final class UmbrellaListener implements Listener {
             return null;
         }
 
-        final NBTItem nbtItem = new NBTItem(itemStack);
-        final String itemIdentifier = nbtItem.getString("item_identifier");
+        ItemNBTHandler nbtHandler = UmbrellaAPI.getInstance().handleItemNBT(itemStack);
+        final String itemIdentifier = nbtHandler.getString("item_identifier");
         if (itemIdentifier == null) {
             return null;
         }
 
-        final Umbrella umbrella = getUmbrella(nbtItem, itemStack);
+        final Umbrella umbrella = getUmbrella(nbtHandler, itemStack);
         if (umbrella == null) {
             return null;
         }
@@ -140,12 +140,12 @@ public final class UmbrellaListener implements Listener {
         return umbrella.findItemBy(itemIdentifier);
     }
 
-    private Umbrella getUmbrella(final NBTItem nbtItem, final ItemStack itemStack) {
+    private Umbrella getUmbrella(final ItemNBTHandler nbtHandler, final ItemStack itemStack) {
         if (itemStack == null) {
             return null;
         }
 
-        final String umbrellaIdentifier = nbtItem.getString("umbrella_identifier");
+        final String umbrellaIdentifier = nbtHandler.getString("umbrella_identifier");
         if (umbrellaIdentifier == null) {
             return null;
         }

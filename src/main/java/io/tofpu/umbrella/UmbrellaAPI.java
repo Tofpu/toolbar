@@ -1,6 +1,5 @@
 package io.tofpu.umbrella;
 
-import com.sun.istack.internal.NotNull;
 import io.tofpu.umbrella.domain.nbt.BukkitNBTHandler;
 import io.tofpu.umbrella.domain.nbt.ItemNBTHandler;
 import io.tofpu.umbrella.domain.nbt.ModernPDCNBTHandler;
@@ -23,7 +22,6 @@ public class UmbrellaAPI {
         return UmbrellaAPI.umbrellaAPI;
     }
 
-    @NotNull
     static ItemNBTHandler determineSuitableNBTHandler(JavaPlugin plugin, ItemStack itemStack) {
         final String version = plugin.getServer()
                 .getBukkitVersion()

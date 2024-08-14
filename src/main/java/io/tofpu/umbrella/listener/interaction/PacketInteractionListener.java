@@ -31,6 +31,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import static io.tofpu.umbrella.listener.util.UmbrellaListenerUtil.getUmbrellaItem;
+import static io.tofpu.umbrella.listener.util.UmbrellaListenerUtil.invalidItemDetected;
 
 public class PacketInteractionListener implements PacketListener {
     private final Plugin plugin;
@@ -124,7 +125,14 @@ public class PacketInteractionListener implements PacketListener {
         org.bukkit.block.BlockFace bukkitBlockFace = bukkitBlockFace(blockFace);
         System.out.println("Found umbrella item, triggering it now: " + umbrellaItem);
         System.out.println(String.format("action=%s, itemInHand=%s, blockAt=%s", action, itemInHand, blockAt));
-        Bukkit.getScheduler().runTask(plugin, () -> umbrellaItem.trigger(new PlayerInteractEvent(player, action, itemInHand, blockAt, bukkitBlockFace, equipmentSlot)));
+        Bukkit.getScheduler().runTask(plugin, () -> {
+            if (!umbrellaService.getUmbrellaRegistry()
+                    .isInUmbrella(player.getUniqueId())) {
+                invalidItemDetected(player, itemInHand, umbrellaService);
+                return;
+            }
+            umbrellaItem.trigger(new PlayerInteractEvent(player, action, itemInHand, blockAt, bukkitBlockFace, equipmentSlot));
+        });
     }
 
     private static Vector3i placementPosition(WrapperPlayClientPlayerBlockPlacement blockPlacement, BlockFace blockFace) {

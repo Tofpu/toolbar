@@ -4,7 +4,10 @@ import io.tofpu.umbrella.domain.nbt.BukkitNBTHandler;
 import io.tofpu.umbrella.domain.nbt.ItemNBTHandler;
 import io.tofpu.umbrella.domain.nbt.ModernPDCNBTHandler;
 import io.tofpu.umbrella.domain.service.UmbrellaService;
-import io.tofpu.umbrella.listener.UmbrellaListener;
+import io.tofpu.umbrella.listener.ConnectionListener;
+import io.tofpu.umbrella.listener.ProtectionListener;
+import io.tofpu.umbrella.listener.interaction.BukkitInteractionListener;
+import io.tofpu.umbrella.listener.interaction.PacketInteractionListener;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -17,6 +20,8 @@ public class UmbrellaAPI {
     private final UmbrellaService umbrellaService;
     private final JavaPlugin plugin;
     private final boolean modernVersion;
+
+    private final InteractionListenerType interactionListenerType;
 
     public static UmbrellaAPI getInstance() {
         return UmbrellaAPI.umbrellaAPI;
@@ -46,7 +51,12 @@ public class UmbrellaAPI {
     }
 
     public UmbrellaAPI(final JavaPlugin plugin) {
+        this(plugin, InteractionListenerType.BUKKIT);
+    }
+
+    public UmbrellaAPI(final JavaPlugin plugin, final InteractionListenerType interactionListenerType) {
         this.itemNBTHandlerFunction = itemStack -> determineSuitableNBTHandler(plugin, itemStack);
+        this.interactionListenerType = interactionListenerType;
         this.umbrellaService = new UmbrellaService();
         this.plugin = plugin;
 
@@ -63,8 +73,32 @@ public class UmbrellaAPI {
     public void enable() {
         UmbrellaAPI.umbrellaAPI = this;
 
-        new UmbrellaListener(plugin, umbrellaService);
+        new ConnectionListener().registerSelf(plugin);
+        new ProtectionListener(umbrellaService).registerSelf(plugin);
+
+//        InteractionListenerType selectedInteractionListenerType = determineSuitableInteractionListenerType();
+        if (interactionListenerType == InteractionListenerType.BUKKIT) {
+            plugin.getLogger().info("Registering bukkit-based block interaction listener");
+            new BukkitInteractionListener(plugin, umbrellaService);
+        } else if (interactionListenerType == InteractionListenerType.PACKET_EVENTS) {
+            if (!plugin.getServer().getPluginManager().isPluginEnabled("PacketEvents")) {
+                throw new IllegalStateException("PacketEvents dependency is required to load packet-based block interaction listener!");
+            }
+            plugin.getLogger().info("Registering packet-based block interaction listener");
+            new PacketInteractionListener(plugin, umbrellaService).registerSelf();
+        }
     }
+
+//    private InteractionListenerType determineSuitableInteractionListenerType() {
+//        InteractionListenerType selectedInteractionListenerType = this.interactionListenerType;
+//        if (selectedInteractionListenerType == InteractionListenerType.PACKET_EVENTS) {
+//            if (!plugin.getServer().getPluginManager().isPluginEnabled("PacketEvents")) {
+//                plugin.getLogger().info("No PacketEvents instance found, reverting back to bukkit-based block interaction listener");
+//                selectedInteractionListenerType = InteractionListenerType.BUKKIT;
+//            }
+//        }
+//        return selectedInteractionListenerType;
+//    }
 
     public void disable() {
         // nothing to disable
@@ -85,5 +119,9 @@ public class UmbrellaAPI {
 
     public UmbrellaService getUmbrellaService() {
         return umbrellaService;
+    }
+
+    public InteractionListenerType interactionListenerType() {
+        return interactionListenerType;
     }
 }

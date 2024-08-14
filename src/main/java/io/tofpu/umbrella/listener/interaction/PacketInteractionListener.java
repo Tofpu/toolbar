@@ -100,16 +100,12 @@ public class PacketInteractionListener implements PacketListener {
             return;
         }
 
-
-//        com.github.retrooper.packetevents.protocol.item.ItemStack protocolItem = SpigotConversionUtil.fromBukkitItemStack(itemInHand);
-//        boolean isHoldingABlock = protocolItem.getType().getPlacedType() != null;
         boolean isHoldingABlock = itemInHand.getType().isBlock();
 
         final UmbrellaItem umbrellaItem = getUmbrellaItem(itemInHand, umbrellaService);
         // if the umbrella item not were found, return
         if (umbrellaItem == null) {
             System.out.println("no umbrella item found, returning");
-//            if (isHoldingABlock) user.sendPacketSilently(new WrapperPlayServerAcknowledgeBlockChanges(blockPlacement.getSequence()));
             return;
         }
 

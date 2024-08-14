@@ -76,7 +76,6 @@ public class UmbrellaAPI {
         new ConnectionListener().registerSelf(plugin);
         new ProtectionListener(umbrellaService).registerSelf(plugin);
 
-//        InteractionListenerType selectedInteractionListenerType = determineSuitableInteractionListenerType();
         if (interactionListenerType == InteractionListenerType.BUKKIT) {
             plugin.getLogger().info("Registering bukkit-based block interaction listener");
             new BukkitInteractionListener(plugin, umbrellaService);
@@ -88,17 +87,6 @@ public class UmbrellaAPI {
             new PacketInteractionListener(plugin, umbrellaService).registerSelf();
         }
     }
-
-//    private InteractionListenerType determineSuitableInteractionListenerType() {
-//        InteractionListenerType selectedInteractionListenerType = this.interactionListenerType;
-//        if (selectedInteractionListenerType == InteractionListenerType.PACKET_EVENTS) {
-//            if (!plugin.getServer().getPluginManager().isPluginEnabled("PacketEvents")) {
-//                plugin.getLogger().info("No PacketEvents instance found, reverting back to bukkit-based block interaction listener");
-//                selectedInteractionListenerType = InteractionListenerType.BUKKIT;
-//            }
-//        }
-//        return selectedInteractionListenerType;
-//    }
 
     public void disable() {
         // nothing to disable

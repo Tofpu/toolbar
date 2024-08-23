@@ -65,13 +65,10 @@ public class PacketInteractionListener implements PacketListener {
         final UmbrellaItem umbrellaItem = getUmbrellaItem(itemInHand, umbrellaService);
         // if the umbrella item not were found, return
         if (umbrellaItem == null) {
-            System.out.println("no umbrella item found, returning");
             return;
         }
 
         Action action = Action.RIGHT_CLICK_AIR;
-        System.out.println("Found umbrella item, triggering it now: " + umbrellaItem);
-        System.out.println(String.format("action=%s, itemInHand=%s", action, itemInHand));
 
         event.setCancelled(true);
         org.bukkit.block.BlockFace blockFace = org.bukkit.block.BlockFace.DOWN;
@@ -90,14 +87,12 @@ public class PacketInteractionListener implements PacketListener {
 
         EquipmentSlot equipmentSlot = getEquipmentSlot(blockPlacement);
         if (equipmentSlot == null) {
-            System.out.println("no equipmentSlot, returning");
             return;
         }
 
         ItemStack itemInHand = getHoldingItem(player, equipmentSlot);
         //noinspection ConstantValue
         if (itemInHand == null || itemInHand.getType().isAir()) {
-            System.out.println("item in hand is empty, returning");
             return;
         }
 
@@ -106,12 +101,10 @@ public class PacketInteractionListener implements PacketListener {
         final UmbrellaItem umbrellaItem = getUmbrellaItem(itemInHand, umbrellaService);
         // if the umbrella item not were found, return
         if (umbrellaItem == null) {
-            System.out.println("no umbrella item found, returning");
             return;
         }
 
         if (isHoldingABlock) {
-            System.out.println("Player is holding a block, marking event as cancelled and enabling markForReEncode for block placement event");
             event.setCancelled(true);
             event.markForReEncode(true);
             user.sendPacketSilently(new WrapperPlayServerAcknowledgeBlockChanges(blockPlacement.getSequence()));
@@ -123,8 +116,6 @@ public class PacketInteractionListener implements PacketListener {
         Action action = getAction(blockAt);
 
         org.bukkit.block.BlockFace bukkitBlockFace = bukkitBlockFace(blockFace);
-        System.out.println("Found umbrella item, triggering it now: " + umbrellaItem);
-        System.out.println(String.format("action=%s, itemInHand=%s, blockAt=%s", action, itemInHand, blockAt));
         Bukkit.getScheduler().runTask(plugin, () -> {
             if (!umbrellaService.getUmbrellaRegistry()
                     .isInUmbrella(player.getUniqueId())) {

@@ -1,5 +1,6 @@
 package io.tofpu.umbrella.domain.nbt;
 
+import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -14,6 +15,9 @@ public class ModernPDCNBTHandler implements ItemNBTHandler {
 
     @Override
     public void setString(String key, String value) {
+        if (itemStack.getType() == Material.AIR) {
+            return;
+        }
         ItemMeta itemMeta = getItemMeta();
         itemMeta.getPersistentDataContainer().set(namespacedKey(key), PersistentDataType.STRING, value);
         itemStack.setItemMeta(itemMeta);
@@ -25,6 +29,9 @@ public class ModernPDCNBTHandler implements ItemNBTHandler {
 
     @Override
     public String getString(String key) {
+        if (itemStack.getType() == Material.AIR) {
+            return null;
+        }
         return getItemMeta().getPersistentDataContainer().get(namespacedKey(key), PersistentDataType.STRING);
     }
 

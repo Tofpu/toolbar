@@ -1,6 +1,7 @@
 package io.tofpu.toolbar;
 
 import io.github.tofpu.GeneratedListener;
+import io.github.tofpu.processor.ListenerProcessor;
 import io.tofpu.toolbar.listener.ListenerRegistry;
 import io.tofpu.toolbar.listener.ListenerService;
 import io.tofpu.toolbar.nbt.BukkitNBTHandler;
@@ -78,8 +79,7 @@ class ToolbarAPIHandler {
     }
 
     private void registerDynamicListener() {
-        String packageName = this.getClass().getPackage().getName();
-        Set<Class<?>> typesAnnotatedWith = new Reflections(packageName).
+        Set<Class<?>> typesAnnotatedWith = new Reflections(ListenerProcessor.PACKAGE_NAME).
                 getTypesAnnotatedWith(GeneratedListener.class);
 
         if (typesAnnotatedWith.isEmpty()) {

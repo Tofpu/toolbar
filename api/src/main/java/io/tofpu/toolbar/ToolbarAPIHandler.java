@@ -82,7 +82,14 @@ class ToolbarAPIHandler {
         Set<Class<?>> typesAnnotatedWith = new Reflections(packageName).
                 getTypesAnnotatedWith(GeneratedListener.class);
 
+        if (typesAnnotatedWith.isEmpty()) {
+            plugin.getLogger().warning("No dynamically generated listeners found. " +
+                    "Make sure you have the annotation processor configured correctly.");
+            return;
+        }
+
         typesAnnotatedWith.forEach(clazz -> {
+            plugin.getLogger().info("Registering dynamically generated listener: " + clazz.getName());
             try {
                 plugin.getServer().getPluginManager().registerEvents((Listener) clazz.getDeclaredConstructor().newInstance(), plugin);
             } catch (InstantiationException | IllegalAccessException | InvocationTargetException |

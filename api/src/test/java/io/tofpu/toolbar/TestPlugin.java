@@ -36,7 +36,7 @@ public class TestPlugin extends JavaPlugin {
 
     public TestPlugin(@NotNull JavaPluginLoader loader, @NotNull PluginDescriptionFile description, @NotNull File dataFolder, @NotNull File file, Function<ItemStack, ItemNBTHandler> itemNBTHandlerFunction) {
         super(loader, description, dataFolder, file);
-        this.toolbarAPI = new ToolbarAPI(this, itemNBTHandlerFunction);
+        this.toolbarAPI = new ToolbarAPI(this, itemNBTHandlerFunction, false);
     }
 
     @Override

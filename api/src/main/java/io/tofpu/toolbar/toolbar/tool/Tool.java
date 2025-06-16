@@ -1,6 +1,5 @@
 package io.tofpu.toolbar.toolbar.tool;
 
-import io.tofpu.toolbar.toolbar.ItemSlot;
 import io.tofpu.toolbar.toolbar.GenericToolbar;
 import io.tofpu.toolbar.toolbar.tool.action.ToolAction;
 import org.bukkit.event.Event;
@@ -36,14 +35,17 @@ public class Tool {
         return action;
     }
 
-    public void trigger(final GenericToolbar<?> owner, final Event event) {
+    public boolean trigger(final GenericToolbar<?> owner, final Event event) {
         // if the item action is null, don't do anything
         if (action == null) {
-            return;
+            return false;
         }
 
         if (action.isCompatible(event)) {
             action.call(owner, event);
+            return true;
+        } else {
+            return false;
         }
     }
 

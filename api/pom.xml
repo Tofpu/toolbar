@@ -38,9 +38,7 @@
                             <relocations>
                                 <relocation>
                                     <pattern>de.tr7zw.changeme.nbtapi</pattern>
-                                    <shadedPattern>io.tofpu.toolbar.lib
-                                        .nbtapi
-                                    </shadedPattern>
+                                    <shadedPattern>io.tofpu.toolbar.lib.nbtapi</shadedPattern>
                                 </relocation>
                             </relocations>
                         </configuration>

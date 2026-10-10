@@ -16,7 +16,12 @@ public class ListenerService {
 
     @SuppressWarnings("unused")
     public <E extends Event> void callEventIfPresent(E event) {
+        System.out.println("ListenerService#callEventIfPresent was called");
         ListenerAdapter<E> listenerAdapter = (ListenerAdapter<E>) this.listenerAdapterMap.get(event.getClass());
-        if (listenerAdapter != null) listenerAdapter.handle(event);
+        if (listenerAdapter != null) {
+            System.out.println("Found listener adapter for event: " + event.getClass().getSimpleName());
+            System.out.println("Calling handle method on listener adapter: " + listenerAdapter.getClass().getSimpleName());
+            listenerAdapter.handle(event);
+        }
     }
 }

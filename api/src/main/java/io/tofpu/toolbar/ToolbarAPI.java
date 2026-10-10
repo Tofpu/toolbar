@@ -1,6 +1,7 @@
 package io.tofpu.toolbar;
 
 import io.tofpu.toolbar.listener.ListenerService;
+import io.tofpu.toolbar.logger.Logger;
 import io.tofpu.toolbar.nbt.ItemNBTHandler;
 import io.tofpu.toolbar.player.PlayerEquipService;
 import io.tofpu.toolbar.toolbar.GenericToolbar;
@@ -17,13 +18,19 @@ public class ToolbarAPI {
     private static ToolbarAPI toolbarAPI;
 
     private final ToolbarAPIHandler handler;
+    private final Logger logger;
 
     public ToolbarAPI(final JavaPlugin plugin) {
-        this(plugin, itemStack -> ToolbarAPIHandler.determineSuitableNBTHandler(plugin, itemStack));
+        this(plugin, false);
     }
 
-    public ToolbarAPI(final JavaPlugin plugin, final Function<ItemStack, ItemNBTHandler> itemNBTHandlerFunction) {
+    public ToolbarAPI(final JavaPlugin plugin, boolean verbose) {
+        this(plugin, itemStack -> ToolbarAPIHandler.determineSuitableNBTHandler(plugin, itemStack), verbose);
+    }
+
+    public ToolbarAPI(final JavaPlugin plugin, final Function<ItemStack, ItemNBTHandler> itemNBTHandlerFunction, boolean verbose) {
         this.handler = new ToolbarAPIHandler(plugin, itemNBTHandlerFunction);
+        this.logger = new Logger(plugin.getLogger(), verbose);
     }
 
     public static ToolbarAPI getInstance() {
@@ -84,5 +91,9 @@ public class ToolbarAPI {
 
     public ListenerService listenerService() {
         return handler.listenerService();
+    }
+
+    public Logger logger() {
+        return logger;
     }
 }

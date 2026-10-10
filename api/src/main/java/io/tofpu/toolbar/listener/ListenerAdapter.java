@@ -24,18 +24,31 @@ public abstract class ListenerAdapter<E extends Event> {
     }
 
     protected void trigger(Event event, ItemStack clickedItem) {
-        if (clickedItem == null) return;
-
-        final GenericToolbar<?> toolbar = api.toolbarRegistrationService().findToolbarBy(ToolNBTUtil.getToolbarIdBy(clickedItem));
-        if (toolbar == null) return;
-
-        final Tool tool = toolbar.findItemBy(ToolNBTUtil.getToolIdBy(clickedItem));
-        if (tool == null) return;
-
-        if (event instanceof Cancellable) {
-            ((Cancellable) event).setCancelled(true);
+        if (clickedItem == null) {
+            return;
         }
-        tool.trigger(toolbar, event);
+
+        String toolbarId = ToolNBTUtil.getToolbarIdBy(clickedItem);
+        api.logger().debug("Toolbar ID: " + toolbarId);
+        final GenericToolbar<?> toolbar = api.toolbarRegistrationService().findToolbarBy(toolbarId);
+        if (toolbar == null) {
+            api.logger().debug("No toolbar found for toolbar ID: " + toolbarId);
+            return;
+        }
+
+        String itemId = ToolNBTUtil.getToolIdBy(clickedItem);
+        final Tool tool = toolbar.findItemBy(itemId);
+        if (tool == null) {
+            api.logger().debug("No tool found for item: " + clickedItem);
+            return;
+        }
+
+        api.logger().debug("Triggering tool action for tool item: " + clickedItem);
+        boolean triggered = tool.trigger(toolbar, event);
+        api.logger().debug("Tool action triggered successfully? " + triggered);
+        if (triggered && event instanceof Cancellable) {
+            ((Cancellable) event).setCancelled(false);
+        }
     }
 
     public abstract Class<E> type();

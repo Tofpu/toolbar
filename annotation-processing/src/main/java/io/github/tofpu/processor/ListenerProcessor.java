@@ -4,10 +4,15 @@ import com.google.auto.service.AutoService;
 import io.github.tofpu.ListenerWrapper;
 import org.jetbrains.annotations.NotNull;
 
-import javax.annotation.processing.*;
+import javax.annotation.processing.AbstractProcessor;
+import javax.annotation.processing.Processor;
+import javax.annotation.processing.RoundEnvironment;
+import javax.annotation.processing.SupportedAnnotationTypes;
+import javax.annotation.processing.SupportedSourceVersion;
 import javax.lang.model.SourceVersion;
 import javax.lang.model.element.Element;
 import javax.lang.model.element.TypeElement;
+import javax.lang.model.type.DeclaredType;
 import javax.lang.model.type.MirroredTypesException;
 import javax.lang.model.type.TypeMirror;
 import javax.tools.Diagnostic;
@@ -20,6 +25,9 @@ import java.util.Set;
 @SupportedSourceVersion(SourceVersion.RELEASE_8)
 @AutoService(Processor.class)
 public class ListenerProcessor extends AbstractProcessor {
+
+    public static final String PACKAGE_NAME = "io.tofpu.toolbar.";
+
     @Override
     public boolean process(Set<? extends TypeElement> annotations, RoundEnvironment roundEnv) {
         try {
@@ -45,7 +53,7 @@ public class ListenerProcessor extends AbstractProcessor {
             String className = obtainClassName(eventType);
 
             JavaFileObject fileObject = processingEnv.getFiler()
-                    .createSourceFile(className);
+                    .createSourceFile(PACKAGE_NAME + className);
             try (PrintWriter out = new PrintWriter(fileObject.openWriter())) {
                 out.println("package io.tofpu.toolbar;");
                 out.println();
@@ -71,10 +79,12 @@ public class ListenerProcessor extends AbstractProcessor {
         }
     }
 
-    private static String obtainClassName(TypeMirror eventType) {
-        String[] split = eventType.toString().split("\\.");
-        String className = String.format("%sListener", split[split.length-1]);
-        return className;
+    private static String obtainClassName(TypeMirror type) {
+        if (type instanceof DeclaredType) {
+            Element typeElement = ((DeclaredType) type).asElement();
+            return typeElement.getSimpleName() + "Listener";
+        }
+        throw new IllegalArgumentException("Expected a class type");
     }
 
     @NotNull

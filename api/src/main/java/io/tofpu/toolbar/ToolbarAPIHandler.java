@@ -1,6 +1,7 @@
 package io.tofpu.toolbar;
 
 import io.github.tofpu.GeneratedListener;
+import io.github.tofpu.processor.ListenerProcessor;
 import io.tofpu.toolbar.listener.ListenerRegistry;
 import io.tofpu.toolbar.listener.ListenerService;
 import io.tofpu.toolbar.nbt.BukkitNBTHandler;
@@ -78,11 +79,17 @@ class ToolbarAPIHandler {
     }
 
     private void registerDynamicListener() {
-        String packageName = this.getClass().getPackage().getName();
-        Set<Class<?>> typesAnnotatedWith = new Reflections(packageName).
+        Set<Class<?>> typesAnnotatedWith = new Reflections(ListenerProcessor.PACKAGE_NAME).
                 getTypesAnnotatedWith(GeneratedListener.class);
 
+        if (typesAnnotatedWith.isEmpty()) {
+            plugin.getLogger().warning("No dynamically generated listeners found. " +
+                    "Make sure you have the annotation processor configured correctly.");
+            return;
+        }
+
         typesAnnotatedWith.forEach(clazz -> {
+            plugin.getLogger().info("Registering dynamically generated listener: " + clazz.getName());
             try {
                 plugin.getServer().getPluginManager().registerEvents((Listener) clazz.getDeclaredConstructor().newInstance(), plugin);
             } catch (InstantiationException | IllegalAccessException | InvocationTargetException |

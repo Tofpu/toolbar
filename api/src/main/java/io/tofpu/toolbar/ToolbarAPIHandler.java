@@ -37,9 +37,10 @@ class ToolbarAPIHandler {
         final String[] versionArgs =
                 version.split("\\.");
 
+        final int major = Integer.parseInt(versionArgs[0]);
         final int minor = Integer.parseInt(versionArgs[1]);
         int patch = 0;
-        if (versionArgs.length > 2) {
+        if (major == 1 && versionArgs.length > 2) {
             patch = Integer.parseInt(versionArgs[2]);
         }
 
@@ -47,7 +48,7 @@ class ToolbarAPIHandler {
         // providing developers with a native way to write custom data to objects. This means that
         // we no longer have to consistently update our third-party NBT dependency to support the
         // latest versions of Minecraft
-        if (minor == 14 && patch > 1 || minor > 14) {
+        if (major > 1 || (minor == 14 && patch > 1) || minor > 14) {
             return new ModernPDCNBTHandler(itemStack);
         }
         return new BukkitNBTHandler(itemStack);

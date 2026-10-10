@@ -1,11 +1,14 @@
 package io.tofpu.toolbar.listener;
 
 import org.bukkit.event.Event;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.HashMap;
 import java.util.Map;
 
 public class ListenerService {
+    private static final Logger log = LoggerFactory.getLogger(ListenerService.class);
     private final Map<Class<? extends Event>, ListenerAdapter<?>> listenerAdapterMap = new HashMap<>();
 
     public ListenerService() {}
@@ -16,11 +19,11 @@ public class ListenerService {
 
     @SuppressWarnings("unused")
     public <E extends Event> void callEventIfPresent(E event) {
-        System.out.println("ListenerService#callEventIfPresent was called");
+        log.debug("ListenerService#callEventIfPresent was called");
         ListenerAdapter<E> listenerAdapter = (ListenerAdapter<E>) this.listenerAdapterMap.get(event.getClass());
         if (listenerAdapter != null) {
-            System.out.println("Found listener adapter for event: " + event.getClass().getSimpleName());
-            System.out.println("Calling handle method on listener adapter: " + listenerAdapter.getClass().getSimpleName());
+            log.debug("Found listener adapter for event: {}", event.getClass().getSimpleName());
+            log.debug("Calling handle method on listener adapter: {}", listenerAdapter.getClass().getSimpleName());
             listenerAdapter.handle(event);
         }
     }

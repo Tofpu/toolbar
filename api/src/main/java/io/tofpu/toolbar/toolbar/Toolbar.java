@@ -9,7 +9,6 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-// todo rename to RegisteredToolbar/PreparedToolbar or something?
 public interface Toolbar {
     String id();
 

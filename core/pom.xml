@@ -28,6 +28,10 @@
                             <version>3.0.0-SNAPSHOT</version>
                         </path>
                     </annotationProcessorPaths>
+                    <!-- Required for JDK 23+ -->
+                    <annotationProcessors>
+                        <annotationProcessor>io.github.tofpu.processor.ListenerProcessor</annotationProcessor>
+                    </annotationProcessors>
                     <compilerArgs>
                         <arg>-Xlint:all</arg>
                     </compilerArgs>

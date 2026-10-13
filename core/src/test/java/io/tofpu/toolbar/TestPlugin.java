@@ -40,7 +40,7 @@ public class TestPlugin extends JavaPlugin {
 
     @Override
     public void onEnable() {
-        toolbarAPI.enable();
+        toolbarAPI.load();
         registerToolbars();
     }
 

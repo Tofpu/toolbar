@@ -33,10 +33,12 @@ public class ToolbarAPIImpl implements ToolbarAPI {
         this.logger = new Logger(plugin.getLogger(), verbose);
     }
 
-    public void enable() {
+    @Override
+    public void load() {
         handler.enable(this);
     }
 
+    @Override
     public void disable() {
         // nothing to disable
         handler.disable();

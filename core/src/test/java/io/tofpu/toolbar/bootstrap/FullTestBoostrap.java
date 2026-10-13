@@ -23,7 +23,7 @@ public class FullTestBoostrap extends EssentialTestBootstrap {
         super.setUp();
         if (!ToolbarAPI.isInstanceAvailable()) {
             api = new ToolbarAPIImpl(plugin, PDCItemHandler::new, false);
-            api.enable();
+            api.load();
         } else {
             api = (ToolbarAPIImpl) ToolbarAPI.getInstance();
         }

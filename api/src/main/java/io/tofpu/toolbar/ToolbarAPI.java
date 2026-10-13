@@ -35,7 +35,7 @@ public interface ToolbarAPI {
         }
     }
 
-    void enable();
+    void load();
     void disable();
 
     EquipService equipService();

@@ -1,6 +1,6 @@
 package io.tofpu.toolbar.toolbar.tool;
 
-import io.tofpu.toolbar.toolbar.GenericToolbar;
+import io.tofpu.toolbar.toolbar.Toolbar;
 import io.tofpu.toolbar.toolbar.tool.action.ToolAction;
 import org.bukkit.event.Event;
 import org.bukkit.inventory.ItemStack;
@@ -23,19 +23,19 @@ public class Tool {
         this(id, item, ToolAction.nothing());
     }
 
-    public String getItemIdentifier() {
+    public String id() {
         return itemIdentifier;
     }
 
-    public ItemStack getItem() {
+    public ItemStack item() {
         return item;
     }
 
-    public ToolAction<?> getAction() {
+    public ToolAction<?> action() {
         return action;
     }
 
-    public boolean trigger(final GenericToolbar<?> owner, final Event event) {
+    public boolean trigger(final Toolbar owner, final Event event) {
         // if the item action is null, don't do anything
         if (action == null) {
             return false;

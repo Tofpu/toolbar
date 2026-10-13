@@ -35,6 +35,9 @@ public interface ToolbarAPI {
         }
     }
 
+    void enable();
+    void disable();
+
     EquipService equipService();
     ToolbarService toolbarService();
     ListenerService listenerService();

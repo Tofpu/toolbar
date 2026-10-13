@@ -14,24 +14,28 @@ public interface Toolbar {
     String id();
 
     Optional<ToolWithSlot> toolWithSlot(String identifier);
+
+    Optional<ToolWithSlot> toolWithSlotAt(ItemSlot slot);
+
+    Collection<ToolWithSlot> toolsWithSlots();
+
     default Optional<Tool> tool(String identifier) {
         return toolWithSlot(identifier)
                 .map(ToolWithSlot::tool);
     }
+
     default Optional<ItemStack> item(String id) {
         return tool(id)
                 .map(Tool::item);
     }
 
-    Optional<ToolWithSlot> toolWithSlotAt(ItemSlot slot);
     default Optional<Tool> toolAt(ItemSlot slot) {
         return toolWithSlotAt(slot).map(ToolWithSlot::tool);
     }
+
     default Optional<ItemStack> itemAt(ItemSlot slot) {
         return toolAt(slot).map(Tool::item);
     }
-
-    Collection<ToolWithSlot> toolsWithSlots();
 
     default Collection<Tool> tools() {
         return toolsWithSlots().stream()

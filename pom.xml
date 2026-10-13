@@ -17,6 +17,7 @@
     <modules>
         <module>annotation-processing</module>
         <module>api</module>
+        <module>core</module>
     </modules>
 
     <build>

@@ -34,6 +34,7 @@
                     </annotationProcessors>
                     <compilerArgs>
                         <arg>-Xlint:all</arg>
+                        <arg>-AlistenerPackage=com.tofpu.toolbar.core.generated</arg>
                     </compilerArgs>
                 </configuration>
 

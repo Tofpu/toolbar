@@ -23,6 +23,7 @@ import javax.tools.Diagnostic;
 import javax.tools.JavaFileObject;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.Map;
 import java.util.Set;
 
 @SupportedAnnotationTypes("com.tofpu.toolbar.api.listener.ListenerWrapper")
@@ -36,8 +37,11 @@ public class ListenerProcessor extends AbstractProcessor {
             for (TypeElement annotation : annotations) {
                 Set<? extends Element> annotatedElements = roundEnv.getElementsAnnotatedWith(annotation);
 
+                Map<String, String> options = processingEnv.getOptions();
+                String targetPackage = options.getOrDefault("listenerPackage", ToolbarConstants.PACKAGE_NAME);
+
                 for (Element element : annotatedElements) {
-                    writeClass(element);
+                    writeClass(element, targetPackage);
 
                     TypeMirror listenerType = getListenerType(element);
                     String simpleName = obtainSimpleName(listenerType);
@@ -56,7 +60,7 @@ public class ListenerProcessor extends AbstractProcessor {
         return true;
     }
 
-    private void writeClass(Element element) {
+    private void writeClass(Element element, String targetPackage) {
         try {
             TypeMirror eventType = getListenerType(element);
             String className = obtainClassName(eventType);
@@ -64,7 +68,7 @@ public class ListenerProcessor extends AbstractProcessor {
 
             JavaFileObject fileObject = processingEnv.getFiler().createSourceFile(fullClassName);
             try (PrintWriter out = new PrintWriter(fileObject.openWriter())) {
-                out.println("package " + ToolbarConstants.PACKAGE_NAME + ";");
+                out.println("package " + targetPackage + ";");
                 out.println();
 
                 out.println("import " + ListenerService.class.getName() + ";");

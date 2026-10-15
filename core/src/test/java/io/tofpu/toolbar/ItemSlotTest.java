@@ -1,6 +1,6 @@
-package io.tofpu.toolbar;
+package com.tofpu.toolbar;
 
-import io.tofpu.toolbar.toolbar.ItemSlot;
+import com.tofpu.toolbar.api.toolbar.ItemSlot;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;

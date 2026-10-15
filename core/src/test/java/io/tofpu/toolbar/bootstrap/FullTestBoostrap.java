@@ -1,9 +1,9 @@
-package io.tofpu.toolbar.bootstrap;
+package com.tofpu.toolbar.bootstrap;
 
 import be.seeseemelk.mockbukkit.ServerMock;
-import io.github.tofpu.ToolbarAPIImpl;
-import io.tofpu.toolbar.ToolbarAPI;
-import io.tofpu.toolbar.impl.PDCItemHandler;
+import com.tofpu.toolbar.core.ToolbarAPIImpl;
+import com.tofpu.toolbar.api.ToolbarAPI;
+import com.tofpu.toolbar.impl.PDCItemHandler;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;

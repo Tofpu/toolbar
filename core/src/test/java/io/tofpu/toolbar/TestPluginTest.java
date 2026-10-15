@@ -1,19 +1,19 @@
-package io.tofpu.toolbar;
+package com.tofpu.toolbar;
 
 import be.seeseemelk.mockbukkit.MockBukkit;
 import be.seeseemelk.mockbukkit.entity.PlayerMock;
-import io.tofpu.toolbar.nbt.ItemNBTHandler;
-import io.tofpu.toolbar.bootstrap.FullTestBoostrap;
-import io.tofpu.toolbar.impl.PDCItemHandler;
-import io.tofpu.toolbar.toolbar.Toolbar;
-import io.tofpu.toolbar.toolbar.ToolbarService;
+import com.tofpu.toolbar.api.nbt.ItemNBTHandler;
+import com.tofpu.toolbar.bootstrap.FullTestBoostrap;
+import com.tofpu.toolbar.impl.PDCItemHandler;
+import com.tofpu.toolbar.api.toolbar.Toolbar;
+import com.tofpu.toolbar.api.toolbar.ToolbarService;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.inventory.ItemStack;
 import org.junit.jupiter.api.Test;
 
 import java.util.function.Function;
 
-import static io.tofpu.toolbar.helper.ToolHelper.getItemOrThrow;
+import static com.tofpu.toolbar.helper.ToolHelper.getItemOrThrow;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class TestPluginTest extends FullTestBoostrap {

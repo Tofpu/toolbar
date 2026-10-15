@@ -1,4 +1,4 @@
-package io.tofpu.toolbar.bootstrap;
+package com.tofpu.toolbar.bootstrap;
 
 import be.seeseemelk.mockbukkit.MockBukkit;
 import be.seeseemelk.mockbukkit.ServerMock;

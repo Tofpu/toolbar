@@ -1,13 +1,13 @@
-package io.tofpu.toolbar;
+package com.tofpu.toolbar;
 
-import io.github.tofpu.ToolbarAPIImpl;
-import io.tofpu.toolbar.nbt.ItemNBTHandler;
-import io.tofpu.toolbar.toolbar.Toolbar;
-import io.tofpu.toolbar.toolbar.ToolbarSchema;
-import io.tofpu.toolbar.toolbar.ToolbarService;
-import io.tofpu.toolbar.toolbar.tool.Tool;
-import io.tofpu.toolbar.toolbar.tool.action.ToolAction;
-import io.tofpu.toolbar.toolbar.tool.action.ToolActionTypes;
+import com.tofpu.toolbar.core.ToolbarAPIImpl;
+import com.tofpu.toolbar.api.nbt.ItemNBTHandler;
+import com.tofpu.toolbar.api.toolbar.Toolbar;
+import com.tofpu.toolbar.api.toolbar.ToolbarSchema;
+import com.tofpu.toolbar.api.toolbar.ToolbarService;
+import com.tofpu.toolbar.api.toolbar.tool.Tool;
+import com.tofpu.toolbar.api.toolbar.tool.action.ToolAction;
+import com.tofpu.toolbar.api.toolbar.tool.action.ToolActionTypes;
 import org.apache.commons.lang.time.DateUtils;
 import org.bukkit.BanList;
 import org.bukkit.Bukkit;

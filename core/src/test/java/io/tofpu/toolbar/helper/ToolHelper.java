@@ -1,8 +1,8 @@
-package io.tofpu.toolbar.helper;
+package com.tofpu.toolbar.helper;
 
-import io.tofpu.toolbar.toolbar.ItemSlot;
-import io.tofpu.toolbar.toolbar.Toolbar;
-import io.tofpu.toolbar.toolbar.tool.Tool;
+import com.tofpu.toolbar.api.toolbar.ItemSlot;
+import com.tofpu.toolbar.api.toolbar.Toolbar;
+import com.tofpu.toolbar.api.toolbar.tool.Tool;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 

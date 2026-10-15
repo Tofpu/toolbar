@@ -1,17 +1,17 @@
-//package io.tofpu.toolbar;
+//package com.tofpu.toolbar;
 //
-//import io.github.tofpu.toolbar.ToolbarImpl;
-//import io.tofpu.toolbar.bootstrap.FullTestBoostrap;
-//import io.tofpu.toolbar.toolbar.ItemSlot;
-//import io.tofpu.toolbar.toolbar.Toolbar;
+//import com.tofpu.toolbar.ToolbarImpl;
+//import com.tofpu.toolbar.bootstrap.FullTestBoostrap;
+//import com.tofpu.toolbar.api.toolbar.ItemSlot;
+//import com.tofpu.toolbar.api.toolbar.Toolbar;
 //import org.bukkit.Material;
 //import org.bukkit.inventory.ItemStack;
 //import org.junit.jupiter.api.Test;
 //
 //import java.util.Map;
 //
-//import static io.tofpu.toolbar.helper.ToolCreationHelper.*;
-//import static io.tofpu.toolbar.helper.ToolHelper.getItemOrThrow;
+//import static com.tofpu.toolbar.helper.ToolCreationHelper.*;
+//import static com.tofpu.toolbar.helper.ToolHelper.getItemOrThrow;
 //import static org.junit.jupiter.api.Assertions.assertEquals;
 //import static org.junit.jupiter.api.Assertions.assertNotNull;
 //

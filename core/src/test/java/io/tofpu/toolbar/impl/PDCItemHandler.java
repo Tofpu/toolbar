@@ -1,6 +1,6 @@
-package io.tofpu.toolbar.impl;
+package com.tofpu.toolbar.impl;
 
-import io.tofpu.toolbar.nbt.ItemNBTHandler;
+import com.tofpu.toolbar.api.nbt.ItemNBTHandler;
 import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;

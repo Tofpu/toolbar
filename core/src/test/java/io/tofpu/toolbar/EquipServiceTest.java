@@ -1,13 +1,13 @@
-package io.tofpu.toolbar;
+package com.tofpu.toolbar;
 
 import be.seeseemelk.mockbukkit.entity.PlayerMock;
-import io.tofpu.toolbar.bootstrap.FullTestBoostrap;
-import io.tofpu.toolbar.player.EquipService;
-import io.tofpu.toolbar.toolbar.Toolbar;
-import io.tofpu.toolbar.toolbar.ToolbarSchema;
-import io.tofpu.toolbar.toolbar.ToolbarService;
-import io.tofpu.toolbar.toolbar.tool.Tool;
-import io.tofpu.toolbar.toolbar.tool.action.ToolAction;
+import com.tofpu.toolbar.bootstrap.FullTestBoostrap;
+import com.tofpu.toolbar.api.player.EquipService;
+import com.tofpu.toolbar.api.toolbar.Toolbar;
+import com.tofpu.toolbar.api.toolbar.ToolbarSchema;
+import com.tofpu.toolbar.api.toolbar.ToolbarService;
+import com.tofpu.toolbar.api.toolbar.tool.Tool;
+import com.tofpu.toolbar.api.toolbar.tool.action.ToolAction;
 import org.bukkit.Material;
 import org.bukkit.block.BlockFace;
 import org.bukkit.event.block.Action;
@@ -15,9 +15,9 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import static io.tofpu.toolbar.helper.ToolCreationHelper.tool;
-import static io.tofpu.toolbar.helper.ToolCreationHelper.withUndefinedSlot;
-import static io.tofpu.toolbar.helper.ToolbarCreationHelper.toolbarSchema;
+import static com.tofpu.toolbar.helper.ToolCreationHelper.tool;
+import static com.tofpu.toolbar.helper.ToolCreationHelper.withUndefinedSlot;
+import static com.tofpu.toolbar.helper.ToolbarCreationHelper.toolbarSchema;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class EquipServiceTest extends FullTestBoostrap {

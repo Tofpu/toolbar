@@ -1,4 +1,0 @@
-name: Umbrella
-version: '${project.version}'
-main: io.tofpu.umbrella.plugin.UmbrellaPlugin
-authors: [ Tofpu ]

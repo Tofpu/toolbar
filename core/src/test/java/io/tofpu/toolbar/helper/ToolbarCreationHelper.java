@@ -1,13 +1,12 @@
-package io.tofpu.toolbar.helper;
+package com.tofpu.toolbar.helper;
 
-import io.tofpu.toolbar.toolbar.ItemSlot;
-import io.tofpu.toolbar.toolbar.ToolWithSlot;
-import io.tofpu.toolbar.toolbar.ToolbarSchema;
-import io.tofpu.toolbar.toolbar.tool.Tool;
+import com.tofpu.toolbar.api.toolbar.ItemSlot;
+import com.tofpu.toolbar.api.toolbar.ToolWithSlot;
+import com.tofpu.toolbar.api.toolbar.ToolbarSchema;
+import com.tofpu.toolbar.api.toolbar.tool.Tool;
 
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.stream.Collectors;
 
 public class ToolbarCreationHelper {
     public static ToolbarSchema toolbarSchema(String id, ToolWithSlot tool) {

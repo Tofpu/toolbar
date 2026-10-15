@@ -1,8 +1,8 @@
-package io.tofpu.toolbar;
+package com.tofpu.toolbar;
 
-import io.tofpu.toolbar.nbt.ItemNBTHandler;
-import io.tofpu.toolbar.bootstrap.EssentialTestBootstrap;
-import io.tofpu.toolbar.impl.PDCItemHandler;
+import com.tofpu.toolbar.api.nbt.ItemNBTHandler;
+import com.tofpu.toolbar.bootstrap.EssentialTestBootstrap;
+import com.tofpu.toolbar.impl.PDCItemHandler;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;

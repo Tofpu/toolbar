@@ -1,0 +1,101 @@
+package com.tofpu.toolbar.annotationprocessing.processor;
+
+import com.google.auto.service.AutoService;
+import com.tofpu.toolbar.annotationprocessing.ListenerWrapper;
+import org.jetbrains.annotations.NotNull;
+
+import javax.annotation.processing.AbstractProcessor;
+import javax.annotation.processing.Processor;
+import javax.annotation.processing.RoundEnvironment;
+import javax.annotation.processing.SupportedAnnotationTypes;
+import javax.annotation.processing.SupportedSourceVersion;
+import javax.lang.model.SourceVersion;
+import javax.lang.model.element.Element;
+import javax.lang.model.element.TypeElement;
+import javax.lang.model.type.DeclaredType;
+import javax.lang.model.type.MirroredTypesException;
+import javax.lang.model.type.TypeMirror;
+import javax.tools.Diagnostic;
+import javax.tools.JavaFileObject;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.Set;
+
+@SupportedAnnotationTypes("com.tofpu.ListenerWrapper")
+@SupportedSourceVersion(SourceVersion.RELEASE_8)
+@AutoService(Processor.class)
+public class ListenerProcessor extends AbstractProcessor {
+
+    public static final String PACKAGE_NAME = "com.tofpu.toolbar.";
+
+    @Override
+    public boolean process(Set<? extends TypeElement> annotations, RoundEnvironment roundEnv) {
+        try {
+            for (TypeElement annotation : annotations) {
+                Set<? extends Element> annotatedElements
+                        = roundEnv.getElementsAnnotatedWith(annotation);
+                System.out.println("Found annotated elements: " + annotatedElements);
+
+                annotatedElements.forEach(this::writeClass);
+            }
+
+            System.out.println("processor");
+            processingEnv.getMessager().printMessage(Diagnostic.Kind.MANDATORY_WARNING, "processor");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return true;
+    }
+
+    public void writeClass(Element element) {
+        try {
+            TypeMirror eventType = getListenerType(element);
+            String className = obtainClassName(eventType);
+
+            JavaFileObject fileObject = processingEnv.getFiler()
+                    .createSourceFile(PACKAGE_NAME + className);
+            try (PrintWriter out = new PrintWriter(fileObject.openWriter())) {
+                out.println("package com.tofpu.toolbar;");
+                out.println();
+
+                out.println("import com.tofpu.toolbar.api.listener.ListenerService;");
+                out.println();
+
+                out.println("@com.tofpu.GeneratedListener");
+                out.println(String.format("public class %s implements org.bukkit.event.Listener {", className));
+                out.println("   private final ListenerService listenerService = ToolbarAPI.getInstance().listenerService();");
+                out.println();
+
+                out.println("   @org.bukkit.event.EventHandler");
+                out.println(String.format("   void on(%s event) {", eventType));
+                out.println("       listenerService.callEventIfPresent(event);");
+                out.println("   }");
+                out.println();
+
+                out.println("}");
+            }
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    private static String obtainClassName(TypeMirror type) {
+        if (type instanceof DeclaredType) {
+            Element typeElement = ((DeclaredType) type).asElement();
+            return typeElement.getSimpleName() + "Listener";
+        }
+        throw new IllegalArgumentException("Expected a class type");
+    }
+
+    @NotNull
+    private static TypeMirror getListenerType(Element element) {
+        ListenerWrapper listenerWrapper = element.getAnnotation(ListenerWrapper.class);
+        try {
+            //noinspection ResultOfMethodCallIgnored
+            listenerWrapper.type();
+        } catch (MirroredTypesException e) {
+            return e.getTypeMirrors().get(0);
+        }
+        throw new RuntimeException("Failed to obtain ListenerWrapper#type() value");
+    }
+}

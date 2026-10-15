@@ -1,7 +1,10 @@
 package com.tofpu.toolbar.processor;
 
 import com.google.auto.service.AutoService;
+import com.tofpu.toolbar.api.ToolbarAPI;
 import com.tofpu.toolbar.api.ToolbarConstants;
+import com.tofpu.toolbar.api.listener.GeneratedListener;
+import com.tofpu.toolbar.api.listener.ListenerService;
 import com.tofpu.toolbar.api.listener.ListenerWrapper;
 import org.jetbrains.annotations.NotNull;
 
@@ -22,7 +25,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Set;
 
-@SupportedAnnotationTypes("com.tofpu.ListenerWrapper")
+@SupportedAnnotationTypes("com.tofpu.toolbar.api.listener.ListenerWrapper")
 @SupportedSourceVersion(SourceVersion.RELEASE_8)
 @AutoService(Processor.class)
 public class ListenerProcessor extends AbstractProcessor {
@@ -31,50 +34,63 @@ public class ListenerProcessor extends AbstractProcessor {
     public boolean process(Set<? extends TypeElement> annotations, RoundEnvironment roundEnv) {
         try {
             for (TypeElement annotation : annotations) {
-                Set<? extends Element> annotatedElements
-                        = roundEnv.getElementsAnnotatedWith(annotation);
-                System.out.println("Found annotated elements: " + annotatedElements);
+                Set<? extends Element> annotatedElements = roundEnv.getElementsAnnotatedWith(annotation);
 
-                annotatedElements.forEach(this::writeClass);
+                for (Element element : annotatedElements) {
+                    writeClass(element);
+
+                    TypeMirror listenerType = getListenerType(element);
+                    String simpleName = obtainSimpleName(listenerType);
+                    processingEnv.getMessager().printMessage(
+                            Diagnostic.Kind.NOTE,
+                            "Successfully generated listener " + simpleName
+                    );
+                }
             }
-
-            System.out.println("processor");
-            processingEnv.getMessager().printMessage(Diagnostic.Kind.MANDATORY_WARNING, "processor");
         } catch (Exception e) {
-            e.printStackTrace();
+            processingEnv.getMessager().printMessage(
+                    Diagnostic.Kind.ERROR,
+                    "Unexpected error during annotation processing: " + e.getMessage()
+            );
         }
         return true;
     }
 
-    public void writeClass(Element element) {
+    private void writeClass(Element element) {
         try {
             TypeMirror eventType = getListenerType(element);
             String className = obtainClassName(eventType);
+            String fullClassName = String.format("%s.%s", ToolbarConstants.PACKAGE_NAME, className);
 
-            JavaFileObject fileObject = processingEnv.getFiler()
-                    .createSourceFile(String.format("%s.%s", ToolbarConstants.PACKAGE_NAME, className));
+            JavaFileObject fileObject = processingEnv.getFiler().createSourceFile(fullClassName);
             try (PrintWriter out = new PrintWriter(fileObject.openWriter())) {
-                out.println("package com.tofpu.toolbar;");
+                out.println("package " + ToolbarConstants.PACKAGE_NAME + ";");
                 out.println();
 
-                out.println("import com.tofpu.toolbar.api.listener.ListenerService;");
+                out.println("import " + ListenerService.class.getName() + ";");
+                out.println("import " + GeneratedListener.class.getName() + ";");
+                out.println("import " + ToolbarAPI.class.getName() + ";");
+                out.println("import org.bukkit.event.EventHandler;");
+                out.println("import org.bukkit.event.Listener;");
+                out.println("import " + eventType + ";");
                 out.println();
 
-                out.println("@com.tofpu.toolbar.api.GeneratedListener");
-                out.println(String.format("public class %s implements org.bukkit.event.Listener {", className));
-                out.println("   private final ListenerService listenerService = ToolbarAPI.getInstance().listenerService();");
+                out.println("@GeneratedListener");
+                out.println("public class " + className + " implements Listener {");
+                out.println("    private final ListenerService listenerService = ToolbarAPI.getInstance().listenerService();");
                 out.println();
-
-                out.println("   @org.bukkit.event.EventHandler");
-                out.println(String.format("   void on(%s event) {", eventType));
-                out.println("       listenerService.callEventIfPresent(event);");
-                out.println("   }");
-                out.println();
-
+                out.println("    @EventHandler");
+                out.println("    public void on(" + obtainSimpleName(eventType) + " event) {");
+                out.println("        listenerService.callEventIfPresent(event);");
+                out.println("    }");
                 out.println("}");
             }
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            processingEnv.getMessager().printMessage(
+                    Diagnostic.Kind.ERROR,
+                    "Failed to write generated listener class for " + element.getSimpleName() + ": " + e.getMessage(),
+                    element
+            );
         }
     }
 
@@ -86,14 +102,27 @@ public class ListenerProcessor extends AbstractProcessor {
         throw new IllegalArgumentException("Expected a class type");
     }
 
+    private static String obtainSimpleName(TypeMirror type) {
+        if (type instanceof DeclaredType) {
+            Element typeElement = ((DeclaredType) type).asElement();
+            return typeElement.getSimpleName().toString();
+        }
+        return type.toString();
+    }
+
     @NotNull
     private static TypeMirror getListenerType(Element element) {
         ListenerWrapper listenerWrapper = element.getAnnotation(ListenerWrapper.class);
+        if (listenerWrapper == null) {
+            throw new IllegalArgumentException("Element is not annotated with @ListenerWrapper");
+        }
         try {
             //noinspection ResultOfMethodCallIgnored
             listenerWrapper.type();
         } catch (MirroredTypesException e) {
-            return e.getTypeMirrors().get(0);
+            if (!e.getTypeMirrors().isEmpty()) {
+                return e.getTypeMirrors().get(0);
+            }
         }
         throw new RuntimeException("Failed to obtain ListenerWrapper#type() value");
     }

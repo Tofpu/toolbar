@@ -1,6 +1,7 @@
 package com.tofpu.toolbar.processor;
 
 import com.google.auto.service.AutoService;
+import com.tofpu.toolbar.api.listener.ListenerWrapper;
 import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.processing.AbstractProcessor;
@@ -60,7 +61,7 @@ public class ListenerProcessor extends AbstractProcessor {
                 out.println("import com.tofpu.toolbar.api.listener.ListenerService;");
                 out.println();
 
-                out.println("@com.tofpu.GeneratedListener");
+                out.println("@com.tofpu.toolbar.api.GeneratedListener");
                 out.println(String.format("public class %s implements org.bukkit.event.Listener {", className));
                 out.println("   private final ListenerService listenerService = ToolbarAPI.getInstance().listenerService();");
                 out.println();

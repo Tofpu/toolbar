@@ -15,8 +15,8 @@
     </properties>
 
     <modules>
-        <module>processor</module>
         <module>api</module>
+        <module>processor</module>
         <module>core</module>
     </modules>
 

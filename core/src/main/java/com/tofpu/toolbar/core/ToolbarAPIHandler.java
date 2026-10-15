@@ -1,5 +1,6 @@
 package com.tofpu.toolbar.core;
 
+import com.tofpu.toolbar.api.ToolbarConstants;
 import com.tofpu.toolbar.api.listener.GeneratedListener;
 import com.tofpu.toolbar.core.listener.ListenerRegistry;
 import com.tofpu.toolbar.core.listener.ListenerServiceImpl;
@@ -9,7 +10,6 @@ import com.tofpu.toolbar.core.toolbar.tool.ToolProcessorImpl;
 import com.tofpu.toolbar.api.nbt.ItemNBTHandler;
 import com.tofpu.toolbar.core.nbt.ModernPDCNBTHandler;
 import com.tofpu.toolbar.core.player.EquipServiceImpl;
-import com.tofpu.toolbar.annotationprocessing.processor.ListenerProcessor;
 import com.tofpu.toolbar.core.toolbar.ToolbarServiceImpl;
 import com.tofpu.toolbar.api.ToolbarAPI;
 import com.tofpu.toolbar.api.listener.ListenerService;
@@ -78,7 +78,7 @@ class ToolbarAPIHandler {
     }
 
     private void registerDynamicListener() {
-        Set<Class<?>> typesAnnotatedWith = new Reflections(ListenerProcessor.PACKAGE_NAME).
+        Set<Class<?>> typesAnnotatedWith = new Reflections(ToolbarConstants.PACKAGE_NAME).
                 getTypesAnnotatedWith(GeneratedListener.class);
 
         if (typesAnnotatedWith.isEmpty()) {

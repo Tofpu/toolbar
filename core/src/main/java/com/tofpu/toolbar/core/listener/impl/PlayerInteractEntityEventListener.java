@@ -1,6 +1,6 @@
 package com.tofpu.toolbar.core.listener.impl;
 
-import com.tofpu.toolbar.annotationprocessing.ListenerWrapper;
+import com.tofpu.toolbar.api.listener.ListenerWrapper;
 import com.tofpu.toolbar.api.listener.ToolEventListener;
 import org.bukkit.event.Event;
 import org.bukkit.event.player.PlayerInteractEntityEvent;

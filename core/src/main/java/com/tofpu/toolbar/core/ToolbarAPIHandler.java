@@ -1,6 +1,6 @@
 package com.tofpu.toolbar.core;
 
-import com.tofpu.toolbar.annotationprocessing.GeneratedListener;
+import com.tofpu.toolbar.api.listener.GeneratedListener;
 import com.tofpu.toolbar.core.listener.ListenerRegistry;
 import com.tofpu.toolbar.core.listener.ListenerServiceImpl;
 import com.tofpu.toolbar.core.nbt.BukkitNBTHandler;

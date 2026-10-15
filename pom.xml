@@ -15,7 +15,7 @@
     </properties>
 
     <modules>
-        <module>annotation-processing</module>
+        <module>processor</module>
         <module>api</module>
         <module>core</module>
     </modules>

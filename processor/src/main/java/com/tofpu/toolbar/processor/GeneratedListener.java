@@ -1,4 +1,4 @@
-package com.tofpu.toolbar.annotationprocessing;
+package com.tofpu.toolbar.processor;
 
 import org.jetbrains.annotations.ApiStatus;
 

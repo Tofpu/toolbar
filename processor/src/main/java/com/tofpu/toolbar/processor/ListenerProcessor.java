@@ -1,7 +1,6 @@
-package com.tofpu.toolbar.annotationprocessing.processor;
+package com.tofpu.toolbar.processor;
 
 import com.google.auto.service.AutoService;
-import com.tofpu.toolbar.annotationprocessing.ListenerWrapper;
 import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.processing.AbstractProcessor;

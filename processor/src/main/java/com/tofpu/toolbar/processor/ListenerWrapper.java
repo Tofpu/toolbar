@@ -1,4 +1,4 @@
-package com.tofpu.toolbar.annotationprocessing;
+package com.tofpu.toolbar.processor;
 
 import org.bukkit.event.Event;
 import org.jetbrains.annotations.NotNull;

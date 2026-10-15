@@ -10,7 +10,7 @@
     </parent>
 
     <groupId>com.tofpu.toolbar</groupId>
-    <artifactId>toolbar-annotation-processing</artifactId>
+    <artifactId>toolbar-processor</artifactId>
 
     <build>
         <plugins>

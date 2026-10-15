@@ -1,4 +1,4 @@
-package com.tofpu.toolbar.processor;
+package com.tofpu.toolbar.api.listener;
 
 import org.bukkit.event.Event;
 import org.jetbrains.annotations.NotNull;

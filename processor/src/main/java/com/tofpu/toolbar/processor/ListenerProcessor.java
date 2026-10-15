@@ -1,6 +1,7 @@
 package com.tofpu.toolbar.processor;
 
 import com.google.auto.service.AutoService;
+import com.tofpu.toolbar.api.ToolbarConstants;
 import com.tofpu.toolbar.api.listener.ListenerWrapper;
 import org.jetbrains.annotations.NotNull;
 
@@ -25,8 +26,6 @@ import java.util.Set;
 @SupportedSourceVersion(SourceVersion.RELEASE_8)
 @AutoService(Processor.class)
 public class ListenerProcessor extends AbstractProcessor {
-
-    public static final String PACKAGE_NAME = "com.tofpu.toolbar.";
 
     @Override
     public boolean process(Set<? extends TypeElement> annotations, RoundEnvironment roundEnv) {
@@ -53,7 +52,7 @@ public class ListenerProcessor extends AbstractProcessor {
             String className = obtainClassName(eventType);
 
             JavaFileObject fileObject = processingEnv.getFiler()
-                    .createSourceFile(PACKAGE_NAME + className);
+                    .createSourceFile(String.format("%s.%s", ToolbarConstants.PACKAGE_NAME, className));
             try (PrintWriter out = new PrintWriter(fileObject.openWriter())) {
                 out.println("package com.tofpu.toolbar;");
                 out.println();

@@ -31,7 +31,6 @@
             <groupId>com.tofpu.toolbar</groupId>
             <artifactId>toolbar-api</artifactId>
             <version>3.0.0-SNAPSHOT</version>
-            <scope>provided</scope>
         </dependency>
 
         <!-- Use annotations artifact -->

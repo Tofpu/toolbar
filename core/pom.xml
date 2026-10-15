@@ -70,12 +70,6 @@
             <version>3.0.0-SNAPSHOT</version>
             <scope>compile</scope>
         </dependency>
-        <dependency>
-            <groupId>com.tofpu.toolbar</groupId>
-            <artifactId>toolbar-annotation-processing</artifactId>
-            <version>3.0.0-SNAPSHOT</version>
-            <scope>compile</scope>
-        </dependency>
 
         <dependency>
             <groupId>de.tr7zw</groupId>

@@ -64,7 +64,7 @@ public class ListenerProcessor extends AbstractProcessor {
         try {
             TypeMirror eventType = getListenerType(element);
             String className = obtainClassName(eventType);
-            String fullClassName = String.format("%s.%s", ToolbarConstants.PACKAGE_NAME, className);
+            String fullClassName = String.format("%s.%s", targetPackage, className);
 
             JavaFileObject fileObject = processingEnv.getFiler().createSourceFile(fullClassName);
             try (PrintWriter out = new PrintWriter(fileObject.openWriter())) {

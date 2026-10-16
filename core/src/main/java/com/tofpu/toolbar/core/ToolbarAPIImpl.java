@@ -30,7 +30,7 @@ public class ToolbarAPIImpl implements ToolbarAPI {
 
     public ToolbarAPIImpl(final JavaPlugin plugin, final Function<ItemStack, ItemNBTHandler> itemNBTHandlerFunction, final Settings settings) {
         this.platformMetadata = new PlatformMetadataImpl(new PlatformVersion(plugin.getServer().getBukkitVersion()));
-        this.handler = new ToolbarAPIHandler(plugin, itemNBTHandlerFunction);
+        this.handler = new ToolbarAPIHandler(plugin, itemNBTHandlerFunction, settings.packages());
         this.logger = new Logger(plugin.getLogger(), settings.verbose());
     }
 

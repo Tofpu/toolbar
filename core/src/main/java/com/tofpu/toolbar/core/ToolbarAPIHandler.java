@@ -1,26 +1,27 @@
 package com.tofpu.toolbar.core;
 
+import com.tofpu.toolbar.api.ToolbarAPI;
 import com.tofpu.toolbar.api.ToolbarConstants;
 import com.tofpu.toolbar.api.listener.GeneratedListener;
+import com.tofpu.toolbar.api.listener.ListenerService;
+import com.tofpu.toolbar.api.nbt.ItemNBTHandler;
+import com.tofpu.toolbar.api.player.EquipService;
+import com.tofpu.toolbar.api.toolbar.ToolbarService;
 import com.tofpu.toolbar.core.listener.ListenerRegistry;
 import com.tofpu.toolbar.core.listener.ListenerServiceImpl;
 import com.tofpu.toolbar.core.nbt.BukkitNBTHandler;
-import com.tofpu.toolbar.core.toolbar.ToolbarRegistry;
-import com.tofpu.toolbar.core.toolbar.tool.ToolProcessorImpl;
-import com.tofpu.toolbar.api.nbt.ItemNBTHandler;
 import com.tofpu.toolbar.core.nbt.ModernPDCNBTHandler;
 import com.tofpu.toolbar.core.player.EquipServiceImpl;
+import com.tofpu.toolbar.core.toolbar.ToolbarRegistry;
 import com.tofpu.toolbar.core.toolbar.ToolbarServiceImpl;
-import com.tofpu.toolbar.api.ToolbarAPI;
-import com.tofpu.toolbar.api.listener.ListenerService;
-import com.tofpu.toolbar.api.player.EquipService;
-import com.tofpu.toolbar.api.toolbar.ToolbarService;
+import com.tofpu.toolbar.core.toolbar.tool.ToolProcessorImpl;
 import org.bukkit.event.Event;
 import org.bukkit.event.Listener;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
 import org.reflections.Reflections;
+import org.reflections.util.ConfigurationBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -36,6 +37,7 @@ class ToolbarAPIHandler {
     private final JavaPlugin plugin;
 
     private final ListenerService listenerService;
+    private final String[] packages;
 
     @NotNull
     static ItemNBTHandler determineSuitableNBTHandler(JavaPlugin plugin, ItemStack itemStack) {
@@ -62,12 +64,13 @@ class ToolbarAPIHandler {
         return new BukkitNBTHandler(itemStack);
     }
 
-    public ToolbarAPIHandler(final JavaPlugin plugin, final Function<ItemStack, ItemNBTHandler> itemNBTHandlerFunction) {
+    public ToolbarAPIHandler(final JavaPlugin plugin, final Function<ItemStack, ItemNBTHandler> itemNBTHandlerFunction, String[] packages) {
         this.itemNBTHandlerFunction = itemNBTHandlerFunction;
         this.toolbarService = new ToolbarServiceImpl(new ToolbarRegistry(), new ToolProcessorImpl());
         this.equipService = new EquipServiceImpl();
         this.plugin = plugin;
         this.listenerService = new ListenerServiceImpl(new EventToolActivator(toolbarService));
+        this.packages = packages;
     }
 
     public void enable(ToolbarAPI api) {
@@ -78,8 +81,11 @@ class ToolbarAPIHandler {
     }
 
     private void registerDynamicListener() {
-        Set<Class<?>> typesAnnotatedWith = new Reflections(ToolbarConstants.PACKAGE_NAME).
-                getTypesAnnotatedWith(GeneratedListener.class);
+        ConfigurationBuilder configurationBuilder = new ConfigurationBuilder()
+                .forPackages(ToolbarConstants.PACKAGE_NAME)
+                .forPackages(packages);
+        Set<Class<?>> typesAnnotatedWith = new Reflections(configurationBuilder)
+                .getTypesAnnotatedWith(GeneratedListener.class);
 
         if (typesAnnotatedWith.isEmpty()) {
             plugin.getLogger().warning("No dynamically generated listeners found. " +

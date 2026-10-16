@@ -5,6 +5,8 @@ import java.util.HashSet;
 import java.util.Set;
 
 public interface Settings {
+    Settings DEFAULT = Settings.newBuilder().build();
+
     static Builder newBuilder() {
         return new Builder();
     }

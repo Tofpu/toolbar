@@ -1,6 +1,5 @@
 package com.tofpu.toolbar.core;
 
-import com.tofpu.toolbar.core.util.PlatformVersion;
 import com.tofpu.toolbar.api.PlatformMetadata;
 import com.tofpu.toolbar.api.ToolbarAPI;
 import com.tofpu.toolbar.api.listener.ListenerService;
@@ -8,6 +7,8 @@ import com.tofpu.toolbar.api.logger.Logger;
 import com.tofpu.toolbar.api.nbt.ItemNBTHandler;
 import com.tofpu.toolbar.api.player.EquipService;
 import com.tofpu.toolbar.api.toolbar.ToolbarService;
+import com.tofpu.toolbar.core.settings.Settings;
+import com.tofpu.toolbar.core.util.PlatformVersion;
 import org.bukkit.event.Event;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -20,17 +21,17 @@ public class ToolbarAPIImpl implements ToolbarAPI {
     private final Logger logger;
 
     public ToolbarAPIImpl(final JavaPlugin plugin) {
-        this(plugin, false);
+        this(plugin, Settings.newBuilder().build());
     }
 
-    public ToolbarAPIImpl(final JavaPlugin plugin, boolean verbose) {
-        this(plugin, itemStack -> ToolbarAPIHandler.determineSuitableNBTHandler(plugin, itemStack), verbose);
+    public ToolbarAPIImpl(final JavaPlugin plugin, final Settings settings) {
+        this(plugin, itemStack -> ToolbarAPIHandler.determineSuitableNBTHandler(plugin, itemStack), settings);
     }
 
-    public ToolbarAPIImpl(final JavaPlugin plugin, final Function<ItemStack, ItemNBTHandler> itemNBTHandlerFunction, boolean verbose) {
+    public ToolbarAPIImpl(final JavaPlugin plugin, final Function<ItemStack, ItemNBTHandler> itemNBTHandlerFunction, final Settings settings) {
         this.platformMetadata = new PlatformMetadataImpl(new PlatformVersion(plugin.getServer().getBukkitVersion()));
         this.handler = new ToolbarAPIHandler(plugin, itemNBTHandlerFunction);
-        this.logger = new Logger(plugin.getLogger(), verbose);
+        this.logger = new Logger(plugin.getLogger(), settings.verbose());
     }
 
     @Override

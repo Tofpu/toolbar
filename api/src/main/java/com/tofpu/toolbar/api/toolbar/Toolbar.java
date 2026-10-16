@@ -12,34 +12,19 @@ import java.util.stream.Collectors;
 public interface Toolbar {
     String id();
 
-    Optional<ToolWithSlot> toolWithSlot(String identifier);
+    Optional<Tool> tool(String identifier);
 
-    Optional<ToolWithSlot> toolWithSlotAt(ItemSlot slot);
+    Optional<Tool> toolAt(ItemSlot slot);
 
-    Collection<ToolWithSlot> toolsWithSlots();
-
-    default Optional<Tool> tool(String identifier) {
-        return toolWithSlot(identifier)
-                .map(ToolWithSlot::tool);
-    }
+    Collection<Tool> tools();
 
     default Optional<ItemStack> item(String id) {
         return tool(id)
                 .map(Tool::item);
     }
 
-    default Optional<Tool> toolAt(ItemSlot slot) {
-        return toolWithSlotAt(slot).map(ToolWithSlot::tool);
-    }
-
     default Optional<ItemStack> itemAt(ItemSlot slot) {
         return toolAt(slot).map(Tool::item);
-    }
-
-    default Collection<Tool> tools() {
-        return toolsWithSlots().stream()
-                .map(ToolWithSlot::tool)
-                .collect(Collectors.toList());
     }
 
     default Collection<ItemStack> items() {
@@ -50,14 +35,14 @@ public interface Toolbar {
 
     default Map<ItemSlot, ItemStack> itemsWithSlots() {
         Map<ItemSlot, ItemStack> itemStackMap = new HashMap<>();
-        for (ToolWithSlot toolWithSlot : toolsWithSlots()) {
+        for (Tool toolWithSlot : tools()) {
             ItemSlot itemSlot = toolWithSlot.slot();
-            itemStackMap.put(itemSlot, toolWithSlot.tool().item());
+            itemStackMap.put(itemSlot, toolWithSlot.item());
         }
         return itemStackMap;
     }
 
     default int size() {
-        return toolsWithSlots().size();
+        return tools().size();
     }
 }

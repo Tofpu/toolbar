@@ -1,9 +1,9 @@
 package com.tofpu.toolbar.core.toolbar.tool;
 
-import com.tofpu.toolbar.api.toolbar.ToolWithSlot;
+import com.tofpu.toolbar.api.toolbar.tool.Tool;
 
 import java.util.Collection;
 
 public interface ToolProcessor {
-    Collection<ToolWithSlot> process(String ownerId, Collection<ToolWithSlot> toolWithSlots);
+    Collection<Tool> process(String ownerId, Collection<Tool> tools);
 }

@@ -1,18 +1,20 @@
 package com.tofpu.toolbar.api.toolbar;
 
+import com.tofpu.toolbar.api.toolbar.tool.Tool;
+
 import java.util.Collection;
 import java.util.Collections;
 
 class ToolbarSchemaImpl implements ToolbarSchema {
     private final String id;
-    private final Collection<ToolWithSlot> tools;
+    private final Collection<Tool> tools;
 
     public ToolbarSchemaImpl(String id) {
         this.id = id;
         this.tools = Collections.emptyList();
     }
 
-    public ToolbarSchemaImpl(String id, Collection<ToolWithSlot> tools) {
+    public ToolbarSchemaImpl(String id, Collection<Tool> tools) {
         this.id = id;
         this.tools = Collections.unmodifiableCollection(tools);
     }
@@ -23,7 +25,7 @@ class ToolbarSchemaImpl implements ToolbarSchema {
     }
 
     @Override
-    public Collection<ToolWithSlot> tools() {
+    public Collection<Tool> tools() {
         return tools;
     }
 }

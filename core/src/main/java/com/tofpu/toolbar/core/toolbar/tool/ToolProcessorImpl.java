@@ -1,10 +1,9 @@
 package com.tofpu.toolbar.core.toolbar.tool;
 
-import com.tofpu.toolbar.core.ToolNBTUtil;
 import com.tofpu.toolbar.api.toolbar.ItemSlot;
-import com.tofpu.toolbar.api.toolbar.ToolWithSlot;
 import com.tofpu.toolbar.api.toolbar.internal.SlotReserveLog;
 import com.tofpu.toolbar.api.toolbar.tool.Tool;
+import com.tofpu.toolbar.core.ToolNBTUtil;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -12,32 +11,31 @@ import java.util.List;
 
 public class ToolProcessorImpl implements ToolProcessor {
     @Override
-    public Collection<ToolWithSlot> process(String ownerId, Collection<ToolWithSlot> toolWithSlots) {
+    public Collection<Tool> process(String ownerId, Collection<Tool> tools) {
         SlotReserveLog slotReserveLog = new SlotReserveLog();
-        List<ToolWithSlot> updatedTools = new ArrayList<>();
-        for (ToolWithSlot toolWithSlot : toolWithSlots) {
-            processTool(toolWithSlot, slotReserveLog, updatedTools, ownerId);
+        List<Tool> updatedTools = new ArrayList<>();
+        for (Tool tool : tools) {
+            processTool(tool, slotReserveLog, updatedTools, ownerId);
         }
         return updatedTools;
     }
 
-    private void processTool(ToolWithSlot toolWithSlot, SlotReserveLog slotReserveLog, List<ToolWithSlot> updatedTools, String id) {
-        Tool tool = toolWithSlot.tool();
+    private void processTool(Tool tool, SlotReserveLog slotReserveLog, List<Tool> updatedTools, String id) {
         ToolNBTUtil.tag(id, tool);
 
-        if (toolWithSlot.slot().isUndefined()) {
-            toolWithSlot = determineItemSlot(toolWithSlot, slotReserveLog);
+        if (tool.slot().isUndefined()) {
+            tool = determineItemSlot(tool, slotReserveLog);
         }
 
-        slotReserveLog.reserve(toolWithSlot.slot());
-        updatedTools.add(toolWithSlot);
+        slotReserveLog.reserve(tool.slot());
+        updatedTools.add(tool);
     }
 
-    private ToolWithSlot determineItemSlot(ToolWithSlot toolWithSlot, SlotReserveLog slotReserveLog) {
+    private Tool determineItemSlot(Tool tool, SlotReserveLog slotReserveLog) {
         for (int i = 0; i < 60; i++) {
             if (slotReserveLog.isReserved(i)) continue;
-            return new ToolWithSlot<>(toolWithSlot, ItemSlot.atIndex(i));
+            return tool.at(ItemSlot.atIndex(i));
         }
-        throw new IllegalStateException("Failed to find a free slot for " + toolWithSlot.tool() + " tool!");
+        throw new IllegalStateException("Failed to find a free slot for " + tool.id() + " tool!");
     }
 }

@@ -1,25 +1,25 @@
 package com.tofpu.toolbar.core.toolbar;
 
 import com.tofpu.toolbar.api.toolbar.ItemSlot;
-import com.tofpu.toolbar.api.toolbar.ToolWithSlot;
 import com.tofpu.toolbar.api.toolbar.Toolbar;
+import com.tofpu.toolbar.api.toolbar.tool.Tool;
 
 import java.util.*;
 
 public class ToolbarImpl implements Toolbar {
     private final String id;
-    private final Map<String, ToolWithSlot> toolMap;
+    private final Map<String, Tool> toolMap;
 
-    public ToolbarImpl(String id, Collection<ToolWithSlot> toolWithSlots) {
+    public ToolbarImpl(String id, Collection<Tool> tools) {
         this.id = id;
         this.toolMap = new HashMap<>();
-        populateToolMap(toolWithSlots);
+        populateToolMap(tools);
     }
 
-    private void populateToolMap(Collection<ToolWithSlot> toolWithSlots) {
-        toolWithSlots.forEach(toolWithSlot -> {
-            String toolId = toolWithSlot.tool().id();
-            toolMap.put(toolId, toolWithSlot);
+    private void populateToolMap(Collection<Tool> tools) {
+        tools.forEach(tool -> {
+            String toolId = tool.id();
+            toolMap.put(toolId, tool);
         });
     }
 
@@ -29,19 +29,19 @@ public class ToolbarImpl implements Toolbar {
     }
 
     @Override
-    public Optional<ToolWithSlot> toolWithSlot(String identifier) {
+    public Optional<Tool> tool(String identifier) {
         return Optional.ofNullable(toolMap.get(identifier));
     }
 
     @Override
-    public Optional<ToolWithSlot> toolWithSlotAt(ItemSlot slot) {
+    public Optional<Tool> toolAt(ItemSlot slot) {
         return this.toolMap.values().stream()
                 .filter(tool -> tool.slot().equals(slot))
                 .findFirst();
     }
 
     @Override
-    public Collection<ToolWithSlot> toolsWithSlots() {
+    public Collection<Tool> tools() {
         return Collections.unmodifiableCollection(toolMap.values());
     }
 }

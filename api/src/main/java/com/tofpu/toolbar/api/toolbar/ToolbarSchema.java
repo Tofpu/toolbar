@@ -8,7 +8,7 @@ import java.util.Collection;
 import java.util.List;
 
 public interface ToolbarSchema {
-    static ToolbarSchema of(String id, Collection<ToolWithSlot> tools) {
+    static ToolbarSchema of(String id, Collection<Tool> tools) {
         return new ToolbarSchemaImpl(id, tools);
     }
 
@@ -21,26 +21,18 @@ public interface ToolbarSchema {
     }
 
     String id();
-    Collection<ToolWithSlot> tools();
+    Collection<Tool> tools();
 
     class Builder {
         private final String id;
-        private final List<ToolWithSlot> tools = new ArrayList<>();
+        private final List<Tool> tools = new ArrayList<>();
 
         private Builder(String id) {
             this.id = id;
         }
 
-        @SafeVarargs
-        public final Builder addItems(final ToolWithSlot<Tool>... tools) {
+        public final Builder addItems(final Tool... tools) {
             this.tools.addAll(Arrays.asList(tools));
-            return this;
-        }
-
-        public Builder addItems(final Tool... tools) {
-            for (Tool tool : tools) {
-                this.addItems(new ToolWithSlot<>(tool, ItemSlot.undefined()));
-            }
             return this;
         }
 

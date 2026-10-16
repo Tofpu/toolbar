@@ -9,7 +9,7 @@ import org.bukkit.inventory.ItemStack;
 import java.util.StringJoiner;
 
 public class Tool {
-    private final String itemIdentifier;
+    private final String id;
     private final ItemStack item;
     private final ToolAction<? extends Event> action;
     private final ItemSlot slot;
@@ -52,7 +52,7 @@ public class Tool {
     }
 
     public String id() {
-        return itemIdentifier;
+        return id;
     }
 
     public ItemStack item() {
@@ -70,7 +70,7 @@ public class Tool {
     @Override
     public String toString() {
         return new StringJoiner(", ", Tool.class.getSimpleName() + "[", "]")
-                .add("itemIdentifier='" + itemIdentifier + "'")
+                .add("id='" + id + "'")
                 .add("item=" + item)
                 .add("action=" + action)
                 .toString();

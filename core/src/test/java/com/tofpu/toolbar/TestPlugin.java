@@ -8,6 +8,7 @@ import com.tofpu.toolbar.api.toolbar.ToolbarService;
 import com.tofpu.toolbar.api.toolbar.tool.Tool;
 import com.tofpu.toolbar.api.toolbar.tool.action.ToolAction;
 import com.tofpu.toolbar.api.toolbar.tool.action.ToolActionTypes;
+import com.tofpu.toolbar.core.settings.Settings;
 import org.apache.commons.lang.time.DateUtils;
 import org.bukkit.BanList;
 import org.bukkit.Bukkit;
@@ -35,7 +36,7 @@ public class TestPlugin extends JavaPlugin {
 
     public TestPlugin(@NotNull JavaPluginLoader loader, @NotNull PluginDescriptionFile description, @NotNull File dataFolder, @NotNull File file, Function<ItemStack, ItemNBTHandler> itemNBTHandlerFunction) {
         super(loader, description, dataFolder, file);
-        this.toolbarAPI = new ToolbarAPIImpl(this, itemNBTHandlerFunction, false);
+        this.toolbarAPI = new ToolbarAPIImpl(this, itemNBTHandlerFunction, Settings.DEFAULT);
     }
 
     @Override

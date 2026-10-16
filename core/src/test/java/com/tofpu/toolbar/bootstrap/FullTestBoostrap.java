@@ -3,6 +3,7 @@ package com.tofpu.toolbar.bootstrap;
 import be.seeseemelk.mockbukkit.ServerMock;
 import com.tofpu.toolbar.core.ToolbarAPIImpl;
 import com.tofpu.toolbar.api.ToolbarAPI;
+import com.tofpu.toolbar.core.settings.Settings;
 import com.tofpu.toolbar.impl.PDCItemHandler;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.junit.jupiter.api.AfterEach;
@@ -22,7 +23,7 @@ public class FullTestBoostrap extends EssentialTestBootstrap {
     public void setUp() {
         super.setUp();
         if (!ToolbarAPI.isInstanceAvailable()) {
-            api = new ToolbarAPIImpl(plugin, PDCItemHandler::new, false);
+            api = new ToolbarAPIImpl(plugin, PDCItemHandler::new, Settings.DEFAULT);
             api.load();
         } else {
             api = (ToolbarAPIImpl) ToolbarAPI.getInstance();

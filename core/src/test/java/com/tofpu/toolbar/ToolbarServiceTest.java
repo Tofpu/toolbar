@@ -1,5 +1,6 @@
 package com.tofpu.toolbar;
 
+import com.tofpu.toolbar.api.toolbar.ItemSlot;
 import com.tofpu.toolbar.bootstrap.FullTestBoostrap;
 import com.tofpu.toolbar.api.toolbar.Toolbar;
 import com.tofpu.toolbar.api.toolbar.ToolbarSchema;
@@ -64,7 +65,15 @@ public class ToolbarServiceTest extends FullTestBoostrap {
     @Test
     void register_custom_objects() {
         ToolbarSchema toolbarSchema = ToolbarSchema.newBuilder("guns_bar")
-                .addItems(new GunTool("AR"))
+                .addItems(Tool.of(
+                        "AR",
+                        new ItemStack(Material.STICK),
+                        ToolAction.of(
+                                PlayerInteractEvent.class,
+                                (owner, event) -> event.getPlayer().sendMessage("You clicked a gun! Nice!")
+                        ),
+                        ItemSlot.undefined()
+                ))
                 .build();
         toolbarService.register(toolbarSchema);
         Toolbar toolbar = toolbarService.findToolbarBy("guns_bar");
@@ -72,11 +81,5 @@ public class ToolbarServiceTest extends FullTestBoostrap {
 
         Tool tool = getToolOrThrow(toolbar, "AR");
         assertNotNull(tool);
-    }
-
-    static class GunTool extends Tool {
-        public GunTool(String id) {
-            super(id, new ItemStack(Material.STICK), ToolAction.of(PlayerInteractEvent.class, (owner, event) -> event.getPlayer().sendMessage("You clicked a gun! Nice!")));
-        }
     }
 }

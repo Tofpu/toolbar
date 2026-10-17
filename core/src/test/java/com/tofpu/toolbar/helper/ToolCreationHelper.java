@@ -18,15 +18,15 @@ public class ToolCreationHelper {
     }
 
     public static Tool tool(String id, ItemStack itemStack) {
-        return new Tool(id, itemStack);
+        return Tool.of(id, itemStack, ToolAction.nothing(), ItemSlot.undefined());
     }
 
     public static Tool tool(String id, ItemStack itemStack, ToolAction action) {
-        return new Tool(id, itemStack, action);
+        return Tool.of(id, itemStack, action, ItemSlot.undefined());
     }
 
     public static Tool tool(String id, Material material, ToolAction action) {
-        return new Tool(id, item(material), action);
+        return Tool.of(id, item(material), action, ItemSlot.undefined());
     }
 
     public static Tool tool(String id, Material material) {

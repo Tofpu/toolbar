@@ -35,6 +35,15 @@ public interface ToolbarAPI {
         }
     }
 
+    static void clearInstance() {
+        Holder.instance.getAndUpdate(toolbarAPI -> {
+            if (toolbarAPI == null) {
+                throw new IllegalStateException("Cannot clear ToolbarAPI instance because it has not been set.");
+            }
+            return null;
+        });
+    }
+
     void load();
     void disable();
 

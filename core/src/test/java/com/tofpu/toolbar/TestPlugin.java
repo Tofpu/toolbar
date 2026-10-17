@@ -1,5 +1,6 @@
 package com.tofpu.toolbar;
 
+import com.tofpu.toolbar.api.ToolbarAPI;
 import com.tofpu.toolbar.core.ToolbarAPIImpl;
 import com.tofpu.toolbar.api.nbt.ItemNBTHandler;
 import com.tofpu.toolbar.api.toolbar.Toolbar;
@@ -37,6 +38,7 @@ public class TestPlugin extends JavaPlugin {
     public TestPlugin(@NotNull JavaPluginLoader loader, @NotNull PluginDescriptionFile description, @NotNull File dataFolder, @NotNull File file, Function<ItemStack, ItemNBTHandler> itemNBTHandlerFunction) {
         super(loader, description, dataFolder, file);
         this.toolbarAPI = new ToolbarAPIImpl(this, itemNBTHandlerFunction, Settings.DEFAULT);
+        ToolbarAPI.setInstance(toolbarAPI);
     }
 
     @Override
@@ -70,6 +72,7 @@ public class TestPlugin extends JavaPlugin {
     public void onDisable() {
         if (toolbarAPI != null) {
             toolbarAPI.disable();
+            ToolbarAPI.clearInstance();
         }
     }
 

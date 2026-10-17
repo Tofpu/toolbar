@@ -11,6 +11,7 @@ import org.junit.jupiter.api.BeforeEach;
 
 public class FullTestBoostrap extends EssentialTestBootstrap {
     protected ToolbarAPIImpl api;
+    private boolean load = true;
 
     public FullTestBoostrap(ServerMock server, JavaPlugin plugin) {
         super(server, plugin);
@@ -19,11 +20,16 @@ public class FullTestBoostrap extends EssentialTestBootstrap {
     public FullTestBoostrap() {
     }
 
+    public void setLoadAndInitializeToolbarAPI(boolean load) {
+        this.load = load;
+    }
+
     @BeforeEach
     public void setUp() {
         super.setUp();
-        if (!ToolbarAPI.isInstanceAvailable()) {
+        if (load && !ToolbarAPI.isInstanceAvailable()) {
             api = new ToolbarAPIImpl(plugin, PDCItemHandler::new, Settings.DEFAULT);
+            ToolbarAPI.setInstance(api);
             api.load();
         } else {
             api = (ToolbarAPIImpl) ToolbarAPI.getInstance();
@@ -34,6 +40,9 @@ public class FullTestBoostrap extends EssentialTestBootstrap {
     public void tearDown() {
         if (api != null) {
             api.disable();
+        }
+        if (load) {
+            ToolbarAPI.clearInstance();
         }
         super.tearDown();
     }

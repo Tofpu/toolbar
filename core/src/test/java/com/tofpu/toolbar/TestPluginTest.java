@@ -24,6 +24,7 @@ public class TestPluginTest extends FullTestBoostrap {
                 return new PDCItemHandler(itemStack);
             }
         }));
+        setLoadAndInitializeToolbarAPI(false);
     }
 
     @Test

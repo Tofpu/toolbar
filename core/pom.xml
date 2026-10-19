@@ -91,9 +91,10 @@
         </dependency>
 
         <dependency>
-            <groupId>com.github.MockBukkit</groupId>
-            <artifactId>MockBukkit</artifactId>
-            <version>v1.16-SNAPSHOT</version>
+            <groupId>com.github.mockbukkit</groupId>
+            <artifactId>mockbukkit</artifactId>
+            <!-- v1.16 branch -->
+            <version>5f68704e9a</version>
             <scope>test</scope>
         </dependency>
     </dependencies>

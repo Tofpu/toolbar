@@ -6,7 +6,7 @@
     <parent>
         <groupId>com.tofpu</groupId>
         <artifactId>toolbar-parent</artifactId>
-        <version>3.0.1</version>
+        <version>3.0.2</version>
     </parent>
 
     <groupId>com.tofpu.toolbar</groupId>
@@ -75,7 +75,7 @@
         <dependency>
             <groupId>com.tofpu.toolbar</groupId>
             <artifactId>toolbar-api</artifactId>
-            <version>3.0.1</version>
+            <version>3.0.2</version>
             <scope>compile</scope>
         </dependency>
 

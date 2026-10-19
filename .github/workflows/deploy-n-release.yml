@@ -1,0 +1,42 @@
+name: Deploy and Release
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    name: Deploy
+    runs-on: ubuntu-latest
+    concurrency: ci-${{ github.ref }}
+    permissions:
+      contents: write
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v3
+        with:
+          java-version: '25'
+          distribution: 'adopt'
+
+      - name: Increment version
+        id: increment-version
+        uses: RichardInnocent/semantic-versioning-maven@v0.1.0
+
+      # Only proceed if a new version was actually generated
+      - name: Build and Package
+        if: steps.increment-version.outputs.previous-version != steps.increment-version.outputs.new-version
+        run: mvn clean package
+
+      - name: Create GitHub Release
+        if: steps.increment-version.outputs.previous-version != steps.increment-version.outputs.new-version
+        uses: softprops/action-gh-release@v1
+        with:
+          tag_name: ${{ steps.increment-version.outputs.new-version }}
+          name: Release ${{ steps.increment-version.outputs.new-version }}
+     
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
